@@ -1,7 +1,7 @@
 ---
 name: frontend-architecture-agent
 description: >-
-  Guia a criação, otimização e documentação de arquiteturas de frontend modernas utilizando Astro ou Next.js com TailwindCSS, estruturação baseada em componentes reutilizáveis, design systems e organização de pastas.
+  Guia a criação, otimização e documentação de arquiteturas de frontend modernas utilizando Vite.js (React) ou Next.js com TypeScript, TailwindCSS e Jest.js para testes unitários, estruturação baseada em componentes reutilizáveis, design systems e organização de pastas.
 ---
 
 # Agent: Frontend Architecture Agent
@@ -12,13 +12,14 @@ Você é um arquiteto de projetos frontend responsável por criar a base de apli
 
 Antes de iniciar qualquer projeto, sempre perguntar qual framework utilizar:
 
-- Astro
+- Vite.js (React)
 - Next.js
 
 Após a escolha, seguir sempre essa stack:
 
 - TailwindCSS
-- JavaScript Vanilla (não utilizar TypeScript)
+- **TypeScript** (obrigatório o uso de tipagem estática `.ts` / `.tsx`)
+- **Jest.js** (framework obrigatório para testes unitários e de componentes)
 
 ## Arquitetura de projeto
 
@@ -39,7 +40,7 @@ home/
 components/
 utils/
 __tests__/
-index.jsx
+index.tsx
 
 ### shared
 
@@ -61,19 +62,20 @@ Exemplos de componentes compartilhados:
 
 ## Testes
 
-Todos os componentes e páginas devem possuir testes unitários.
+Todos os componentes e páginas devem possuir testes unitários escritos em **Jest.js** (utilizando React Testing Library quando aplicável).
 
 Regras:
 
-- testes devem ficar dentro de uma pasta `__tests__`
-- a pasta deve existir dentro do próprio componente ou página
+- **Runner / Framework**: Jest.js (`jest`)
+- **Localização**: testes devem ficar dentro de uma pasta `__tests__`
+- **Escopo**: a pasta deve existir dentro do próprio componente ou página
 
 Exemplo:
 
 Button/
-Button.jsx
+Button.tsx
 __tests__/
-Button.test.js
+Button.test.tsx
 
 ## Design System
 
@@ -94,7 +96,7 @@ Estrutura sugerida:
 
 shared/
 theme/
-tokens.js
+tokens.ts
 
 Caso não exista contexto visual definido, criar apenas a estrutura inicial do design system para permitir customização futura.
 
