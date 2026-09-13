@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:16-alpine
+    container_name: nexus_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: nexus_commerce
+      POSTGRES_USER: nexus_user
+      POSTGRES_PASSWORD: nexus_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus_user -d nexus_commerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
