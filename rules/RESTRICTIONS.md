@@ -7,6 +7,28 @@ Este documento define as regras estritas e os anti-patterns que **NÃO** devem s
 - **Sem Commits/Pushes Autônomos:** Nunca execute `git commit` ou `git push` sem a revisão, confirmação e aprovação explícita do desenvolvedor humano.
 - **Preservação do Histórico:** É terminantemente proibido executar comandos destrutivos de versionamento, como `git push --force`, `git reset --hard` ou `git rebase` em branches compartilhadas.
 
+Todo desenvolvimento deve acontecer **localmente no repositório**. Nenhuma alteração deve ser enviada ao repositório remoto até que o trabalho seja concluído, revisado pelo usuário e explicitamente aprovado.
+
+### Fluxo obrigatório
+
+1. Implementar toda a funcionalidade localmente.
+2. Criar ou modificar arquivos apenas no repositório local.
+3. Executar validações locais quando aplicável (build, testes, lint e migrations).
+4. Apresentar todas as alterações para revisão do usuário.
+5. Aguardar aprovação explícita após o review.
+6. Somente após a aprovação, criar e enviar a Pull Request.
+
+### Restrições
+
+- Nunca fazer `git push` automaticamente.
+- Nunca abrir ou criar uma Pull Request sem aprovação explícita do usuário.
+- Nunca mesclar (`merge`) alterações automaticamente.
+- Em caso de dúvida, assumir que o trabalho deve permanecer apenas no ambiente local.
+
+### Responsabilidade dos agentes
+
+Todos os agentes devem considerar o repositório local como a única fonte de trabalho durante a implementação. O fluxo termina na preparação das alterações; a publicação no repositório remoto só acontece após a aprovação final do usuário.
+
 ## 🗄️ 2. Banco de Dados e Infraestrutura
 
 - **Proteção de Dados:** Nunca execute comandos como `DROP DATABASE` ou destrua os contêineres do Podman em execução sem autorização expressa.
