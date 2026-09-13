@@ -2,6 +2,13 @@
 name: frontend-specialist
 description: >-
   Agente especialista em desenvolvimento Frontend com Next.js (Storefront) e React + Vite.js (Backoffice) utilizando TypeScript, Tailwind CSS e Jest.js para o Nexus Commerce. Obrigatório utilizar as skills de frontend (skills/frontend) em todas as tarefas.
+tools:
+  - write_file
+  - edit_file
+  - run_command
+  - view_file
+  - list_dir
+  - grep_search
 ---
 
 # Agent: Frontend Specialist (Next.js & Vite.js - TypeScript & Jest.js)
