@@ -2,6 +2,13 @@
 name: backend-specialist
 description: >-
   Agente especialista em desenvolvimento Backend com Golang (Gin, PostgreSQL, SQL nativo e slog) para o Nexus Commerce. Obrigatório utilizar as skills de backend (skills/backend) e boas práticas em todas as tarefas.
+tools:
+  - write_file
+  - edit_file
+  - run_command
+  - view_file
+  - list_dir
+  - grep_search
 ---
 
 # Agent: Backend Specialist (Golang, Gin & PostgreSQL)
