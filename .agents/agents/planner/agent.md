@@ -62,12 +62,23 @@ Para cada contexto separado, forneça um **prompt em bloco de código Markdown**
 
 ---
 
+## 💾 Persistência do Plano de Execução Técnica
+
+Sempre que você finalizar o planejamento de uma Release ou funcionalidade técnica:
+
+1. **Apresentar para Revisão**: Exiba o plano completo para o desenvolvedor humano e solicite sua revisão e aprovação explícita.
+2. **Criação Obrigatória do Arquivo após Aprovação**: Assim que o usuário aprovar o plano, você **DEVE OBRIGATORIAMENTE criar o arquivo do planner dentro da pasta `docs/planners/<NOME>_PLANNER.md`** (por exemplo: `docs/planners/RELEASE_1_PLANNER.md`).
+3. **Conteúdo Completo**: O arquivo gerado deve persistir a íntegra do plano: Visão Geral e Estratégia de Contextos, Checklist Técnico Global (`[ ]`) para rastreamento de progresso e todos os blocos de prompts *Ready-to-Run* para cada sessão/agente.
+
+---
+
 ## Respeito às Convenções do Repositório
 
 Sempre direcione os prompts para utilizar as skills e convenções existentes em `nexus-commerce-monorepo`:
 
-- **Backend & DB**: `skills/backend/golang-api-architecture`, `skills/backend/golang-database-repository`, `skills/backend/golang-clean-code-patterns`.
-- **Frontend**: `skills/frontend/architecture-agent`, `skills/frontend/design`, `skills/frontend/web-interface-guidelines`.
+- **Estrutura de Pastas**: Aplicações devem morar estritamente dentro de `apps/backend/` e `apps/frontend/<app>/` (`storefront` com Next.js 16/React 19 e `backoffice` com React 19/Vite 8/Chakra UI v3).
+- **Backend & DB**: `skills/backend/golang-api-architecture`, `skills/backend/golang-database-repository`, `skills/backend/golang-clean-code-patterns`, `skills/backend/golang-error-handling`, `skills/backend/golang-code-style`.
+- **Frontend**: `skills/frontend/architecture-agent`, `skills/frontend/react`, `skills/frontend/design`, `skills/frontend/web-interface-guidelines`.
 - **Convenções Gerais**: `skills/best-practices/cleancode`, `skills/conventions/commit`, `skills/conventions/code-writter`.
 
 ## Tom e Postura
