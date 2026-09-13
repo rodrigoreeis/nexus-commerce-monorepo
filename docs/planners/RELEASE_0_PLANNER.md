@@ -39,19 +39,19 @@ flowchart TD
 - [ ] Implementar ponto de entrada principal em `backend/main.go`.
 
 ### Backoffice (React + Vite + TypeScript + Chakra UI v3)
-- [ ] Scaffold do projeto em `frontend/backoffice/` com Vite, React e TypeScript.
-- [ ] Instalar e configurar Chakra UI v3 e `@emotion/react`.
-- [ ] Configurar alias de path `@/*` em `tsconfig.app.json` e `vite.config.ts`.
-- [ ] Criar Design System de tokens em `src/shared/theme/tokens.ts`.
-- [ ] Criar componentes compartilhados base: `Layout`, `Header` e `Container` seguindo arrow functions e convenção kebab-case.
-- [ ] Configurar Jest + React Testing Library com testes unitários em pasta `__tests__` para cada componente base.
+- [x] Scaffold do projeto em `apps/frontend/backoffice/` com Vite, React e TypeScript.
+- [x] Instalar e configurar Chakra UI v3 e `@emotion/react`.
+- [x] Configurar alias de path `@/*` em `tsconfig.app.json` e `vite.config.ts`.
+- [x] Criar Design System de tokens em `src/shared/theme/tokens.ts`.
+- [x] Criar componentes compartilhados base: `Layout`, `Header` e `Container` seguindo arrow functions e convenção kebab-case.
+- [x] Configurar Jest + React Testing Library com testes unitários em pasta `__tests__` para cada componente base.
 
 ### Storefront (Next.js + TypeScript + TailwindCSS)
-- [ ] Scaffold do projeto em `frontend/storefront/` com Next.js e TypeScript.
-- [ ] Instalar e configurar TailwindCSS e PostCSS.
-- [ ] Criar Design Tokens em `src/shared/theme/tokens.ts`.
-- [ ] Criar componentes compartilhados base: `Layout`, `Header` e `Container` com arrow functions e convenção kebab-case.
-- [ ] Configurar Jest + React Testing Library com testes unitários em pasta `__tests__` para cada componente base.
+- [x] Scaffold do projeto em `apps/frontend/storefront/` com Next.js e TypeScript.
+- [x] Instalar e configurar TailwindCSS e PostCSS.
+- [x] Criar Design Tokens em `src/shared/theme/tokens.ts`.
+- [x] Criar componentes compartilhados base: `Layout`, `Header` e `Container` com arrow functions e convenção kebab-case.
+- [x] Configurar Jest + React Testing Library com testes unitários em pasta `__tests__` para cada componente base.
 
 ---
 

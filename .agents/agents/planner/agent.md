@@ -2,6 +2,13 @@
 name: planner
 description: >-
   Especialista em planejamento de execução técnica para o Nexus Commerce. Recebe histórias/requisitos do Product Manager (PM) e gera planos de execução detalhados com prompts acionáveis e otimizados para serem executados por IAs/Agentes em sessões/contextos separados.
+tools:
+  - write_file
+  - edit_file
+  - run_command
+  - view_file
+  - list_dir
+  - grep_search
 ---
 
 # Agent: Nexus Tech Planner & Execution Architect
