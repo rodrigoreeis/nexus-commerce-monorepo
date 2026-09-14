@@ -9,6 +9,8 @@ import (
 
 type Storage interface {
 	Ping(ctx context.Context) error
+	CreateProduct(ctx context.Context, p *Product) (*Product, error)
+	ListProducts(ctx context.Context) ([]Product, error)
 }
 
 type Store struct {

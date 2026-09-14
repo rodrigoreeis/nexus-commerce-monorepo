@@ -38,6 +38,16 @@ func (s *Service) HandleResponseAPIOK(c *gin.Context, data interface{}, message 
 	})
 }
 
+func (s *Service) HandleResponseCreated(c *gin.Context, data interface{}, message string) {
+	slog.Info("HandleResponseCreated", "message", message)
+
+	c.JSON(http.StatusCreated, Response{
+		Message: message,
+		Data:    data,
+		Success: true,
+	})
+}
+
 func (s *Service) HandleResponseError(c *gin.Context, message string, err error) {
 	slog.Error("HandleResponseError", "message", message, "error", err)
 

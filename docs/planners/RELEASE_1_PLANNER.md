@@ -29,21 +29,21 @@ flowchart TD
 ## 2. Checklist Técnico Global (`[ ]`)
 
 ### Banco de Dados & Infraestrutura Local
-- [ ] Criar migração versionada `02-create-products.sql` na pasta `apps/backend/migrations/` definindo a tabela `products`.
-- [ ] Criar diretório `apps/backend/uploads/` com arquivo `.gitkeep`.
-- [ ] Atualizar `.gitignore` na raiz para ignorar os arquivos de upload (`apps/backend/uploads/*`), mantendo `.gitkeep`.
-- [ ] Executar migração no container PostgreSQL via `make migrate`.
+- [x] Criar migração versionada `02-create-products.sql` na pasta `apps/backend/migrations/` definindo a tabela `products`.
+- [x] Criar diretório `apps/backend/uploads/` com arquivo `.gitkeep`.
+- [x] Atualizar `.gitignore` na raiz para ignorar os arquivos de upload (`apps/backend/uploads/*`), mantendo `.gitkeep`.
+- [x] Executar migração no container PostgreSQL via `make migrate`.
 
 ### Backend (Nexus API em Go)
-- [ ] Adicionar suporte a arquivos estáticos no Gin em `apps/backend/routers/routers.go` mapeando rota `/uploads` para `./uploads`.
-- [ ] Modelar a struct `Product` e implementar métodos de acesso a dados nativos (`CreateProduct` e `ListProducts`) em `apps/backend/postgres/products.go`.
-- [ ] Atualizar contrato da interface `Storage` em `apps/backend/postgres/store.go`.
-- [ ] Implementar validação de arquivos de imagem (tamanho máx. 5MB, MIME types permitidos) e handlers HTTP em `apps/backend/service/products.go`.
-- [ ] Registrar rotas HTTP:
+- [x] Adicionar suporte a arquivos estáticos no Gin em `apps/backend/routers/routers.go` mapeando rota `/uploads` para `./uploads`.
+- [x] Modelar a struct `Product` e implementar métodos de acesso a dados nativos (`CreateProduct` e `ListProducts`) em `apps/backend/postgres/products.go`.
+- [x] Atualizar contrato da interface `Storage` em `apps/backend/postgres/store.go`.
+- [x] Implementar validação de arquivos de imagem (tamanho máx. 5MB, MIME types permitidos) e handlers HTTP em `apps/backend/service/products.go`.
+- [x] Registrar rotas HTTP:
   - `POST /api/admin/products` (cadastro com multipart/form-data)
   - `GET /api/admin/products` (listagem para lojistas)
   - `GET /api/store/products` (listagem pública)
-- [ ] Criar arquivos de requisição no Bruno em `apps/backend/bruno/`:
+- [x] Criar arquivos de requisição no Bruno em `apps/backend/bruno/`:
   - `apps/backend/bruno/admin/Create Product.bru`
   - `apps/backend/bruno/admin/List Products.bru`
   - `apps/backend/bruno/store/List Products.bru`
