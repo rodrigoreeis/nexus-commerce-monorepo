@@ -67,14 +67,14 @@ export const Header = ({
                 color="#94a3b8"
                 border="1px solid"
                 borderColor="#334155"
-                aria-label="Application version"
+                aria-label="Versão da aplicação"
               >
                 v0.1.0
               </Box>
             </Flex>
 
             {/* Navigation links */}
-            <Flex as="nav" aria-label="Main Navigation" align="center" gap="0.375rem">
+            <Flex as="nav" aria-label="Navegação Principal" align="center" gap="0.375rem">
               <a
                 href="/"
                 onClick={handleNavClick('home', '/')}
@@ -90,7 +90,7 @@ export const Header = ({
                   transition: 'background-color 0.15s, color 0.15s',
                 }}
               >
-                Overview
+                Visão Geral
               </a>
               <a
                 href="/products"
@@ -107,7 +107,7 @@ export const Header = ({
                   transition: 'background-color 0.15s, color 0.15s',
                 }}
               >
-                Products
+                Produtos
               </a>
             </Flex>
           </Flex>
@@ -117,7 +117,7 @@ export const Header = ({
             align="center"
             gap="0.5rem"
             role="status"
-            aria-label="System operational status"
+            aria-label="Status operacional do sistema"
           >
             <Box
               as="span"
@@ -128,7 +128,7 @@ export const Header = ({
               aria-hidden="true"
             />
             <Text fontSize="0.875rem" color="#94a3b8" fontWeight="500">
-              {isOnline ? 'Systems Operational' : 'Degraded Service'}
+              {isOnline ? 'Sistemas Operacionais' : 'Serviço Degradado'}
             </Text>
           </Flex>
         </Flex>

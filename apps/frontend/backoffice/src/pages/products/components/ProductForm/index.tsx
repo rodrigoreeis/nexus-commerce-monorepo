@@ -64,33 +64,33 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
     const trimmedName = name.trim()
     const hasName = Boolean(trimmedName)
     if (!hasName) {
-      setErrorMessage('Product name is required.')
+      setErrorMessage('O nome do produto é obrigatório.')
       return
     }
 
-    const numericPrice = parseFloat(price)
+    const numericPrice = parseFloat(price.replace(',', '.'))
     const hasValidPrice = Boolean(price.trim()) && !Number.isNaN(numericPrice) && numericPrice >= 0
     if (!hasValidPrice) {
-      setErrorMessage('A valid positive price is required.')
+      setErrorMessage('Um preço positivo válido é obrigatório.')
       return
     }
 
     const hasSelectedFile = Boolean(selectedFile)
     if (!hasSelectedFile) {
-      setErrorMessage('Product image is required.')
+      setErrorMessage('A imagem do produto é obrigatória.')
       return
     }
 
     try {
       const formData = new FormData()
       formData.append('name', trimmedName)
-      formData.append('price', price.trim())
+      formData.append('price', String(numericPrice))
       formData.append('description', description.trim())
       formData.append('image', selectedFile!)
 
       const createdProduct = await createProduct(formData)
 
-      setSuccessMessage('Product created successfully!')
+      setSuccessMessage('Produto criado com sucesso!')
       setName('')
       setPrice('')
       setDescription('')
@@ -100,7 +100,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
         onSuccess(createdProduct)
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'An unexpected error occurred'
+      const message = error instanceof Error ? error.message : 'Ocorreu um erro inesperado'
       setErrorMessage(message)
     }
   }
@@ -109,7 +109,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      aria-label="Product registration form"
+      aria-label="Formulário de cadastro de produto"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -166,7 +166,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             marginBottom: '0.375rem',
           }}
         >
-          Product Name <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Nome do Produto <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
         </label>
         <Input
           id="product-name"
@@ -174,7 +174,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Ergonomic Keyboard…"
+          placeholder="Ex.: Teclado Mecânico Ergonômico…"
           autoComplete="off"
           disabled={isPending}
           backgroundColor="#1e293b"
@@ -201,18 +201,16 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             marginBottom: '0.375rem',
           }}
         >
-          Price (USD) <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Preço (R$) <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
         </label>
         <Input
           id="product-price"
           name="price"
-          type="number"
-          step="0.01"
-          min="0"
+          type="text"
           inputMode="decimal"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          placeholder="e.g. 99.99…"
+          placeholder="Ex.: 99,99…"
           autoComplete="off"
           disabled={isPending}
           backgroundColor="#1e293b"
@@ -239,14 +237,14 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             marginBottom: '0.375rem',
           }}
         >
-          Description
+          Descrição
         </label>
         <Textarea
           id="product-description"
           name="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Brief description of the product features…"
+          placeholder="Breve descrição das características do produto…"
           rows={3}
           disabled={isPending}
           backgroundColor="#1e293b"
@@ -272,7 +270,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             marginBottom: '0.375rem',
           }}
         >
-          Product Image <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Imagem do Produto <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
         </label>
 
         <Box
@@ -307,7 +305,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
               >
                 <img
                   src={previewUrl}
-                  alt="Product preview"
+                  alt="Pré-visualização do produto"
                   width={120}
                   height={120}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -322,14 +320,14 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
                   onClick={handleRemoveImage}
                   disabled={isPending}
                   size="xs"
-                  aria-label="Remove selected image"
+                  aria-label="Remover imagem selecionada"
                   variant="ghost"
                   color="#f87171"
                   _hover={{ backgroundColor: '#450a0a' }}
                   padding="0.25rem 0.5rem"
                 >
                   <X size={14} aria-hidden="true" />
-                  Remove
+                  Remover
                 </Button>
               </Flex>
             </Flex>
@@ -339,7 +337,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
                 <ImageIcon size={32} aria-hidden="true" />
               </Box>
               <Text fontSize="0.875rem" color="#94a3b8">
-                Supported formats: PNG, JPEG, WebP (max 5&nbsp;MB)
+                Formatos suportados: PNG, JPEG, WebP (máx. 5&nbsp;MB)
               </Text>
               <Button
                 type="button"
@@ -356,7 +354,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
                 borderRadius="0.375rem"
               >
                 <Upload size={16} aria-hidden="true" />
-                Select Image
+                Selecionar Imagem
               </Button>
             </Flex>
           )}
@@ -378,7 +376,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             paddingY="0.625rem"
             borderRadius="0.5rem"
           >
-            Cancel
+            Cancelar
           </Button>
         )}
 
@@ -394,7 +392,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           paddingY="0.625rem"
           borderRadius="0.5rem"
         >
-          {isPending ? 'Creating Product…' : 'Create Product'}
+          {isPending ? 'Criando Produto…' : 'Criar Produto'}
         </Button>
       </Flex>
     </form>

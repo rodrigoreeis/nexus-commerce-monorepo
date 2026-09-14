@@ -1,19 +1,19 @@
 /**
- * Formats a monetary number into a localized store currency string.
+ * Formats a monetary number into a localized store currency string in Brazilian Reais (BRL).
  *
  * @param amount - The numeric price to format.
- * @param currency - The ISO 4217 currency code (defaults to 'USD').
- * @param locale - The BCP 47 locale tag (defaults to 'en-US').
+ * @param currency - The ISO 4217 currency code (defaults to 'BRL').
+ * @param locale - The BCP 47 locale tag (defaults to 'pt-BR').
  * @returns The formatted currency string.
  */
 export const formatStorePrice = (
   amount?: number | null,
-  currency: string = 'USD',
-  locale: string = 'en-US'
+  currency: string = 'BRL',
+  locale: string = 'pt-BR'
 ): string => {
   const isInvalidAmount = amount === undefined || amount === null || Number.isNaN(amount)
   if (isInvalidAmount) {
-    return '$0.00'
+    return 'R$ 0,00'
   }
 
   return new Intl.NumberFormat(locale, {

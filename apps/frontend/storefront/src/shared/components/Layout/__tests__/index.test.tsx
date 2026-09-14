@@ -5,13 +5,13 @@ describe('Storefront Layout component', () => {
   it('renders header, main content, and footer', () => {
     render(
       <Layout>
-        <div>Featured Collection</div>
+        <div>Coleção em Destaque</div>
       </Layout>
     )
 
-    expect(screen.getByLabelText('Nexus Commerce Home')).toBeInTheDocument()
+    expect(screen.getByLabelText('Página Inicial do Nexus Commerce')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByText('Featured Collection')).toBeInTheDocument()
-    expect(screen.getByText(/All rights reserved/i)).toBeInTheDocument()
+    expect(screen.getByText('Coleção em Destaque')).toBeInTheDocument()
+    expect(screen.getByText(/Todos os direitos reservados/i)).toBeInTheDocument()
   })
 })

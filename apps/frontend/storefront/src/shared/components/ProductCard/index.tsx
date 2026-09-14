@@ -13,14 +13,14 @@ export interface ProductCardProps {
 
 export const ProductCard = ({
   product,
-  actionLabel = 'Add to Cart',
+  actionLabel = 'Adicionar ao Carrinho',
 }: ProductCardProps) => {
   const [imageHasError, setImageHasError] = useState(false)
 
-  const productName = product?.name || 'Unnamed Product'
+  const productName = product?.name || 'Produto sem nome'
   const productDescription = product?.description
     ? truncateDescription(product.description, 95)
-    : 'No description provided.'
+    : 'Nenhuma descrição fornecida.'
   const formattedPrice = formatStorePrice(product?.price)
   const hasValidImage = Boolean(product?.imageUrl) && !imageHasError
 
@@ -44,12 +44,12 @@ export const ProductCard = ({
           <div
             data-testid="product-image-fallback"
             role="img"
-            aria-label={`${productName} placeholder image`}
+            aria-label={`${productName} - imagem ilustrativa`}
             className={styles.fallbackWrapper}
           >
             <Package className={styles.fallbackIcon} aria-hidden="true" />
             <span className={styles.fallbackText}>
-              No image
+              Sem imagem
             </span>
           </div>
         )}
@@ -74,7 +74,7 @@ export const ProductCard = ({
         <div className={styles.footer}>
           <div className={styles.priceContainer}>
             <span className={styles.priceLabel}>
-              Price
+              Preço
             </span>
             <span className={styles.priceValue}>
               {formattedPrice}
@@ -84,8 +84,8 @@ export const ProductCard = ({
           <button
             type="button"
             disabled
-            aria-label={`${actionLabel} - ${productName} (Release 2 Preview)`}
-            title="Available in Release 2"
+            aria-label={`${actionLabel} - ${productName} (Prévia da Release 2)`}
+            title="Disponível na Release 2"
             className={styles.actionButton}
           >
             <ShoppingCart className={styles.actionIcon} aria-hidden="true" />

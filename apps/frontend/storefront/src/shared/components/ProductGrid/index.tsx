@@ -16,8 +16,8 @@ export const ProductGrid = ({
   products,
   isLoading = false,
   error = null,
-  emptyTitle = 'No Products Available',
-  emptyDescription = 'Our catalog is currently being updated. Please check back soon for new arrivals!',
+  emptyTitle = 'Nenhum Produto Disponível',
+  emptyDescription = 'Nosso catálogo está sendo atualizado no momento. Volte em breve para conferir as novidades!',
   skeletonCount = 8,
 }: ProductGridProps) => {
   if (isLoading) {
@@ -65,7 +65,7 @@ export const ProductGrid = ({
         <div className={styles.errorIconWrapper}>
           <AlertTriangle className={styles.errorIcon} aria-hidden="true" />
         </div>
-        <h3 className={styles.errorTitle}>Unable to Load Catalog</h3>
+        <h3 className={styles.errorTitle}>Não foi possível carregar o catálogo</h3>
         <p className={styles.errorMessage}>{error}</p>
       </div>
     )

@@ -2,14 +2,14 @@ import { capitalizeText, formatCurrency, formatDate } from '../format'
 
 describe('format utilities', () => {
   describe('formatCurrency', () => {
-    it('formats a regular numeric amount correctly', () => {
-      const result = formatCurrency(1250.5)
-      expect(result).toBe('$1,250.50')
+    it('formats a regular numeric amount into Brazilian Reais (R$)', () => {
+      const result = formatCurrency(1250.5).replace(/\u00a0/g, ' ')
+      expect(result).toBe('R$ 1.250,50')
     })
 
-    it('returns default fallback on undefined or null', () => {
-      expect(formatCurrency(undefined)).toBe('$0.00')
-      expect(formatCurrency(null)).toBe('$0.00')
+    it('returns default fallback on undefined or null in R$', () => {
+      expect(formatCurrency(undefined).replace(/\u00a0/g, ' ')).toBe('R$ 0,00')
+      expect(formatCurrency(null).replace(/\u00a0/g, ' ')).toBe('R$ 0,00')
     })
   })
 
@@ -25,10 +25,9 @@ describe('format utilities', () => {
   })
 
   describe('formatDate', () => {
-    it('formats an ISO date correctly', () => {
-      const result = formatDate('2026-09-13T12:00:00Z', 'en-US')
+    it('formats an ISO date correctly in pt-BR', () => {
+      const result = formatDate('2026-09-13T12:00:00Z')
       expect(result).toContain('2026')
-      expect(result).toContain('Sep')
       expect(result).toContain('13')
     })
 

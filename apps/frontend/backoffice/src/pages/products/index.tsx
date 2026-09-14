@@ -15,7 +15,7 @@ export const ProductsPage = () => {
   const errorMessage = isErrorInstance
     ? error.message
     : hasGenericError
-      ? 'Unable to load products from server'
+      ? 'Não foi possível carregar os produtos do servidor'
       : null
 
   const handleProductCreated = () => {
@@ -41,10 +41,10 @@ export const ProductsPage = () => {
             color="#f8fafc"
             letterSpacing="-0.025em"
           >
-            Products Management
+            Gestão de Produtos
           </Text>
           <Text fontSize="0.9375rem" color="#94a3b8" marginTop="0.25rem">
-            Manage catalog items, review pricing, and upload product assets.
+            Gerencie itens do catálogo, revise preços e faça upload de imagens dos produtos.
           </Text>
         </Box>
 
@@ -59,10 +59,10 @@ export const ProductsPage = () => {
           paddingX="1.25rem"
           paddingY="0.625rem"
           borderRadius="0.5rem"
-          aria-label="Add new product"
+          aria-label="Adicionar novo produto"
         >
           <Plus size={18} aria-hidden="true" />
-          Add Product
+          Adicionar Produto
         </Button>
       </Flex>
 
@@ -91,14 +91,14 @@ export const ProductsPage = () => {
             <Dialog.Header padding="0" marginBottom="1.25rem">
               <Flex justify="space-between" align="center">
                 <Dialog.Title fontSize="1.25rem" fontWeight="700" color="#f8fafc" letterSpacing="-0.02em">
-                  Register New Product
+                  Cadastrar Novo Produto
                 </Dialog.Title>
                 <Button
                   type="button"
                   onClick={() => setIsDialogOpen(false)}
                   size="xs"
                   variant="ghost"
-                  aria-label="Close product registration dialog"
+                  aria-label="Fechar diálogo de cadastro de produto"
                   color="#94a3b8"
                   _hover={{ backgroundColor: '#1e293b', color: '#f8fafc' }}
                   padding="0.25rem"

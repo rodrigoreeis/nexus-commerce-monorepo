@@ -15,7 +15,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             <a
               href="/"
               className={styles.brandLink}
-              aria-label="Nexus Commerce Home"
+              aria-label="Página Inicial do Nexus Commerce"
             >
               <span className={styles.brandLogo} aria-hidden="true" />
               <span className={styles.brandTitle}>
@@ -23,24 +23,24 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               </span>
             </a>
 
-            <nav className={styles.navigation} aria-label="Main navigation">
+            <nav className={styles.navigation} aria-label="Navegação principal">
               <a
                 href="#catalog"
                 className={styles.navLink}
               >
-                Catalog
+                Catálogo
               </a>
               <a
                 href="#categories"
                 className={styles.navLink}
               >
-                Categories
+                Categorias
               </a>
               <a
                 href="#about"
                 className={styles.navLink}
               >
-                About
+                Sobre
               </a>
             </nav>
           </div>
@@ -49,10 +49,10 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             <button
               type="button"
               className={styles.cartButton}
-              aria-label={`Shopping cart with ${cartItemCount} items`}
+              aria-label={`Carrinho de compras com ${cartItemCount} itens`}
             >
               <ShoppingBag className={styles.cartIcon} aria-hidden="true" />
-              <span>Cart</span>
+              <span>Carrinho</span>
               <span
                 className={styles.cartBadge}
                 aria-hidden="true"

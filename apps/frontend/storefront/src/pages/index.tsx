@@ -28,29 +28,29 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
   const errorMessage = isErrorInstance
     ? error.message
     : hasGenericError
-      ? 'Failed to fetch catalog products'
+      ? 'Falha ao carregar produtos do catálogo'
       : null
 
   return (
     <>
       <Head>
         <title>Nexus Commerce</title>
-        <meta name="description" content="Next-generation modular commerce storefront" />
+        <meta name="description" content="A experiência de e-commerce modular de última geração" />
       </Head>
       <Layout>
         {/* Hero Section */}
         <div className={styles.heroWrapper}>
           <div className={styles.badge}>
             <span className={styles.badgeDot} aria-hidden="true" />
-            Release 0 Live Platform
+            Plataforma Live Release 0
           </div>
 
           <h1 className={styles.heroTitle}>
-            Welcome to <span className={styles.heroTitleAccent}>Nexus Commerce</span>
+            Bem-vindo ao <span className={styles.heroTitleAccent}>Nexus Commerce</span>
           </h1>
 
           <p className={styles.heroDescription}>
-            The next-generation modular e-commerce experience. Explore our high-performance catalog.
+            A experiência de e-commerce modular de última geração. Explore nosso catálogo de alta performance.
           </p>
 
           <div className={styles.heroActions}>
@@ -58,13 +58,13 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
               href="#catalog"
               className={styles.primaryButton}
             >
-              Explore Catalog
+              Explorar Catálogo
             </a>
             <a
               href="#catalog"
               className={styles.secondaryButton}
             >
-              View Categories <span aria-hidden="true">→</span>
+              Ver Categorias <span aria-hidden="true">→</span>
             </a>
           </div>
         </div>
@@ -77,13 +77,13 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
           <div className={styles.catalogHeader}>
             <div className={styles.catalogBadge}>
               <Sparkles className={styles.catalogBadgeIcon} aria-hidden="true" />
-              Curated Catalog
+              Catálogo Curado
             </div>
             <h2 className={styles.catalogTitle}>
-              Featured Products
+              Produtos em Destaque
             </h2>
             <p className={styles.catalogSubtitle}>
-              Discover our collection of premium gear and accessories, delivered with maximum performance.
+              Descubra nossa seleção de equipamentos e acessórios premium, entregues com máxima performance.
             </p>
           </div>
 

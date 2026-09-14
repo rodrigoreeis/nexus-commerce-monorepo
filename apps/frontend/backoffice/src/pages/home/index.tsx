@@ -46,28 +46,28 @@ export const HomePage = () => {
           color="#f8fafc"
           letterSpacing="-0.025em"
         >
-          Commerce Overview
+          Visão Geral do Comércio
         </Text>
         <Text fontSize="1rem" color="#94a3b8" marginTop="0.25rem">
-          Nexus Commerce administrative operations and system telemetry.
+          Operações administrativas do Nexus Commerce e telemetria do sistema.
         </Text>
       </Box>
 
       <SimpleGrid columns={{ base: 1, md: 3 }} gap="1.5rem">
         <MetricCard
-          label="Total Catalog Products"
+          label="Total de Produtos no Catálogo"
           value="0"
-          subtext="Ready for catalog sync"
+          subtext="Pronto para sincronização"
         />
         <MetricCard
-          label="Pending Orders"
+          label="Pedidos Pendentes"
           value="0"
-          subtext="No active orders"
+          subtext="Nenhum pedido ativo"
         />
         <MetricCard
-          label="API Gateway Status"
-          value="Connected"
-          subtext="Go backend ready"
+          label="Status do Gateway de API"
+          value="Conectado"
+          subtext="Backend Go pronto"
         />
       </SimpleGrid>
     </Layout>

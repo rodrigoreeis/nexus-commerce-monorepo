@@ -21,7 +21,7 @@ export const ProductTable = ({
       <Box
         role="status"
         aria-live="polite"
-        aria-label="Loading products"
+        aria-label="Carregando produtos"
         backgroundColor="#0f172a"
         border="1px solid #334155"
         borderRadius="0.75rem"
@@ -39,7 +39,7 @@ export const ProductTable = ({
             aria-hidden="true"
           />
           <Text fontSize="0.9375rem" color="#94a3b8" fontWeight="500">
-            Loading products…
+            Carregando produtos…
           </Text>
         </Flex>
       </Box>
@@ -63,7 +63,7 @@ export const ProductTable = ({
           </Box>
           <Box>
             <Text fontSize="1.125rem" fontWeight="600" color="#fecaca">
-              Failed to load catalog products
+              Falha ao carregar produtos do catálogo
             </Text>
             <Text fontSize="0.875rem" color="#94a3b8" marginTop="0.25rem">
               {errorMessage}
@@ -84,7 +84,7 @@ export const ProductTable = ({
               borderRadius="0.375rem"
             >
               <RotateCcw size={16} aria-hidden="true" />
-              Try Again
+              Tentar Novamente
             </Button>
           )}
         </Flex>
@@ -96,7 +96,7 @@ export const ProductTable = ({
     return (
       <Box
         role="region"
-        aria-label="Empty products state"
+        aria-label="Estado de catálogo vazio"
         backgroundColor="#0f172a"
         border="1px dashed #334155"
         borderRadius="0.75rem"
@@ -108,10 +108,10 @@ export const ProductTable = ({
             <Package size={40} />
           </Box>
           <Text fontSize="1.125rem" fontWeight="600" color="#f8fafc">
-            No products found
+            Nenhum produto encontrado
           </Text>
           <Text fontSize="0.875rem" color="#94a3b8" maxWidth="24rem">
-            Your catalog is currently empty. Click “Add Product” to register your first product.
+            Seu catálogo está vazio no momento. Clique em “Adicionar Produto” para cadastrar seu primeiro produto.
           </Text>
         </Flex>
       </Box>
@@ -130,16 +130,16 @@ export const ProductTable = ({
           <Table.Header backgroundColor="#1e293b">
             <Table.Row borderColor="#334155">
               <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem">
-                Product
+                Produto
               </Table.ColumnHeader>
               <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem">
-                Description
+                Descrição
               </Table.ColumnHeader>
               <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem" textAlign="right">
-                Price
+                Preço
               </Table.ColumnHeader>
               <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem" textAlign="right">
-                Created At
+                Data de Cadastro
               </Table.ColumnHeader>
             </Table.Row>
           </Table.Header>

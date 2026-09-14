@@ -42,7 +42,7 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
   })
 
   describe('HomePage Component', () => {
-    it('renders the storefront page with products passed via initialData', () => {
+    it('renders the storefront page with products passed via initialData and Portuguese UI', () => {
       const mockProducts = [
         {
           id: 'prod-1',
@@ -63,11 +63,11 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
 
       expect(catalogHook.useStoreProducts).toHaveBeenCalledWith(mockProducts)
       expect(
-        screen.getByRole('heading', { level: 1, name: /Welcome to Nexus Commerce/i })
+        screen.getByRole('heading', { level: 1, name: /Bem-vindo ao Nexus Commerce/i })
       ).toBeInTheDocument()
-      expect(screen.getByRole('heading', { level: 2, name: /Featured Products/i })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { level: 2, name: /Produtos em Destaque/i })).toBeInTheDocument()
       expect(screen.getByText('Gaming Headset Pro')).toBeInTheDocument()
-      expect(screen.getByText('$199.99')).toBeInTheDocument()
+      expect(screen.getByText(/R\$\s*199,99/)).toBeInTheDocument()
     })
   })
 })

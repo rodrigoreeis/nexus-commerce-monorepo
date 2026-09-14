@@ -12,33 +12,34 @@ O objetivo é manter **consistência, padronização internacional e código lim
 
 ---
 
-# Language Rule
+# Language & Content Rules
 
-Todo código **deve ser escrito em inglês**.
+1. **Código em Inglês**:
+   Todo código interno **deve ser escrito em inglês**:
+   * nomes de variáveis
+   * nomes de funções
+   * nomes de classes
+   * nomes de arquivos
+   * nomes de pastas
+   * endpoints e rotas de API
 
-Isso inclui:
+   Nunca utilizar **português dentro dos identificadores de código**.
 
-* nomes de variáveis
-* nomes de funções
-* nomes de classes
-* nomes de arquivos
-* nomes de pastas
-* mensagens de erro
-* textos retornados por APIs
+   Exemplo correto:
+   ```javascript
+   const userRepository = new UserRepository()
+   ```
 
-Nunca utilizar **português dentro do código**.
+   Exemplo incorreto:
+   ```javascript
+   const repositorioUsuario = new RepositorioUsuario()
+   ```
 
-Exemplo correto:
-
-```javascript
-const userRepository = new UserRepository()
-```
-
-Exemplo incorreto:
-
-```javascript
-const repositorioUsuario = new RepositorioUsuario()
-```
+2. **Conteúdo de Interface do Usuário (UI) em Português**:
+   * **Todo o conteúdo visual e textual voltado ao usuário final** (labels, botões, títulos de páginas, modais, mensagens de validação, estados vazios e de erro) **deve estar em Português do Brasil (pt-BR)**.
+   * **Moeda Oficial do Produto: Reais (R$ / BRL)**:
+     * Toda formatação monetária deve utilizar **Reais (R$)** via `Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })` (ex: `R$ 199,99`).
+     * Funções utilitárias como `formatStorePrice` e `formatCurrency` devem ter como padrão `currency: 'BRL'` e `locale: 'pt-BR'`.
 
 ---
 

@@ -11,7 +11,7 @@ describe('Header component', () => {
     )
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Nexus Backoffice')
-    expect(screen.getByText('Systems Operational')).toBeInTheDocument()
+    expect(screen.getByText('Sistemas Operacionais')).toBeInTheDocument()
   })
 
   it('renders degraded status when system is offline', () => {
@@ -20,7 +20,7 @@ describe('Header component', () => {
         <Header systemStatus="offline" />
       </AppProvider>
     )
-    expect(screen.getByText('Degraded Service')).toBeInTheDocument()
+    expect(screen.getByText('Serviço Degradado')).toBeInTheDocument()
   })
 
   it('renders navigation links and calls onNavigate when clicked', () => {
@@ -32,8 +32,8 @@ describe('Header component', () => {
       </AppProvider>
     )
 
-    const overviewLink = screen.getByRole('link', { name: 'Overview' })
-    const productsLink = screen.getByRole('link', { name: 'Products' })
+    const overviewLink = screen.getByRole('link', { name: 'Visão Geral' })
+    const productsLink = screen.getByRole('link', { name: 'Produtos' })
 
     expect(overviewLink).toBeInTheDocument()
     expect(productsLink).toBeInTheDocument()

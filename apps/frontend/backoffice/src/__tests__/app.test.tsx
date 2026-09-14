@@ -14,14 +14,14 @@ describe('App root component', () => {
     jest.restoreAllMocks()
   })
 
-  it('renders HomePage by default on root path', () => {
+  it('renders HomePage by default on root path in Portuguese', () => {
     render(
       <AppProvider>
         <App />
       </AppProvider>
     )
 
-    expect(screen.getByText('Commerce Overview')).toBeInTheDocument()
+    expect(screen.getByText('Visão Geral do Comércio')).toBeInTheDocument()
   })
 
   it('navigates to ProductsPage when clicking Products in Header', async () => {
@@ -31,11 +31,11 @@ describe('App root component', () => {
       </AppProvider>
     )
 
-    const productsLink = screen.getByRole('link', { name: 'Products' })
+    const productsLink = screen.getByRole('link', { name: 'Produtos' })
     fireEvent.click(productsLink)
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Products Management')
+      expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Gestão de Produtos')
     })
   })
 })

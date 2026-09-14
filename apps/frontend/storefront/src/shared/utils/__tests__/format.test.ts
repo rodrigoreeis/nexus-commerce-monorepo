@@ -2,13 +2,14 @@ import { formatStorePrice, truncateDescription } from '../format'
 
 describe('Storefront format utils', () => {
   describe('formatStorePrice', () => {
-    it('formats valid price correctly', () => {
-      expect(formatStorePrice(249.99)).toBe('$249.99')
+    it('formats valid price in Brazilian Reais (R$) correctly', () => {
+      const formatted = formatStorePrice(249.99).replace(/\u00a0/g, ' ')
+      expect(formatted).toBe('R$ 249,99')
     })
 
-    it('handles undefined or null amounts safely', () => {
-      expect(formatStorePrice(undefined)).toBe('$0.00')
-      expect(formatStorePrice(null)).toBe('$0.00')
+    it('handles undefined or null amounts safely with R$ 0,00', () => {
+      expect(formatStorePrice(undefined).replace(/\u00a0/g, ' ')).toBe('R$ 0,00')
+      expect(formatStorePrice(null).replace(/\u00a0/g, ' ')).toBe('R$ 0,00')
     })
   })
 

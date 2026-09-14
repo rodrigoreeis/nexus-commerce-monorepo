@@ -21,7 +21,7 @@ describe('ProductsPage', () => {
     jest.restoreAllMocks()
   })
 
-  it('fetches and renders initial products in the table', async () => {
+  it('fetches and renders initial products in the table with Portuguese headings', async () => {
     jest.spyOn(productsService, 'fetchAdminProducts').mockResolvedValue(mockInitialProducts)
 
     render(
@@ -30,18 +30,18 @@ describe('ProductsPage', () => {
       </AppProvider>
     )
 
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Products Management')
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Gestão de Produtos')
 
     await waitFor(() => {
       expect(screen.getByText('Mechanical Gaming Keyboard')).toBeInTheDocument()
-      expect(screen.getByText('$139.99')).toBeInTheDocument()
+      expect(screen.getByText(/R\$\s*139,99/)).toBeInTheDocument()
     })
   })
 
   it('renders error state and retries fetching when retry button is clicked', async () => {
     const fetchSpy = jest
       .spyOn(productsService, 'fetchAdminProducts')
-      .mockRejectedValueOnce(new Error('Network error connecting to API'))
+      .mockRejectedValueOnce(new Error('Erro de conexão ao acessar a API'))
       .mockResolvedValueOnce(mockInitialProducts)
 
     render(
@@ -51,11 +51,11 @@ describe('ProductsPage', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to load catalog products')).toBeInTheDocument()
-      expect(screen.getByText('Network error connecting to API')).toBeInTheDocument()
+      expect(screen.getByText('Falha ao carregar produtos do catálogo')).toBeInTheDocument()
+      expect(screen.getByText('Erro de conexão ao acessar a API')).toBeInTheDocument()
     })
 
-    const retryBtn = screen.getByRole('button', { name: /Try Again/i })
+    const retryBtn = screen.getByRole('button', { name: /Tentar Novamente/i })
     fireEvent.click(retryBtn)
 
     await waitFor(() => {
@@ -89,35 +89,35 @@ describe('ProductsPage', () => {
     )
 
     await waitFor(() => {
-      expect(screen.getByText('No products found')).toBeInTheDocument()
+      expect(screen.getByText('Nenhum produto encontrado')).toBeInTheDocument()
     })
 
     // Click Add Product
-    const addProductBtn = screen.getByRole('button', { name: /Add new product/i })
+    const addProductBtn = screen.getByRole('button', { name: /Adicionar novo produto/i })
     fireEvent.click(addProductBtn)
 
     // Verify modal is displayed
     await waitFor(() => {
-      expect(screen.getByText('Register New Product')).toBeInTheDocument()
+      expect(screen.getByText('Cadastrar Novo Produto')).toBeInTheDocument()
     })
 
     // Fill form
-    await userEvent.type(screen.getByLabelText(/Product Name/i), 'Wireless Ergonomic Mouse')
-    await userEvent.type(screen.getByLabelText(/Price \(USD\)/i), '69.90')
-    await userEvent.type(screen.getByLabelText(/Description/i), 'Thumb rest sensor')
+    await userEvent.type(screen.getByLabelText(/Nome do Produto/i), 'Wireless Ergonomic Mouse')
+    await userEvent.type(screen.getByLabelText(/Preço \(R\$\)/i), '69.90')
+    await userEvent.type(screen.getByLabelText(/Descrição/i), 'Thumb rest sensor')
 
     const file = new File(['image-content'], 'mouse.png', { type: 'image/png' })
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(fileInput, file)
 
     // Submit form
-    const submitBtn = screen.getByRole('button', { name: /Create Product/i })
+    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
     fireEvent.click(submitBtn)
 
     // Verify new product is immediately visible in the table
     await waitFor(() => {
       expect(screen.getByText('Wireless Ergonomic Mouse')).toBeInTheDocument()
-      expect(screen.getByText('$69.90')).toBeInTheDocument()
+      expect(screen.getByText(/R\$\s*69,90/)).toBeInTheDocument()
     })
   })
 })

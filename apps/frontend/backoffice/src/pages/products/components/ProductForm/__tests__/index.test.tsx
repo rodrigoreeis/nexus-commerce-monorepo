@@ -17,38 +17,38 @@ describe('ProductForm component', () => {
       </AppProvider>
     )
 
-    expect(screen.getByLabelText(/Product Name/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Price \(USD\)/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Description/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Product Image/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Create Product/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/Nome do Produto/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Preço \(R\$\)/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Descrição/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Imagem do Produto/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Criar Produto/i })).toBeInTheDocument()
   })
 
-  it('validates required fields on submit', async () => {
+  it('validates required fields on submit with Portuguese messages', async () => {
     render(
       <AppProvider>
         <ProductForm />
       </AppProvider>
     )
 
-    const submitBtn = screen.getByRole('button', { name: /Create Product/i })
+    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
     fireEvent.click(submitBtn)
 
-    expect(screen.getByRole('alert')).toHaveTextContent('Product name is required.')
+    expect(screen.getByRole('alert')).toHaveTextContent('O nome do produto é obrigatório.')
 
     // Fill name
-    const nameInput = screen.getByLabelText(/Product Name/i)
-    await userEvent.type(nameInput, 'Mechanical Keyboard')
+    const nameInput = screen.getByLabelText(/Nome do Produto/i)
+    await userEvent.type(nameInput, 'Teclado Mecânico')
     fireEvent.click(submitBtn)
 
-    expect(screen.getByRole('alert')).toHaveTextContent('A valid positive price is required.')
+    expect(screen.getByRole('alert')).toHaveTextContent('Um preço positivo válido é obrigatório.')
 
     // Fill price
-    const priceInput = screen.getByLabelText(/Price \(USD\)/i)
+    const priceInput = screen.getByLabelText(/Preço \(R\$\)/i)
     await userEvent.type(priceInput, '149.90')
     fireEvent.click(submitBtn)
 
-    expect(screen.getByRole('alert')).toHaveTextContent('Product image is required.')
+    expect(screen.getByRole('alert')).toHaveTextContent('A imagem do produto é obrigatória.')
   })
 
   it('shows image preview when file is selected and allows removal', async () => {
@@ -63,21 +63,21 @@ describe('ProductForm component', () => {
 
     await userEvent.upload(fileInput, file)
 
-    const preview = screen.getByAltText('Product preview')
+    const preview = screen.getByAltText('Pré-visualização do produto')
     expect(preview).toBeInTheDocument()
     expect(screen.getByText('keyboard.png')).toBeInTheDocument()
 
-    const removeBtn = screen.getByRole('button', { name: /Remove selected image/i })
+    const removeBtn = screen.getByRole('button', { name: /Remover imagem selecionada/i })
     fireEvent.click(removeBtn)
 
-    expect(screen.queryByAltText('Product preview')).not.toBeInTheDocument()
+    expect(screen.queryByAltText('Pré-visualização do produto')).not.toBeInTheDocument()
   })
 
   it('submits valid data via createAdminProduct and invokes onSuccess', async () => {
     const mockProduct = {
       id: 'prod-new',
-      name: 'Wireless Mouse',
-      description: 'Ultra light',
+      name: 'Mouse Sem Fio',
+      description: 'Ultra leve',
       price: 89.99,
       imageUrl: '/uploads/mouse.png',
       createdAt: '2026-09-13T12:00:00Z',
@@ -92,15 +92,15 @@ describe('ProductForm component', () => {
       </AppProvider>
     )
 
-    await userEvent.type(screen.getByLabelText(/Product Name/i), 'Wireless Mouse')
-    await userEvent.type(screen.getByLabelText(/Price \(USD\)/i), '89.99')
-    await userEvent.type(screen.getByLabelText(/Description/i), 'Ultra light')
+    await userEvent.type(screen.getByLabelText(/Nome do Produto/i), 'Mouse Sem Fio')
+    await userEvent.type(screen.getByLabelText(/Preço \(R\$\)/i), '89.99')
+    await userEvent.type(screen.getByLabelText(/Descrição/i), 'Ultra leve')
 
     const file = new File(['image-bytes'], 'mouse.png', { type: 'image/png' })
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(fileInput, file)
 
-    const submitBtn = screen.getByRole('button', { name: /Create Product/i })
+    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
     fireEvent.click(submitBtn)
 
     await waitFor(() => {
@@ -108,9 +108,9 @@ describe('ProductForm component', () => {
     })
 
     const submittedFormData = createSpy.mock.calls[0][0]
-    expect(submittedFormData.get('name')).toBe('Wireless Mouse')
+    expect(submittedFormData.get('name')).toBe('Mouse Sem Fio')
     expect(submittedFormData.get('price')).toBe('89.99')
-    expect(submittedFormData.get('description')).toBe('Ultra light')
+    expect(submittedFormData.get('description')).toBe('Ultra leve')
     expect(submittedFormData.get('image')).toBeTruthy()
 
     await waitFor(() => {
@@ -119,7 +119,7 @@ describe('ProductForm component', () => {
   })
 
   it('displays error feedback when service rejects', async () => {
-    jest.spyOn(productsService, 'createAdminProduct').mockRejectedValue(new Error('Backend rejected image format'))
+    jest.spyOn(productsService, 'createAdminProduct').mockRejectedValue(new Error('Backend rejeitou o formato da imagem'))
 
     render(
       <AppProvider>
@@ -127,18 +127,18 @@ describe('ProductForm component', () => {
       </AppProvider>
     )
 
-    await userEvent.type(screen.getByLabelText(/Product Name/i), 'Wireless Mouse')
-    await userEvent.type(screen.getByLabelText(/Price \(USD\)/i), '89.99')
+    await userEvent.type(screen.getByLabelText(/Nome do Produto/i), 'Mouse Sem Fio')
+    await userEvent.type(screen.getByLabelText(/Preço \(R\$\)/i), '89.99')
 
     const file = new File(['image-bytes'], 'mouse.png', { type: 'image/png' })
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(fileInput, file)
 
-    const submitBtn = screen.getByRole('button', { name: /Create Product/i })
+    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
     fireEvent.click(submitBtn)
 
     await waitFor(() => {
-      expect(screen.getByRole('alert')).toHaveTextContent('Backend rejected image format')
+      expect(screen.getByRole('alert')).toHaveTextContent('Backend rejeitou o formato da imagem')
     })
   })
 })
