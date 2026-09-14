@@ -22,3 +22,5 @@ coverage/
 # Uploads locais
 apps/backend/uploads/*
 !apps/backend/uploads/.gitkeep
+
+apresentacao.html
