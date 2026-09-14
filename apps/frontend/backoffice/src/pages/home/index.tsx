@@ -259,6 +259,7 @@ export const HomePage = () => {
             </table>
           </div>
         </div>
+      </div>
 
         {/* Modal para Atualizar Status */}
         <Dialog.Root open={isModalOpen} onOpenChange={(details) => setIsModalOpen(details.open)}>
