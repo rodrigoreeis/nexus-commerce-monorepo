@@ -25,12 +25,12 @@ export const ProductTable = ({
         aria-label="Carregando produtos"
         className={styles.loadingContainer}
       >
-        <div className="flex flex-col items-center justify-center gap-4">
+        <div className={styles.spinnerWrapper}>
           <div
-            className="w-10 h-10 border-3 border-[#334155] border-t-blue-500 rounded-full animate-spin"
+            className={styles.spinner}
             aria-hidden="true"
           />
-          <p className="text-sm font-medium text-[#94a3b8]">
+          <p className={styles.spinnerText}>
             Carregando produtos…
           </p>
         </div>
@@ -45,15 +45,15 @@ export const ProductTable = ({
         aria-live="polite"
         className={styles.errorContainer}
       >
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-rose-400" aria-hidden="true">
+        <div className={styles.errorWrapper}>
+          <div className={styles.errorIcon} aria-hidden="true">
             <AlertCircle size={36} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-rose-200">
+            <h3 className={styles.errorTitle}>
               Falha ao carregar produtos do catálogo
             </h3>
-            <p className="text-sm text-[#94a3b8] mt-1">
+            <p className={styles.errorSubtitle}>
               {errorMessage}
             </p>
           </div>
@@ -79,14 +79,14 @@ export const ProductTable = ({
         aria-label="Estado de catálogo vazio"
         className={styles.emptyContainer}
       >
-        <div className="flex flex-col items-center gap-3">
-          <div className="text-[#64748b]" aria-hidden="true">
+        <div className={styles.emptyWrapper}>
+          <div className={styles.emptyIcon} aria-hidden="true">
             <Package size={40} />
           </div>
-          <h3 className="text-lg font-semibold text-[#f8fafc]">
+          <h3 className={styles.emptyTitle}>
             Nenhum produto encontrado
           </h3>
-          <p className="text-sm text-[#94a3b8] max-w-sm">
+          <p className={styles.emptySubtitle}>
             Seu catálogo está vazio no momento. Clique em “Adicionar Produto” para cadastrar seu primeiro produto.
           </p>
         </div>
@@ -127,7 +127,7 @@ export const ProductTable = ({
                 >
                   {/* Product Thumbnail & Name */}
                   <Table.Cell padding="0.875rem 1rem">
-                    <div className="flex items-center gap-3.5">
+                    <div className={styles.productInfoCell}>
                       <div className={styles.imageBox}>
                         {fullImageUrl ? (
                           <img
@@ -143,16 +143,16 @@ export const ProductTable = ({
                             loading="lazy"
                           />
                         ) : (
-                          <div className="text-[#64748b]" aria-hidden="true">
+                          <div className={styles.placeholderIcon} aria-hidden="true">
                             <ImageIcon size={20} />
                           </div>
                         )}
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-[#f8fafc]">
+                      <div className={styles.productDetails}>
+                        <p className={styles.productNameText}>
                           {product.name}
                         </p>
-                        <p className="text-xs text-[#64748b]">
+                        <p className={styles.productIdText}>
                           ID: {product.id}
                         </p>
                       </div>
@@ -161,7 +161,7 @@ export const ProductTable = ({
 
                   {/* Description */}
                   <Table.Cell padding="0.875rem 1rem" maxWidth="18rem">
-                    <p className="text-sm text-[#94a3b8] truncate">
+                    <p className={styles.productDescText}>
                       {product.description || '—'}
                     </p>
                   </Table.Cell>
@@ -172,14 +172,14 @@ export const ProductTable = ({
                     textAlign="right"
                     style={{ fontVariantNumeric: 'tabular-nums' }}
                   >
-                    <span className="text-sm font-semibold text-[#f8fafc]">
+                    <span className={styles.priceText}>
                       {formatCurrency(product.price)}
                     </span>
                   </Table.Cell>
 
                   {/* Created At */}
                   <Table.Cell padding="0.875rem 1rem" textAlign="right">
-                    <span className="text-xs text-[#94a3b8]">
+                    <span className={styles.dateText}>
                       {formatDate(product.createdAt)}
                     </span>
                   </Table.Cell>

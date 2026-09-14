@@ -41,8 +41,8 @@ export const Sidebar = ({
       <div>
         {/* Brand Area */}
         <div className={styles.brandArea}>
-          <div className="flex items-center gap-2.5">
-            <span className="h-7 w-7 rounded-lg bg-blue-600 flex items-center justify-center font-black text-white text-sm">
+          <div className={styles.brandHeader}>
+            <span className={styles.brandLogo}>
               N
             </span>
             <span className={styles.brandTitle}>Nexus Backoffice</span>

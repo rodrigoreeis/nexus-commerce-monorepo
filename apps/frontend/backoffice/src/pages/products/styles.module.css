@@ -17,3 +17,15 @@
 .addButton {
   @apply inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-sm transition-colors;
 }
+
+.dialogHeaderBar {
+  @apply flex items-center justify-between w-full;
+}
+
+.dialogTitle {
+  @apply text-xl font-bold text-[#f8fafc] tracking-tight m-0 leading-tight;
+}
+
+.dialogCloseButton {
+  @apply inline-flex items-center justify-center p-1.5 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] rounded-md transition-colors leading-none cursor-pointer;
+}

@@ -72,17 +72,17 @@ export const ProductsPage = () => {
               boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
             >
               <Dialog.Header padding="0" marginBottom="1.25rem">
-                <div className="flex justify-between items-center w-full">
-                  <Dialog.Title fontSize="1.25rem" fontWeight="700" color="#f8fafc" letterSpacing="-0.02em">
+                <div className={styles.dialogHeaderBar}>
+                  <Dialog.Title className={styles.dialogTitle}>
                     Cadastrar Novo Produto
                   </Dialog.Title>
                   <button
                     type="button"
                     onClick={() => setIsDialogOpen(false)}
                     aria-label="Fechar diálogo de cadastro de produto"
-                    className="text-[#94a3b8] hover:text-[#f8fafc] p-1 rounded-md transition-colors"
+                    className={styles.dialogCloseButton}
                   >
-                    <X size={18} aria-hidden="true" />
+                    <X size={20} aria-hidden="true" />
                   </button>
                 </div>
               </Dialog.Header>

@@ -2,11 +2,27 @@
   @apply h-16 bg-[#0f172a] border-b border-[#334155] px-6 flex items-center justify-between;
 }
 
+.titleContainer {
+  @apply flex items-center gap-3;
+}
+
 .headerTitle {
   @apply text-base font-semibold text-[#f8fafc];
 }
 
 .userProfile {
+  @apply flex items-center gap-3;
+}
+
+.notificationButton {
+  @apply flex items-center justify-center p-1.5 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] transition-colors cursor-pointer;
+}
+
+.divider {
+  @apply h-6 w-px bg-[#334155];
+}
+
+.userDetails {
   @apply flex items-center gap-3;
 }
 

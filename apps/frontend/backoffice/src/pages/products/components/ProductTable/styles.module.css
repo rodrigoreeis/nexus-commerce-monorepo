@@ -23,5 +23,82 @@
 }
 
 .retryButton {
-  @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-[#1e293b] text-white border border-[#334155] hover:bg-[#334155] transition-colors;
+  @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-[#1e293b] text-white border border-[#334155] hover:bg-[#334155] transition-colors cursor-pointer;
 }
+
+.spinnerWrapper {
+  @apply flex flex-col items-center justify-center gap-4;
+}
+
+.spinner {
+  @apply w-10 h-10 border-2 border-[#334155] border-t-blue-500 rounded-full animate-spin;
+}
+
+.spinnerText {
+  @apply text-sm font-medium text-[#94a3b8];
+}
+
+.errorWrapper {
+  @apply flex flex-col items-center gap-4;
+}
+
+.errorTitle {
+  @apply text-lg font-semibold text-rose-200;
+}
+
+.errorSubtitle {
+  @apply text-sm text-[#94a3b8] mt-1;
+}
+
+.emptyWrapper {
+  @apply flex flex-col items-center gap-3;
+}
+
+.emptyTitle {
+  @apply text-lg font-semibold text-[#f8fafc];
+}
+
+.emptySubtitle {
+  @apply text-sm text-[#94a3b8] max-w-sm;
+}
+
+.productInfoCell {
+  @apply flex items-center gap-3.5;
+}
+
+.productNameText {
+  @apply font-semibold text-sm text-[#f8fafc];
+}
+
+.productDescText {
+  @apply text-sm text-[#94a3b8] max-w-xs truncate;
+}
+
+.priceText {
+  @apply text-sm font-semibold text-[#f8fafc];
+}
+
+.dateText {
+  @apply text-sm text-[#64748b];
+}
+
+.errorIcon {
+  @apply text-rose-400;
+}
+
+.emptyIcon {
+  @apply text-[#64748b];
+}
+
+.placeholderIcon {
+  @apply text-[#64748b];
+}
+
+.productDetails {
+  @apply min-w-0;
+}
+
+.productIdText {
+  @apply text-xs text-[#64748b];
+}
+

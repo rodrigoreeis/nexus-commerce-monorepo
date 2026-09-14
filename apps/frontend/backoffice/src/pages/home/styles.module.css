@@ -97,3 +97,101 @@
 .updateButton {
   @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#1e293b] text-[#38bdf8] border border-[#334155] hover:bg-[#334155] hover:text-white transition-colors;
 }
+
+.dialogHeaderBar {
+  @apply flex items-center justify-between w-full;
+}
+
+.dialogTitle {
+  @apply text-lg font-bold text-[#f8fafc] m-0 leading-tight;
+}
+
+.dialogCloseButton {
+  @apply inline-flex items-center justify-center p-1.5 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] rounded-md transition-colors leading-none cursor-pointer;
+}
+
+.feedbackAlert {
+  @apply flex items-center gap-2 p-3.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-sm font-medium;
+}
+
+.customerInfo {
+  @apply flex flex-col;
+}
+
+.modalActions {
+  @apply flex justify-end gap-2.5 pt-2;
+}
+
+.modalCancelButton {
+  @apply px-3.5 py-1.5 text-xs font-semibold text-[#94a3b8] hover:text-white rounded-lg border border-[#334155] transition-colors cursor-pointer;
+}
+
+.modalSaveButton {
+  @apply px-4 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-sm cursor-pointer;
+}
+
+.metricPositive {
+  @apply text-emerald-400 font-semibold;
+}
+
+.metricInfo {
+  @apply text-blue-400 font-semibold;
+}
+
+.metricCurrency {
+  @apply text-purple-400 font-semibold;
+}
+
+.metricIconEmerald {
+  @apply bg-emerald-500/10 text-emerald-400;
+}
+
+.metricIconBlue {
+  @apply bg-blue-500/10 text-blue-400;
+}
+
+.metricIconPurple {
+  @apply bg-purple-500/10 text-purple-400;
+}
+
+.tableRow {
+  @apply hover:bg-[#1e293b]/50 transition-colors;
+}
+
+.orderIdCell {
+  @apply font-mono font-semibold text-blue-400;
+}
+
+.customerName {
+  @apply font-semibold text-[#f8fafc];
+}
+
+.customerEmail {
+  @apply text-xs text-[#64748b];
+}
+
+.modalContentBody {
+  @apply space-y-4;
+}
+
+.orderInfoCard {
+  @apply p-3 rounded-lg bg-[#1e293b] border border-[#334155] text-xs space-y-1;
+}
+
+.orderInfoLabel {
+  @apply text-[#94a3b8];
+}
+
+.orderInfoValue {
+  @apply text-white font-bold;
+}
+
+.statusFieldLabel {
+  @apply block text-xs font-semibold text-[#94a3b8] mb-1.5 uppercase tracking-wider;
+}
+
+.statusSelect {
+  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500;
+}
+
+

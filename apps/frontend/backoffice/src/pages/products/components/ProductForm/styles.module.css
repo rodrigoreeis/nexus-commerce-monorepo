@@ -23,7 +23,7 @@
 }
 
 .uploadBox {
-  @apply border-2 border-dashed border-[#334155] rounded-lg p-4 bg-[#0b1329] text-center relative;
+  @apply w-full border-2 border-dashed border-[#334155] rounded-lg p-6 bg-[#0b1329] text-center relative flex flex-col items-center justify-center transition-colors;
 }
 
 .uploadBoxActive {
@@ -31,9 +31,65 @@
 }
 
 .cancelButton {
-  @apply px-5 py-2 text-sm font-semibold rounded-lg border border-[#334155] text-[#94a3b8] hover:bg-[#1e293b] hover:text-white transition-colors;
+  @apply w-full py-2.5 px-4 text-sm font-semibold rounded-lg border border-[#334155] text-[#94a3b8] hover:bg-[#1e293b] hover:text-white transition-colors flex items-center justify-center text-center cursor-pointer;
 }
 
 .submitButton {
-  @apply px-6 py-2 text-sm font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm;
+  @apply w-full py-2.5 px-4 text-sm font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm flex items-center justify-center text-center cursor-pointer;
+}
+
+.requiredIndicator {
+  @apply text-red-400;
+}
+
+.descriptionHeader {
+  @apply flex items-center justify-between mb-1.5;
+}
+
+.charCounter {
+  @apply text-xs text-[#94a3b8];
+}
+
+.uploadEmptyState {
+  @apply flex flex-col items-center justify-center text-center gap-2 w-full;
+}
+
+.uploadIconWrapper {
+  @apply flex items-center justify-center text-[#64748b] mb-1;
+}
+
+.uploadHelpText {
+  @apply text-xs text-[#94a3b8] text-center;
+}
+
+.uploadSelectButton {
+  @apply mt-1 inline-flex items-center justify-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[#1e293b] text-[#f8fafc] border border-[#334155] hover:bg-[#334155] transition-colors cursor-pointer;
+}
+
+.previewContainer {
+  @apply flex flex-col items-center justify-center gap-3 w-full;
+}
+
+.previewImageBox {
+  @apply relative w-28 h-28 rounded-md overflow-hidden border border-[#334155] mx-auto;
+}
+
+.previewImage {
+  @apply w-full h-full object-cover;
+}
+
+.previewMeta {
+  @apply flex items-center justify-center gap-2;
+}
+
+.previewFileName {
+  @apply text-xs text-[#94a3b8] truncate max-w-[200px];
+}
+
+.removeImageButton {
+  @apply inline-flex items-center gap-1 text-xs text-red-400 hover:text-red-300 px-2 py-0.5 rounded hover:bg-red-950/40 transition-colors cursor-pointer;
+}
+
+.actionButtons {
+  @apply flex flex-col items-center gap-2.5 w-full mt-4;
 }

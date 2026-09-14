@@ -15,18 +15,22 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <header className={styles.headerRoot} data-testid="backoffice-header">
-      <div className="flex items-center gap-3">
+      <div className={styles.titleContainer}>
         <h1 className={styles.headerTitle}>{title}</h1>
       </div>
 
       <div className={styles.userProfile}>
-        <div className="flex items-center gap-2 p-1.5 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] cursor-pointer">
-          <Bell size={18} aria-label="Notificações" />
-        </div>
+        <button
+          type="button"
+          aria-label="Notificações"
+          className={styles.notificationButton}
+        >
+          <Bell size={18} />
+        </button>
 
-        <div className="h-6 w-px bg-[#334155]" />
+        <div className={styles.divider} aria-hidden="true" />
 
-        <div className="flex items-center gap-3">
+        <div className={styles.userDetails}>
           <div className={styles.userAvatar} aria-hidden="true">
             <Shield size={16} />
           </div>

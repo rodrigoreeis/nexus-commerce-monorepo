@@ -141,4 +141,49 @@ describe('ProductForm component', () => {
       expect(screen.getByRole('alert')).toHaveTextContent('Backend rejeitou o formato da imagem')
     })
   })
+
+  it('formats price with Brazilian Real (R$) mask dynamically on typing', async () => {
+    render(
+      <AppProvider>
+        <ProductForm />
+      </AppProvider>
+    )
+
+    const priceInput = screen.getByLabelText(/Preço \(R\$\)/i) as HTMLInputElement
+    await userEvent.type(priceInput, '1500')
+
+    expect(priceInput.value.replace(/\u00a0/g, ' ')).toBe('R$ 15,00')
+  })
+
+  it('limits description to 500 characters and updates live counter', async () => {
+    render(
+      <AppProvider>
+        <ProductForm />
+      </AppProvider>
+    )
+
+    expect(screen.getByText('0/500')).toBeInTheDocument()
+
+    const descInput = screen.getByLabelText(/Descrição/i)
+    await userEvent.type(descInput, 'Smartphone top de linha')
+
+    expect(screen.getByText('23/500')).toBeInTheDocument()
+    expect(descInput).toHaveAttribute('maxLength', '500')
+  })
+
+  it('renders cancel button and triggers onCancel when clicked', () => {
+    const onCancelMock = jest.fn()
+
+    render(
+      <AppProvider>
+        <ProductForm onCancel={onCancelMock} />
+      </AppProvider>
+    )
+
+    const cancelBtn = screen.getByRole('button', { name: /Cancelar/i })
+    expect(cancelBtn).toBeInTheDocument()
+
+    fireEvent.click(cancelBtn)
+    expect(onCancelMock).toHaveBeenCalledTimes(1)
+  })
 })

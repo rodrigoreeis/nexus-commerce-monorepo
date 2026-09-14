@@ -41,3 +41,24 @@
 .statusInactive {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400 border border-gray-500/20;
 }
+
+.tableRow {
+  @apply hover:bg-[#1e293b]/50 transition-colors;
+}
+
+.roleBadge {
+  @apply text-xs font-semibold px-2 py-0.5 rounded bg-[#1e293b] text-[#38bdf8] border border-[#0284c7]/30;
+}
+
+.nameCell {
+  @apply font-semibold;
+}
+
+.emailCell {
+  @apply text-[#94a3b8];
+}
+
+.dateCell {
+  @apply text-xs text-[#94a3b8];
+}
+

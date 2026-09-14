@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { AlertCircle, CheckCircle2, Image as ImageIcon, Upload, X } from 'lucide-react'
 import { Product } from '@/shared/services/products'
 import { useCreateAdminProduct } from '@/shared/hooks/useAdminProducts'
+import { formatCurrencyInput, parseCurrencyToRaw } from '@/shared/utils/format'
 import styles from './styles.module.css'
+
+const MAX_DESCRIPTION_LENGTH = 500
 
 export interface ProductFormProps {
   onSuccess?: (product: Product) => void
@@ -28,6 +31,11 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
       }
     }
   }, [previewUrl])
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCurrencyInput(event.target.value)
+    setPrice(formatted)
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -68,10 +76,15 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
       return
     }
 
-    const numericPrice = parseFloat(price.replace(',', '.'))
-    const hasValidPrice = Boolean(price.trim()) && !Number.isNaN(numericPrice) && numericPrice >= 0
+    const numericPrice = parseCurrencyToRaw(price)
+    const hasValidPrice = Boolean(price.trim()) && !Number.isNaN(numericPrice) && numericPrice > 0
     if (!hasValidPrice) {
       setErrorMessage('Um preço positivo válido é obrigatório.')
+      return
+    }
+
+    if (description.length > MAX_DESCRIPTION_LENGTH) {
+      setErrorMessage(`A descrição não pode exceder ${MAX_DESCRIPTION_LENGTH} caracteres.`)
       return
     }
 
@@ -84,7 +97,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
     try {
       const formData = new FormData()
       formData.append('name', trimmedName)
-      formData.append('price', String(numericPrice))
+      formData.append('price', numericPrice.toFixed(2))
       formData.append('description', description.trim())
       formData.append('image', selectedFile!)
 
@@ -140,7 +153,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           htmlFor="product-name"
           className={styles.fieldLabel}
         >
-          Nome do Produto <span className="text-red-400" aria-hidden="true">*</span>
+          Nome do Produto <span className={styles.requiredIndicator} aria-hidden="true">*</span>
         </label>
         <input
           id="product-name"
@@ -161,16 +174,16 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           htmlFor="product-price"
           className={styles.fieldLabel}
         >
-          Preço (R$) <span className="text-red-400" aria-hidden="true">*</span>
+          Preço (R$) <span className={styles.requiredIndicator} aria-hidden="true">*</span>
         </label>
         <input
           id="product-price"
           name="price"
           type="text"
-          inputMode="decimal"
+          inputMode="numeric"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Ex.: 99,99…"
+          onChange={handlePriceChange}
+          placeholder="Ex.: R$ 99,90…"
           autoComplete="off"
           disabled={isPending}
           className={styles.textInput}
@@ -179,17 +192,23 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
 
       {/* Description */}
       <div>
-        <label
-          htmlFor="product-description"
-          className={styles.fieldLabel}
-        >
-          Descrição
-        </label>
+        <div className={styles.descriptionHeader}>
+          <label
+            htmlFor="product-description"
+            className={`${styles.fieldLabel} mb-0`}
+          >
+            Descrição
+          </label>
+          <span className={styles.charCounter} aria-live="polite">
+            {description.length}/{MAX_DESCRIPTION_LENGTH}
+          </span>
+        </div>
         <textarea
           id="product-description"
           name="description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LENGTH))}
+          maxLength={MAX_DESCRIPTION_LENGTH}
           placeholder="Breve descrição das características do produto…"
           rows={3}
           disabled={isPending}
@@ -203,7 +222,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           htmlFor="product-image"
           className={styles.fieldLabel}
         >
-          Imagem do Produto <span className="text-red-400" aria-hidden="true">*</span>
+          Imagem do Produto <span className={styles.requiredIndicator} aria-hidden="true">*</span>
         </label>
 
         <div className={`${styles.uploadBox} ${previewUrl ? styles.uploadBoxActive : ''}`}>
@@ -219,18 +238,18 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           />
 
           {previewUrl ? (
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative w-28 h-28 rounded-md overflow-hidden border border-[#334155]">
+            <div className={styles.previewContainer}>
+              <div className={styles.previewImageBox}>
                 <img
                   src={previewUrl}
                   alt="Pré-visualização do produto"
                   width={112}
                   height={112}
-                  className="w-full h-full object-cover"
+                  className={styles.previewImage}
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-[#94a3b8]">
+              <div className={styles.previewMeta}>
+                <span className={styles.previewFileName}>
                   {selectedFile?.name}
                 </span>
                 <button
@@ -238,7 +257,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
                   onClick={handleRemoveImage}
                   disabled={isPending}
                   aria-label="Remover imagem selecionada"
-                  className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 px-2 py-0.5 rounded hover:bg-red-950/40 transition-colors"
+                  className={styles.removeImageButton}
                 >
                   <X size={14} aria-hidden="true" />
                   <span>Remover</span>
@@ -246,18 +265,18 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-[#64748b] mb-1">
+            <div className={styles.uploadEmptyState}>
+              <div className={styles.uploadIconWrapper}>
                 <ImageIcon size={32} aria-hidden="true" />
               </div>
-              <p className="text-xs text-[#94a3b8]">
+              <p className={styles.uploadHelpText}>
                 Formatos suportados: PNG, JPEG, WebP (máx. 5&nbsp;MB)
               </p>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isPending}
-                className="mt-1 inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[#1e293b] text-[#f8fafc] border border-[#334155] hover:bg-[#334155] transition-colors"
+                className={styles.uploadSelectButton}
               >
                 <Upload size={14} aria-hidden="true" />
                 <span>Selecionar Imagem</span>
@@ -268,7 +287,15 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end gap-3 mt-2">
+      <div className={styles.actionButtons}>
+        <button
+          type="submit"
+          disabled={isPending}
+          className={styles.submitButton}
+        >
+          {isPending ? 'Criando Produto…' : 'Criar Produto'}
+        </button>
+
         {onCancel && (
           <button
             type="button"
@@ -279,14 +306,6 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
             Cancelar
           </button>
         )}
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className={styles.submitButton}
-        >
-          {isPending ? 'Criando Produto…' : 'Criar Produto'}
-        </button>
       </div>
     </form>
   )

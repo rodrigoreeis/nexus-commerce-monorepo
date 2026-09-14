@@ -82,15 +82,15 @@ export const UsersPage = () => {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-[#1e293b]/50 transition-colors">
-                    <td className={`${styles.td} font-semibold`}>
+                  <tr key={user.id} className={styles.tableRow}>
+                    <td className={`${styles.td} ${styles.nameCell}`}>
                       {user.name}
                     </td>
-                    <td className={`${styles.td} text-[#94a3b8]`}>
+                    <td className={`${styles.td} ${styles.emailCell}`}>
                       {user.email}
                     </td>
                     <td className={styles.td}>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#1e293b] text-[#38bdf8] border border-[#0284c7]/30">
+                      <span className={styles.roleBadge}>
                         {user.role}
                       </span>
                     </td>
@@ -99,7 +99,7 @@ export const UsersPage = () => {
                         {user.status}
                       </span>
                     </td>
-                    <td className={`${styles.td} text-xs text-[#94a3b8]`}>
+                    <td className={`${styles.td} ${styles.dateCell}`}>
                       {formatDate(user.createdAt)}
                     </td>
                   </tr>

@@ -134,7 +134,7 @@ export const HomePage = () => {
         {feedbackMessage && (
           <div
             role="status"
-            className="flex items-center gap-2 p-3.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-sm font-medium"
+            className={styles.feedbackAlert}
           >
             <CheckCircle2 size={16} aria-hidden="true" />
             <span>{feedbackMessage}</span>
@@ -147,13 +147,13 @@ export const HomePage = () => {
           <div className={styles.metricCard}>
             <div className={styles.metricHeader}>
               <span className={styles.metricLabel}>Quantidade de Vendas</span>
-              <div className={`${styles.metricIconWrapper} bg-emerald-500/10 text-emerald-400`}>
+              <div className={`${styles.metricIconWrapper} ${styles.metricIconEmerald}`}>
                 <TrendingUp size={20} aria-hidden="true" />
               </div>
             </div>
             <p className={styles.metricValue}>1.428</p>
             <p className={styles.metricSubtext}>
-              <span className="text-emerald-400 font-semibold">+14,2%</span> em relação ao mês anterior
+              <span className={styles.metricPositive}>+14,2%</span> em relação ao mês anterior
             </p>
           </div>
 
@@ -161,13 +161,13 @@ export const HomePage = () => {
           <div className={styles.metricCard}>
             <div className={styles.metricHeader}>
               <span className={styles.metricLabel}>Total de Pedidos</span>
-              <div className={`${styles.metricIconWrapper} bg-blue-500/10 text-blue-400`}>
+              <div className={`${styles.metricIconWrapper} ${styles.metricIconBlue}`}>
                 <ShoppingBag size={20} aria-hidden="true" />
               </div>
             </div>
             <p className={styles.metricValue}>352</p>
             <p className={styles.metricSubtext}>
-              <span className="text-blue-400 font-semibold">98,5%</span> taxa de entrega com sucesso
+              <span className={styles.metricInfo}>98,5%</span> taxa de entrega com sucesso
             </p>
           </div>
 
@@ -175,13 +175,13 @@ export const HomePage = () => {
           <div className={styles.metricCard}>
             <div className={styles.metricHeader}>
               <span className={styles.metricLabel}>Receita de Vendas</span>
-              <div className={`${styles.metricIconWrapper} bg-purple-500/10 text-purple-400`}>
+              <div className={`${styles.metricIconWrapper} ${styles.metricIconPurple}`}>
                 <DollarSign size={20} aria-hidden="true" />
               </div>
             </div>
             <p className={styles.metricValue}>{formatCurrency(284950.0)}</p>
             <p className={styles.metricSubtext}>
-              Moeda oficial: <span className="text-purple-400 font-semibold">Reais (R$)</span>
+              Moeda oficial: <span className={styles.metricCurrency}>Reais (R$)</span>
             </p>
           </div>
         </div>
@@ -211,14 +211,14 @@ export const HomePage = () => {
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-[#1e293b]/50 transition-colors">
-                    <td className={`${styles.td} font-mono font-semibold text-blue-400`}>
+                  <tr key={order.id} className={styles.tableRow}>
+                    <td className={`${styles.td} ${styles.orderIdCell}`}>
                       {order.id}
                     </td>
                     <td className={styles.td}>
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-[#f8fafc]">{order.customerName}</span>
-                        <span className="text-xs text-[#64748b]">{order.customerEmail}</span>
+                      <div className={styles.customerInfo}>
+                        <span className={styles.customerName}>{order.customerName}</span>
+                        <span className={styles.customerEmail}>{order.customerEmail}</span>
                       </div>
                     </td>
                     <td className={`${styles.td} font-semibold tabular-nums`}>
@@ -265,39 +265,39 @@ export const HomePage = () => {
               boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
             >
               <Dialog.Header padding="0" marginBottom="1.25rem">
-                <div className="flex justify-between items-center w-full">
-                  <Dialog.Title fontSize="1.125rem" fontWeight="700" color="#f8fafc">
+                <div className={styles.dialogHeaderBar}>
+                  <Dialog.Title className={styles.dialogTitle}>
                     Atualizar Status do Pedido
                   </Dialog.Title>
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
                     aria-label="Fechar modal de status"
-                    className="text-[#94a3b8] hover:text-[#f8fafc] p-1 rounded-md transition-colors"
+                    className={styles.dialogCloseButton}
                   >
-                    <X size={18} aria-hidden="true" />
+                    <X size={20} aria-hidden="true" />
                   </button>
                 </div>
               </Dialog.Header>
 
               <Dialog.Body padding="0">
                 {selectedOrder && (
-                  <div className="space-y-4">
-                    <div className="p-3 rounded-lg bg-[#1e293b] border border-[#334155] text-xs space-y-1">
+                  <div className={styles.modalContentBody}>
+                    <div className={styles.orderInfoCard}>
                       <p>
-                        <span className="text-[#94a3b8]">Pedido:</span>{' '}
-                        <strong className="text-white">{selectedOrder.id}</strong>
+                        <span className={styles.orderInfoLabel}>Pedido:</span>{' '}
+                        <strong className={styles.orderInfoValue}>{selectedOrder.id}</strong>
                       </p>
                       <p>
-                        <span className="text-[#94a3b8]">Cliente:</span>{' '}
-                        <strong className="text-white">{selectedOrder.customerName}</strong>
+                        <span className={styles.orderInfoLabel}>Cliente:</span>{' '}
+                        <strong className={styles.orderInfoValue}>{selectedOrder.customerName}</strong>
                       </p>
                     </div>
 
                     <div>
                       <label
                         htmlFor="order-status-select"
-                        className="block text-xs font-semibold text-[#94a3b8] mb-1.5 uppercase tracking-wider"
+                        className={styles.statusFieldLabel}
                       >
                         Novo Status
                       </label>
@@ -305,7 +305,7 @@ export const HomePage = () => {
                         id="order-status-select"
                         value={newStatus}
                         onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
-                        className="w-full bg-[#1e293b] border border-[#334155] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
+                        className={styles.statusSelect}
                       >
                         {ALL_STATUSES.map((statusOption) => (
                           <option key={statusOption} value={statusOption}>
@@ -315,18 +315,18 @@ export const HomePage = () => {
                       </select>
                     </div>
 
-                    <div className="flex justify-end gap-2.5 pt-2">
+                    <div className={styles.modalActions}>
                       <button
                         type="button"
                         onClick={() => setIsModalOpen(false)}
-                        className="px-3.5 py-1.5 text-xs font-semibold text-[#94a3b8] hover:text-white rounded-lg border border-[#334155] transition-colors"
+                        className={styles.modalCancelButton}
                       >
                         Cancelar
                       </button>
                       <button
                         type="button"
                         onClick={handleSaveStatus}
-                        className="px-4 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-sm"
+                        className={styles.modalSaveButton}
                       >
                         Confirmar
                       </button>
