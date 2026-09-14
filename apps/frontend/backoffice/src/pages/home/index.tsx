@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Dialog } from '@chakra-ui/react'
+import { Dialog, Portal } from '@chakra-ui/react'
 import {
   TrendingUp,
   ShoppingBag,
@@ -7,6 +7,7 @@ import {
   RotateCw,
   X,
   CheckCircle2,
+  AlertTriangle,
 } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { formatCurrency, formatDate } from '@/shared/utils/format'
@@ -122,7 +123,16 @@ export const HomePage = () => {
   return (
     <Layout activeRoute="dashboard" title="Dashboard">
       <div className={styles.dashboardRoot}>
-        {/* Page Header */}
+        {/* Construction Notice Banner */}
+        <div className={styles.constructionBanner} role="status">
+          <div className={styles.constructionBadge}>
+            <AlertTriangle className="h-4 w-4" aria-hidden="true" />
+            <span>Em Construção</span>
+          </div>
+        </div>
+
+        <div className={styles.blurredArea}>
+          {/* Page Header */}
         <div className={styles.pageHeader}>
           <h2 className={styles.pageTitle}>Dashboard</h2>
           <p className={styles.pageSubtitle}>
@@ -252,90 +262,113 @@ export const HomePage = () => {
 
         {/* Modal para Atualizar Status */}
         <Dialog.Root open={isModalOpen} onOpenChange={(details) => setIsModalOpen(details.open)}>
-          <Dialog.Backdrop backgroundColor="rgba(0, 0, 0, 0.75)" backdropFilter="blur(4px)" />
-          <Dialog.Positioner>
-            <Dialog.Content
-              backgroundColor="#0f172a"
-              border="1px solid #334155"
-              borderRadius="0.75rem"
+          <Portal>
+            <Dialog.Backdrop
+              position="fixed"
+              inset="0"
+              width="100vw"
+              height="100vh"
+              minHeight="100dvh"
+              backgroundColor="rgba(0, 0, 0, 0.65)"
+              backdropFilter="blur(8px)"
+              zIndex={1400}
+            />
+            <Dialog.Positioner
+              position="fixed"
+              inset="0"
+              width="100vw"
+              height="100vh"
+              minHeight="100dvh"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              overflowY="auto"
               padding="1.5rem"
-              maxWidth="26rem"
-              width="100%"
-              color="#f8fafc"
-              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+              zIndex={1400}
             >
-              <Dialog.Header padding="0" marginBottom="1.25rem">
-                <div className={styles.dialogHeaderBar}>
-                  <Dialog.Title className={styles.dialogTitle}>
-                    Atualizar Status do Pedido
-                  </Dialog.Title>
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    aria-label="Fechar modal de status"
-                    className={styles.dialogCloseButton}
-                  >
-                    <X size={20} aria-hidden="true" />
-                  </button>
-                </div>
-              </Dialog.Header>
-
-              <Dialog.Body padding="0">
-                {selectedOrder && (
-                  <div className={styles.modalContentBody}>
-                    <div className={styles.orderInfoCard}>
-                      <p>
-                        <span className={styles.orderInfoLabel}>Pedido:</span>{' '}
-                        <strong className={styles.orderInfoValue}>{selectedOrder.id}</strong>
-                      </p>
-                      <p>
-                        <span className={styles.orderInfoLabel}>Cliente:</span>{' '}
-                        <strong className={styles.orderInfoValue}>{selectedOrder.customerName}</strong>
-                      </p>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="order-status-select"
-                        className={styles.statusFieldLabel}
-                      >
-                        Novo Status
-                      </label>
-                      <select
-                        id="order-status-select"
-                        value={newStatus}
-                        onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
-                        className={styles.statusSelect}
-                      >
-                        {ALL_STATUSES.map((statusOption) => (
-                          <option key={statusOption} value={statusOption}>
-                            {statusOption}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className={styles.modalActions}>
-                      <button
-                        type="button"
-                        onClick={() => setIsModalOpen(false)}
-                        className={styles.modalCancelButton}
-                      >
-                        Cancelar
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleSaveStatus}
-                        className={styles.modalSaveButton}
-                      >
-                        Confirmar
-                      </button>
-                    </div>
+              <Dialog.Content
+                backgroundColor="var(--bg-surface)"
+                border="1px solid var(--border-app)"
+                borderRadius="0.75rem"
+                padding="1.5rem"
+                maxWidth="26rem"
+                width="100%"
+                color="var(--text-primary)"
+                boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.35)"
+              >
+                <Dialog.Header padding="0" marginBottom="1.25rem">
+                  <div className={styles.dialogHeaderBar}>
+                    <Dialog.Title className={styles.dialogTitle}>
+                      Atualizar Status do Pedido
+                    </Dialog.Title>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(false)}
+                      aria-label="Fechar modal de status"
+                      className={styles.dialogCloseButton}
+                    >
+                      <X size={20} aria-hidden="true" />
+                    </button>
                   </div>
-                )}
-              </Dialog.Body>
-            </Dialog.Content>
-          </Dialog.Positioner>
+                </Dialog.Header>
+
+                <Dialog.Body padding="0">
+                  {selectedOrder && (
+                    <div className={styles.modalContentBody}>
+                      <div className={styles.orderInfoCard}>
+                        <p>
+                          <span className={styles.orderInfoLabel}>Pedido:</span>{' '}
+                          <strong className={styles.orderInfoValue}>{selectedOrder.id}</strong>
+                        </p>
+                        <p>
+                          <span className={styles.orderInfoLabel}>Cliente:</span>{' '}
+                          <strong className={styles.orderInfoValue}>{selectedOrder.customerName}</strong>
+                        </p>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="order-status-select"
+                          className={styles.statusFieldLabel}
+                        >
+                          Novo Status
+                        </label>
+                        <select
+                          id="order-status-select"
+                          value={newStatus}
+                          onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
+                          className={styles.statusSelect}
+                        >
+                          {ALL_STATUSES.map((statusOption) => (
+                            <option key={statusOption} value={statusOption}>
+                              {statusOption}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className={styles.modalActions}>
+                        <button
+                          type="button"
+                          onClick={() => setIsModalOpen(false)}
+                          className={styles.modalCancelButton}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleSaveStatus}
+                          className={styles.modalSaveButton}
+                        >
+                          Confirmar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Dialog.Body>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
         </Dialog.Root>
       </div>
     </Layout>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AlertTriangle } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { formatDate } from '@/shared/utils/format'
 import styles from './styles.module.css'
@@ -61,51 +62,61 @@ export const UsersPage = () => {
   return (
     <Layout activeRoute="users" title="Usuários">
       <div className={styles.usersRoot}>
-        <div className={styles.pageHeader}>
-          <h2 className={styles.pageTitle}>Gestão de Usuários</h2>
-          <p className={styles.pageSubtitle}>
-            Visualize e gerencie as contas de clientes e administradores da plataforma.
-          </p>
+        {/* Construction Notice Banner */}
+        <div className={styles.constructionBanner} role="status">
+          <div className={styles.constructionBadge}>
+            <AlertTriangle className="h-4 w-4" aria-hidden="true" />
+            <span>Em Construção</span>
+          </div>
         </div>
 
-        <div className={styles.tableContainer}>
-          <div className={styles.tableWrapper}>
-            <table className={styles.table} aria-label="Tabela de Usuários">
-              <thead>
-                <tr>
-                  <th className={styles.th}>Nome</th>
-                  <th className={styles.th}>Email</th>
-                  <th className={styles.th}>Perfil</th>
-                  <th className={styles.th}>Status</th>
-                  <th className={styles.th}>Cadastrado Em</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className={styles.tableRow}>
-                    <td className={`${styles.td} ${styles.nameCell}`}>
-                      {user.name}
-                    </td>
-                    <td className={`${styles.td} ${styles.emailCell}`}>
-                      {user.email}
-                    </td>
-                    <td className={styles.td}>
-                      <span className={styles.roleBadge}>
-                        {user.role}
-                      </span>
-                    </td>
-                    <td className={styles.td}>
-                      <span className={user.status === 'Ativo' ? styles.statusActive : styles.statusInactive}>
-                        {user.status}
-                      </span>
-                    </td>
-                    <td className={`${styles.td} ${styles.dateCell}`}>
-                      {formatDate(user.createdAt)}
-                    </td>
+        <div className={styles.blurredArea}>
+          <div className={styles.pageHeader}>
+            <h2 className={styles.pageTitle}>Gestão de Usuários</h2>
+            <p className={styles.pageSubtitle}>
+              Visualize e gerencie as contas de clientes e administradores da plataforma.
+            </p>
+          </div>
+
+          <div className={styles.tableContainer}>
+            <div className={styles.tableWrapper}>
+              <table className={styles.table} aria-label="Tabela de Usuários">
+                <thead>
+                  <tr>
+                    <th className={styles.th}>Nome</th>
+                    <th className={styles.th}>Email</th>
+                    <th className={styles.th}>Perfil</th>
+                    <th className={styles.th}>Status</th>
+                    <th className={styles.th}>Cadastrado Em</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id} className={styles.tableRow}>
+                      <td className={`${styles.td} ${styles.nameCell}`}>
+                        {user.name}
+                      </td>
+                      <td className={`${styles.td} ${styles.emailCell}`}>
+                        {user.email}
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.roleBadge}>
+                          {user.role}
+                        </span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={user.status === 'Ativo' ? styles.statusActive : styles.statusInactive}>
+                          {user.status}
+                        </span>
+                      </td>
+                      <td className={`${styles.td} ${styles.dateCell}`}>
+                        {formatDate(user.createdAt)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

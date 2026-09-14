@@ -7,11 +7,11 @@
 }
 
 .pageTitle {
-  @apply text-2xl font-bold text-[#f8fafc] tracking-tight;
+  @apply text-2xl font-bold text-[var(--text-primary)] tracking-tight;
 }
 
 .pageSubtitle {
-  @apply text-sm text-[#94a3b8] mt-1;
+  @apply text-sm text-[var(--text-secondary)] mt-1;
 }
 
 .addButton {
@@ -23,9 +23,9 @@
 }
 
 .dialogTitle {
-  @apply text-xl font-bold text-[#f8fafc] tracking-tight m-0 leading-tight;
+  @apply text-xl font-bold text-[var(--text-primary)] tracking-tight m-0 leading-tight;
 }
 
 .dialogCloseButton {
-  @apply inline-flex items-center justify-center p-1.5 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] rounded-md transition-colors leading-none cursor-pointer;
+  @apply inline-flex items-center justify-center p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] rounded-md transition-colors leading-none cursor-pointer;
 }

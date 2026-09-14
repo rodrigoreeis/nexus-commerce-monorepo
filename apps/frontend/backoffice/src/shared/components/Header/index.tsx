@@ -1,4 +1,5 @@
-import { Bell, Shield } from 'lucide-react'
+import { Shield, Sun, Moon } from 'lucide-react'
+import { useTheme } from '@/shared/theme/provider'
 import styles from './styles.module.css'
 
 export type BackofficeRoute = 'dashboard' | 'users' | 'products' | 'home'
@@ -13,6 +14,8 @@ export interface HeaderProps {
 export const Header = ({
   title = 'Nexus Backoffice',
 }: HeaderProps) => {
+  const { theme, toggleTheme } = useTheme()
+
   return (
     <header className={styles.headerRoot} data-testid="backoffice-header">
       <div className={styles.titleContainer}>
@@ -22,10 +25,12 @@ export const Header = ({
       <div className={styles.userProfile}>
         <button
           type="button"
-          aria-label="Notificações"
-          className={styles.notificationButton}
+          aria-label={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+          title={theme === 'dark' ? 'Alternar para tema claro' : 'Alternar para tema escuro'}
+          onClick={toggleTheme}
+          className={styles.themeButton}
         >
-          <Bell size={18} />
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
         <div className={styles.divider} aria-hidden="true" />

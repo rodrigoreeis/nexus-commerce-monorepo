@@ -3,27 +3,27 @@
 }
 
 .errorBox {
-  @apply flex items-center gap-2 p-3 bg-red-950/60 border border-red-800 rounded-lg text-red-200 text-sm font-medium;
+  @apply flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-200 text-sm font-medium;
 }
 
 .successBox {
-  @apply flex items-center gap-2 p-3 bg-emerald-950/60 border border-emerald-800 rounded-lg text-emerald-200 text-sm font-medium;
+  @apply flex items-center gap-2 p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 rounded-lg text-emerald-600 dark:text-emerald-200 text-sm font-medium;
 }
 
 .fieldLabel {
-  @apply block text-sm font-medium text-[#e2e8f0] mb-1.5;
+  @apply block text-sm font-medium text-[var(--text-primary)] mb-1.5;
 }
 
 .textInput {
-  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg px-3 py-2 text-sm text-white placeholder-[#64748b] focus:outline-none focus:border-blue-500 transition-colors;
+  @apply w-full bg-[var(--bg-elevated)] border border-[var(--border-app)] rounded-lg px-3 py-2 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500 transition-colors;
 }
 
 .textarea {
-  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg p-3 text-sm text-white placeholder-[#64748b] focus:outline-none focus:border-blue-500 transition-colors;
+  @apply w-full bg-[var(--bg-elevated)] border border-[var(--border-app)] rounded-lg p-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500 transition-colors;
 }
 
 .uploadBox {
-  @apply w-full border-2 border-dashed border-[#334155] rounded-lg p-6 bg-[#0b1329] text-center relative flex flex-col items-center justify-center transition-colors;
+  @apply w-full border-2 border-dashed border-[var(--border-app)] rounded-lg p-6 bg-[var(--bg-elevated)] text-center relative flex flex-col items-center justify-center transition-colors;
 }
 
 .uploadBoxActive {
@@ -31,7 +31,7 @@
 }
 
 .cancelButton {
-  @apply w-full py-2.5 px-4 text-sm font-semibold rounded-lg border border-[#334155] text-[#94a3b8] hover:bg-[#1e293b] hover:text-white transition-colors flex items-center justify-center text-center cursor-pointer;
+  @apply w-full py-2.5 px-4 text-sm font-semibold rounded-lg border border-[var(--border-app)] text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)] transition-colors flex items-center justify-center text-center cursor-pointer;
 }
 
 .submitButton {
@@ -39,7 +39,7 @@
 }
 
 .requiredIndicator {
-  @apply text-red-400;
+  @apply text-red-500;
 }
 
 .descriptionHeader {
@@ -47,7 +47,7 @@
 }
 
 .charCounter {
-  @apply text-xs text-[#94a3b8];
+  @apply text-xs text-[var(--text-muted)];
 }
 
 .uploadEmptyState {
@@ -55,15 +55,15 @@
 }
 
 .uploadIconWrapper {
-  @apply flex items-center justify-center text-[#64748b] mb-1;
+  @apply flex items-center justify-center text-[var(--text-muted)] mb-1;
 }
 
 .uploadHelpText {
-  @apply text-xs text-[#94a3b8] text-center;
+  @apply text-xs text-[var(--text-secondary)] text-center;
 }
 
 .uploadSelectButton {
-  @apply mt-1 inline-flex items-center justify-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[#1e293b] text-[#f8fafc] border border-[#334155] hover:bg-[#334155] transition-colors cursor-pointer;
+  @apply mt-1 inline-flex items-center justify-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[var(--bg-surface)] text-[var(--text-primary)] border border-[var(--border-app)] hover:bg-[var(--border-app)] transition-colors cursor-pointer;
 }
 
 .previewContainer {
@@ -71,7 +71,7 @@
 }
 
 .previewImageBox {
-  @apply relative w-28 h-28 rounded-md overflow-hidden border border-[#334155] mx-auto;
+  @apply relative w-28 h-28 rounded-md overflow-hidden border border-[var(--border-app)] mx-auto bg-[var(--bg-elevated)];
 }
 
 .previewImage {
@@ -83,11 +83,11 @@
 }
 
 .previewFileName {
-  @apply text-xs text-[#94a3b8] truncate max-w-[200px];
+  @apply text-xs text-[var(--text-secondary)] truncate max-w-[200px];
 }
 
 .removeImageButton {
-  @apply inline-flex items-center gap-1 text-xs text-red-400 hover:text-red-300 px-2 py-0.5 rounded hover:bg-red-950/40 transition-colors cursor-pointer;
+  @apply inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-600 px-2 py-0.5 rounded hover:bg-red-100 dark:hover:bg-red-950/40 transition-colors cursor-pointer;
 }
 
 .actionButtons {

@@ -47,9 +47,6 @@ export const Sidebar = ({
             </span>
             <span className={styles.brandTitle}>Nexus Backoffice</span>
           </div>
-          <span className={styles.brandBadge} aria-label="Versão da aplicação">
-            v0.1.0
-          </span>
         </div>
 
         {/* Navigation Menu */}

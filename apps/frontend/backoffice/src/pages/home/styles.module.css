@@ -1,5 +1,22 @@
 .dashboardRoot {
-  @apply space-y-8;
+  @apply relative space-y-8 cursor-not-allowed select-none;
+  cursor: not-allowed !important;
+}
+
+.dashboardRoot * {
+  cursor: not-allowed !important;
+}
+
+.blurredArea {
+  @apply filter blur-[6px] opacity-40 select-none transition-all duration-300;
+}
+
+.constructionBanner {
+  @apply flex justify-center w-full;
+}
+
+.constructionBadge {
+  @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 font-medium text-sm shadow-sm backdrop-blur-sm;
 }
 
 .pageHeader {
@@ -7,11 +24,11 @@
 }
 
 .pageTitle {
-  @apply text-2xl font-bold text-[#f8fafc] tracking-tight;
+  @apply text-2xl font-bold text-[var(--text-primary)] tracking-tight;
 }
 
 .pageSubtitle {
-  @apply text-sm text-[#94a3b8] mt-1;
+  @apply text-sm text-[var(--text-secondary)] mt-1;
 }
 
 .metricsGrid {
@@ -19,7 +36,7 @@
 }
 
 .metricCard {
-  @apply bg-[#0f172a] border border-[#334155] rounded-xl p-6 relative overflow-hidden transition-all hover:border-[#475569];
+  @apply bg-[var(--bg-surface)] border border-[var(--border-app)] rounded-xl p-6 relative overflow-hidden transition-all hover:border-[var(--border-app)] shadow-sm;
 }
 
 .metricHeader {
@@ -27,7 +44,7 @@
 }
 
 .metricLabel {
-  @apply text-sm font-medium text-[#94a3b8];
+  @apply text-sm font-medium text-[var(--text-secondary)];
 }
 
 .metricIconWrapper {
@@ -35,27 +52,27 @@
 }
 
 .metricValue {
-  @apply text-3xl font-extrabold text-[#f8fafc] mt-4 tracking-tight;
+  @apply text-3xl font-extrabold text-[var(--text-primary)] mt-4 tracking-tight;
 }
 
 .metricSubtext {
-  @apply text-xs text-[#64748b] mt-2 flex items-center gap-1.5;
+  @apply text-xs text-[var(--text-muted)] mt-2 flex items-center gap-1.5;
 }
 
 .sectionContainer {
-  @apply bg-[#0f172a] border border-[#334155] rounded-xl overflow-hidden;
+  @apply bg-[var(--bg-surface)] border border-[var(--border-app)] rounded-xl overflow-hidden shadow-sm;
 }
 
 .sectionHeader {
-  @apply p-6 border-b border-[#1e293b] flex items-center justify-between;
+  @apply p-6 border-b border-[var(--border-subtle)] flex items-center justify-between;
 }
 
 .sectionTitle {
-  @apply text-lg font-bold text-[#f8fafc];
+  @apply text-lg font-bold text-[var(--text-primary)];
 }
 
 .sectionSubtitle {
-  @apply text-xs text-[#94a3b8] mt-0.5;
+  @apply text-xs text-[var(--text-secondary)] mt-0.5;
 }
 
 .tableWrapper {
@@ -67,35 +84,35 @@
 }
 
 .th {
-  @apply bg-[#1e293b] text-[#94a3b8] text-xs font-semibold uppercase tracking-wider py-3.5 px-6;
+  @apply bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-xs font-semibold uppercase tracking-wider py-3.5 px-6;
 }
 
 .td {
-  @apply py-4 px-6 border-b border-[#1e293b] text-sm text-[#f8fafc];
+  @apply py-4 px-6 border-b border-[var(--border-subtle)] text-sm text-[var(--text-primary)];
 }
 
 .statusBadgePendente {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20;
 }
 
 .statusBadgeProcessando {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-500 border border-blue-500/20;
 }
 
 .statusBadgeEnviado {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-500 border border-purple-500/20;
 }
 
 .statusBadgeEntregue {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20;
 }
 
 .statusBadgeCancelado {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20;
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-500 border border-rose-500/20;
 }
 
 .updateButton {
-  @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#1e293b] text-[#38bdf8] border border-[#334155] hover:bg-[#334155] hover:text-white transition-colors;
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--bg-elevated)] text-blue-600 border border-[var(--border-app)] hover:bg-[var(--border-app)] transition-colors;
 }
 
 .dialogHeaderBar {
@@ -103,15 +120,15 @@
 }
 
 .dialogTitle {
-  @apply text-lg font-bold text-[#f8fafc] m-0 leading-tight;
+  @apply text-lg font-bold text-[var(--text-primary)] m-0 leading-tight;
 }
 
 .dialogCloseButton {
-  @apply inline-flex items-center justify-center p-1.5 text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] rounded-md transition-colors leading-none cursor-pointer;
+  @apply inline-flex items-center justify-center p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] rounded-md transition-colors leading-none cursor-pointer;
 }
 
 .feedbackAlert {
-  @apply flex items-center gap-2 p-3.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-sm font-medium;
+  @apply flex items-center gap-2 p-3.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-sm font-medium;
 }
 
 .customerInfo {
@@ -123,75 +140,21 @@
 }
 
 .modalCancelButton {
-  @apply px-3.5 py-1.5 text-xs font-semibold text-[#94a3b8] hover:text-white rounded-lg border border-[#334155] transition-colors cursor-pointer;
+  @apply px-3.5 py-1.5 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-lg border border-[var(--border-app)] transition-colors cursor-pointer;
 }
 
 .modalSaveButton {
   @apply px-4 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-sm cursor-pointer;
 }
 
-.metricPositive {
-  @apply text-emerald-400 font-semibold;
+.emptyOrders {
+  @apply p-8 text-center text-sm text-[var(--text-secondary)];
 }
 
-.metricInfo {
-  @apply text-blue-400 font-semibold;
+.selectInput {
+  @apply w-full rounded-lg border border-[var(--border-app)] bg-[var(--bg-elevated)] text-[var(--text-primary)] px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500;
 }
 
-.metricCurrency {
-  @apply text-purple-400 font-semibold;
+.formLabel {
+  @apply block text-xs font-medium text-[var(--text-secondary)] mb-1;
 }
-
-.metricIconEmerald {
-  @apply bg-emerald-500/10 text-emerald-400;
-}
-
-.metricIconBlue {
-  @apply bg-blue-500/10 text-blue-400;
-}
-
-.metricIconPurple {
-  @apply bg-purple-500/10 text-purple-400;
-}
-
-.tableRow {
-  @apply hover:bg-[#1e293b]/50 transition-colors;
-}
-
-.orderIdCell {
-  @apply font-mono font-semibold text-blue-400;
-}
-
-.customerName {
-  @apply font-semibold text-[#f8fafc];
-}
-
-.customerEmail {
-  @apply text-xs text-[#64748b];
-}
-
-.modalContentBody {
-  @apply space-y-4;
-}
-
-.orderInfoCard {
-  @apply p-3 rounded-lg bg-[#1e293b] border border-[#334155] text-xs space-y-1;
-}
-
-.orderInfoLabel {
-  @apply text-[#94a3b8];
-}
-
-.orderInfoValue {
-  @apply text-white font-bold;
-}
-
-.statusFieldLabel {
-  @apply block text-xs font-semibold text-[#94a3b8] mb-1.5 uppercase tracking-wider;
-}
-
-.statusSelect {
-  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500;
-}
-
-

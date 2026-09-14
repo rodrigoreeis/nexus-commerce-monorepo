@@ -62,14 +62,14 @@ export const ProductsPage = () => {
           <Dialog.Backdrop backgroundColor="rgba(0, 0, 0, 0.75)" backdropFilter="blur(4px)" />
           <Dialog.Positioner>
             <Dialog.Content
-              backgroundColor="#0f172a"
-              border="1px solid #334155"
+              backgroundColor="var(--bg-surface)"
+              border="1px solid var(--border-app)"
               borderRadius="0.75rem"
               padding="1.5rem"
               maxWidth="32rem"
               width="100%"
-              color="#f8fafc"
-              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+              color="var(--text-primary)"
+              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.25)"
             >
               <Dialog.Header padding="0" marginBottom="1.25rem">
                 <div className={styles.dialogHeaderBar}>

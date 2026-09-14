@@ -1,5 +1,5 @@
 .headerRoot {
-  @apply h-16 bg-[#0f172a] border-b border-[#334155] px-6 flex items-center justify-between;
+  @apply h-16 bg-[var(--bg-surface)] border-b border-[var(--border-app)] px-6 flex items-center justify-between transition-colors duration-200;
 }
 
 .titleContainer {
@@ -7,19 +7,19 @@
 }
 
 .headerTitle {
-  @apply text-base font-semibold text-[#f8fafc];
+  @apply text-base font-semibold text-[var(--text-primary)];
 }
 
 .userProfile {
   @apply flex items-center gap-3;
 }
 
-.notificationButton {
-  @apply flex items-center justify-center p-1.5 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] transition-colors cursor-pointer;
+.themeButton {
+  @apply flex items-center justify-center p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors cursor-pointer;
 }
 
 .divider {
-  @apply h-6 w-px bg-[#334155];
+  @apply h-6 w-px bg-[var(--border-app)];
 }
 
 .userDetails {
@@ -35,9 +35,9 @@
 }
 
 .userName {
-  @apply text-sm font-medium text-[#f8fafc] leading-none;
+  @apply text-sm font-medium text-[var(--text-primary)] leading-none;
 }
 
 .userRole {
-  @apply text-xs text-[#94a3b8] mt-1 leading-none;
+  @apply text-xs text-[var(--text-secondary)] mt-1 leading-none;
 }
