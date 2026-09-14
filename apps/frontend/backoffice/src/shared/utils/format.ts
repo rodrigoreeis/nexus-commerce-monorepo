@@ -11,7 +11,8 @@ export const formatCurrency = (
   currency: string = 'USD',
   locale: string = 'en-US'
 ): string => {
-  if (amount === undefined || amount === null || Number.isNaN(amount)) {
+  const isInvalidAmount = amount === undefined || amount === null || Number.isNaN(amount)
+  if (isInvalidAmount) {
     return '$0.00'
   }
 
@@ -28,9 +29,37 @@ export const formatCurrency = (
  * @returns The string with its initial letter capitalized.
  */
 export const capitalizeText = (value?: string | null): string => {
-  if (!value) {
+  const hasValue = Boolean(value)
+  if (!hasValue) {
     return ''
   }
 
-  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`
+  const safeValue = value!
+  return `${safeValue.charAt(0).toUpperCase()}${safeValue.slice(1)}`
+}
+
+/**
+ * Formats an ISO date string into a localized readable date.
+ *
+ * @param dateString - The ISO date string to format.
+ * @param locale - The BCP 47 language tag (defaults to 'en-US').
+ * @returns The formatted date string.
+ */
+export const formatDate = (dateString?: string | null, locale: string = 'en-US'): string => {
+  const hasDateString = Boolean(dateString)
+  if (!hasDateString) {
+    return '—'
+  }
+
+  const parsedDate = new Date(dateString!)
+  const isInvalidDate = Number.isNaN(parsedDate.getTime())
+  if (isInvalidDate) {
+    return '—'
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  }).format(parsedDate)
 }

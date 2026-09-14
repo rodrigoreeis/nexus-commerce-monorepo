@@ -5,6 +5,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^lucide-react$': require.resolve('lucide-react'),
   },
   transform: {
     '^.+\\.tsx?$': [
@@ -19,6 +20,7 @@ module.exports = {
           allowSyntheticDefaultImports: true,
           skipLibCheck: true,
           baseUrl: '.',
+          types: ['@testing-library/jest-dom', 'jest'],
           paths: {
             '@/*': ['src/*'],
           },

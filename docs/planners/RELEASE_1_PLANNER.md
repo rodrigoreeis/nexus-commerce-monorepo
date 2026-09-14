@@ -48,18 +48,18 @@ flowchart TD
   - `apps/backend/bruno/admin/List Products.bru`
   - `apps/backend/bruno/store/List Products.bru`
 
-### Backoffice (React 19 + Vite 8 + Chakra UI v3)
-- [ ] Criar serviço de API para catálogo (`src/shared/services/products.ts`) com suporte a `FormData`.
-- [ ] Implementar formulário de cadastro de produtos com input de arquivo, preview da imagem e validação visual de campos obrigatórios.
-- [ ] Implementar tabela de listagem interna de produtos com thumbnail da imagem, nome, preço e data.
-- [ ] Criar testes unitários com Jest e Testing Library para formulário e listagem.
+### Backoffice (React 19 + Vite 8 + Chakra UI v3 + TanStack Query + Axios)
+- [x] Criar serviço de API para catálogo (`src/shared/services/products.ts`) com suporte a `FormData`, Axios e TanStack React Query.
+- [x] Implementar formulário de cadastro de produtos com input de arquivo, preview da imagem e validação visual de campos obrigatórios.
+- [x] Implementar tabela de listagem interna de produtos com thumbnail da imagem, nome, preço e data.
+- [x] Criar testes unitários com Jest e Testing Library para formulário e listagem.
 
-### Storefront (Next.js 16 + React 19 + TailwindCSS)
-- [ ] Criar cliente de catálogo e helper de resolução de URL de imagens em `src/shared/services/catalog.ts`.
-- [ ] Implementar componente `ProductCard` com exibição de imagem e fallback visual.
-- [ ] Implementar componente `ProductGrid` com tratamento de loading e empty state.
-- [ ] Integrar a vitrine real na página inicial (`src/app/page.tsx`).
-- [ ] Criar testes unitários com Jest e Testing Library para `ProductCard` e `ProductGrid`.
+### Storefront (Next.js 16 + React 19 + TailwindCSS + TanStack Query + Axios)
+- [x] Criar cliente de catálogo e helper de resolução de URL de imagens em `src/shared/services/catalog.ts` com Axios e hook `useStoreProducts`.
+- [x] Implementar componente `ProductCard` com exibição de imagem e fallback visual.
+- [x] Implementar componente `ProductGrid` com tratamento de loading e empty state.
+- [x] Integrar a vitrine real na página inicial (`src/app/page.tsx`).
+- [x] Criar testes unitários com Jest e Testing Library para `ProductCard` e `ProductGrid`.
 
 ---
 

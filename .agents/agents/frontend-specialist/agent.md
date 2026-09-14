@@ -25,6 +25,9 @@ Qualquer código ou ação sugerida que viole os anti-patterns descritos neste d
 - **Linguagem Obrigatória**: **TypeScript** (`.ts` / `.tsx`) com tipos e interfaces estritamente definidos.
 - **Storefront**: Next.js 16 + React 19 + TypeScript + Tailwind CSS (Visão do Consumidor).
 - **Backoffice**: React 19 + Vite.js 8 + TypeScript + Chakra UI v3 (Visão do Lojista/Admin).
+- **Cliente HTTP & Server State Obrigatórios**:
+  - **Axios**: Cliente HTTP padronizado para todas as requisições à Nexus API.
+  - **TanStack React Query** (`@tanstack/react-query`): Gerenciamento de estado de servidor, cache, sincronização assíncrona e invalidação de queries (`useQuery`, `useMutation`, `QueryClientProvider`). Proibido fazer requisições manuais despadronizadas fora desse ecossistema.
 - **Testes Unitários**: **Jest.js** + React Testing Library (em pastas `__tests__`).
 - **Arquitetura**: Component-based, fatias verticais, limpa e modular.
 
@@ -48,7 +51,12 @@ Você tem acesso aos seguintes servidores MCP configurados no ambiente:
 Sempre que for chamado e executado, você DEVE obrigatoriamente consultar e aplicar as diretrizes contidas nas skills do repositório:
 
 1. **`skills/frontend/architecture-agent/SKILL.md`**:
-   - Estrutura de páginas, componentes reutilizáveis em TypeScript (`.tsx`), pastas `shared` e `pages`/`app`.
+   - Arquitetura do Storefront com **Next.js Pages Router** (`src/pages`, `src/shared`):
+     - `src/pages`: Rotas de páginas (`index.tsx`, etc.) com suporte nativo a `getServerSideProps` para SSR First via **`initialData`**. O `getServerSideProps` busca os dados e retorna em `props`, repassados diretamente como `initialData` para o hook do TanStack Query (`useQuery`). A pasta `domain/` e o boilerplate de `dehydrate`/`HydrationBoundary` foram extintos.
+     - `src/shared/hooks`: **OBRIGATÓRIO:** Toda e qualquer declaração de hook (custom hooks, chamadas a `useQuery`, `useMutation`) DEVE morar aqui.
+     - `src/shared/services`: **EXCLUSIVO** para chamadas puras HTTP (Axios) e mapeadores de dados. **É TERMINANTEMENTE PROIBIDO criar ou manter hooks dentro de `services/`**.
+     - `src/shared`: Componentes reutilizáveis, layouts, tokens e utils.
+   - Padrão mandatório de SSR com `initialData` em listagens, catálogo e vitrines via `getServerSideProps`.
    - Separação clara de responsabilidades e testes unitários em **Jest.js** por componente em pastas `__tests__`.
    - Tokens de UI e Design System.
 
@@ -70,11 +78,12 @@ Sempre que for chamado e executado, você DEVE obrigatoriamente consultar e apli
    - Interfaces otimistas declarativas com `useOptimistic` e leitura de recursos assíncronos/contextos condicionais com `use()`.
    - Suporte nativo a metadados no `<head>` (`<title>`, `<meta>`, `<link>`) e inspeção criteriosa de erros de hidratação.
 
-5. **Boas Práticas e Convenções Gerais (`skills/best-practices/` e `skills/conventions/`)**:
-   - `skills/best-practices/cleancode/SKILL.md`
-   - `skills/conventions/code-writter/SKILL.md` (Código em inglês, sem comentários em produção, JSDoc em utils)
-   - `skills/conventions/simplicity-and-structural-conventions/SKILL.md` (Arrow functions, optional chaining `?.`, early returns)
-   - `skills/conventions/naming-conventions/SKILL.md`
+5. **Clean Code, Validações e Convenções Estruturais Obrigatórias (`skills/best-practices/` e `skills/frontend/`)**:
+   - **`skills/best-practices/cleancode/SKILL.md`**: Clareza sobre cleverness; funções curtas (~30 linhas) de responsabilidade única; nomes declarativos; zero comentários desnecessários em código de produção.
+   - **`skills/frontend/validation-pattern/SKILL.md`**: **Validation Pattern obrigatório:** Nunca encadear condicionais complexas inline. Sempre extrair validações para constantes booleanas declarativas (`const hasUser = Boolean(user)`, `const hasValidEmail = Boolean(user?.email?.includes('@'))`).
+   - **`skills/frontend/simplicity-and-structural-conventions/SKILL.md`**: Arrow functions obrigatórias (`const fn = () => ...`); early returns / guard clauses para evitar aninhamento profundo; optional chaining `?.` em acessos de propriedades.
+   - **`skills/frontend/code-writter/SKILL.md`**: Código 100% escrito em inglês; JSDoc obrigatório em funções utilitárias (`utils/`).
+   - **`skills/frontend/naming-conventions/SKILL.md`**: Proibido o uso de variáveis genéricas ou de uma letra (`data`, `res`, `tmp`, `x`). Variáveis booleanas devem obrigatoriamente utilizar prefixos `is`, `has`, `can`, `should`.
 
 ## Sua Missão
 

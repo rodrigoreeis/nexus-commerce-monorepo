@@ -14,6 +14,9 @@ As interfaces de usuário são divididas em duas aplicações distintas para ate
 
 - **Storefront (Vitrine):** Construído com **Next.js 16** e **React 19**. Foco em alta performance, otimização de motores de busca (SEO) e renderização no lado do servidor (SSR/Turbopack).
 - **Backoffice (Painel Admin):** Construído com **React 19 + Vite 8**. Trata-se de uma Single Page Application (SPA) clássica, focada na dinamicidade de formulários, tabelas e gestão de estado no lado do cliente.
+- **Padrão de Comunicação e Estado de Servidor:**
+  - **Cliente HTTP:** **Axios** é o cliente HTTP padronizado para todas as requisições para a Nexus API Go.
+  - **Server State & Cache:** **TanStack React Query** (`@tanstack/react-query`) é obrigatório para gerenciamento de cache assíncrono, estados de loading/error, sincronização e invalidação reativa de queries em ambas as aplicações.
 
 ### 2.2. Back-end (Nexus API)
 

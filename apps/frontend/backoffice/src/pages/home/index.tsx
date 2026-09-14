@@ -1,5 +1,5 @@
 import { Box, SimpleGrid, Text } from '@chakra-ui/react'
-import { Layout } from '@/shared/components/layout/layout'
+import { Layout } from '@/shared/components/Layout/Layout'
 
 interface MetricCardProps {
   label: string
@@ -37,7 +37,7 @@ const MetricCard = ({ label, value, subtext }: MetricCardProps) => {
 
 export const HomePage = () => {
   return (
-    <Layout>
+    <Layout activeRoute="home">
       <Box marginBottom="2rem">
         <Text
           as="h2"

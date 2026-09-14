@@ -11,7 +11,8 @@ export const formatStorePrice = (
   currency: string = 'USD',
   locale: string = 'en-US'
 ): string => {
-  if (amount === undefined || amount === null || Number.isNaN(amount)) {
+  const isInvalidAmount = amount === undefined || amount === null || Number.isNaN(amount)
+  if (isInvalidAmount) {
     return '$0.00'
   }
 
@@ -32,13 +33,15 @@ export const truncateDescription = (
   text?: string | null,
   maxLength: number = 80
 ): string => {
-  if (!text) {
+  const hasText = Boolean(text)
+  if (!hasText) {
     return ''
   }
 
-  if (text.length <= maxLength) {
-    return text
+  const isWithinLengthLimit = (text?.length ?? 0) <= maxLength
+  if (isWithinLengthLimit) {
+    return text!
   }
 
-  return `${text.slice(0, maxLength)}…`
+  return `${text!.slice(0, maxLength)}…`
 }

@@ -1,4 +1,4 @@
-import { capitalizeText, formatCurrency } from '../format'
+import { capitalizeText, formatCurrency, formatDate } from '../format'
 
 describe('format utilities', () => {
   describe('formatCurrency', () => {
@@ -21,6 +21,21 @@ describe('format utilities', () => {
     it('returns empty string when input is missing', () => {
       expect(capitalizeText(undefined)).toBe('')
       expect(capitalizeText('')).toBe('')
+    })
+  })
+
+  describe('formatDate', () => {
+    it('formats an ISO date correctly', () => {
+      const result = formatDate('2026-09-13T12:00:00Z', 'en-US')
+      expect(result).toContain('2026')
+      expect(result).toContain('Sep')
+      expect(result).toContain('13')
+    })
+
+    it('returns fallback dash on invalid or empty date', () => {
+      expect(formatDate(undefined)).toBe('—')
+      expect(formatDate('')).toBe('—')
+      expect(formatDate('invalid-date')).toBe('—')
     })
   })
 })
