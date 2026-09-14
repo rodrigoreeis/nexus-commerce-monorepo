@@ -1,17 +1,19 @@
 export const colors = {
   store: {
-    background: '#0b0f19',
-    surface: '#111827',
-    elevated: '#1f2937',
-    border: '#374151',
+    background: '#f8fafc',
+    surface: '#ffffff',
+    elevated: '#f1f5f9',
+    border: '#e2e8f0',
   },
   content: {
-    primary: '#f9fafb',
-    secondary: '#9ca3af',
-    muted: '#6b7280',
-    inverse: '#111827',
+    primary: '#0f172a',
+    secondary: '#475569',
+    muted: '#94a3b8',
+    inverse: '#ffffff',
   },
   accent: {
+    blue: '#2563eb',
+    blueHover: '#1d4ed8',
     emerald: '#10b981',
     emeraldHover: '#059669',
     gold: '#f59e0b',

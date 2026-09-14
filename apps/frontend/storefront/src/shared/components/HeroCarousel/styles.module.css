@@ -1,0 +1,60 @@
+.carouselWrapper {
+  @apply relative w-full bg-slate-50 py-4 sm:py-6 border-b border-slate-200/60;
+}
+
+.carouselContainer {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Fixed height to eliminate Cumulative Layout Shift (CLS) */
+.slideViewport {
+  @apply relative w-full h-[260px] sm:h-[360px] md:h-[440px] overflow-hidden rounded-2xl bg-slate-200 shadow-sm;
+}
+
+.slideTrack {
+  @apply relative w-full h-full;
+}
+
+.slideItem {
+  @apply absolute inset-0 w-full h-full transition-opacity duration-500 ease-in-out;
+}
+
+.slideVisible {
+  @apply opacity-100 z-10;
+}
+
+.slideHidden {
+  @apply opacity-0 z-0 pointer-events-none;
+}
+
+.slideLink {
+  @apply block w-full h-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600 focus-visible:ring-inset;
+}
+
+.slideImage {
+  @apply w-full h-full object-cover select-none;
+}
+
+.navArrowPrev {
+  @apply absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-800 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-blue-600 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600;
+}
+
+.navArrowNext {
+  @apply absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-slate-800 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-blue-600 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600;
+}
+
+.dotsWrapper {
+  @apply absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-slate-900/40 px-3.5 py-1.5 backdrop-blur-sm;
+}
+
+.dotButton {
+  @apply h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
+}
+
+.dotActive {
+  @apply w-7 bg-white;
+}
+
+.dotInactive {
+  @apply w-2.5 bg-white/50 hover:bg-white/80;
+}

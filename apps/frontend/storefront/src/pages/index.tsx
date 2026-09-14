@@ -1,8 +1,10 @@
 import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { Sparkles } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
-import { ProductGrid } from '@/shared/components/ProductGrid'
+import { Container } from '@/shared/components/Container'
+import { HeroCarousel } from '@/shared/components/HeroCarousel'
+import { HighlightCards } from '@/shared/components/HighlightCards'
+import { ProductCarousel } from '@/shared/components/ProductCarousel'
 import { useStoreProducts } from '@/shared/hooks/useStoreProducts'
 import { getStoreProducts, type Product } from '@/shared/services/catalog'
 import styles from './index.module.css'
@@ -34,61 +36,27 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
   return (
     <>
       <Head>
-        <title>Nexus Commerce</title>
-        <meta name="description" content="A experiência de e-commerce modular de última geração" />
+        <title>Nexus Commerce | Loja Oficial</title>
+        <meta
+          name="description"
+          content="A experiência definitiva de compras online com catálogo moderno, entrega rápida e garantia."
+        />
       </Head>
       <Layout>
-        {/* Hero Section */}
-        <div className={styles.heroWrapper}>
-          <div className={styles.badge}>
-            <span className={styles.badgeDot} aria-hidden="true" />
-            Plataforma Live Release 0
+        <h1 className="sr-only">Nexus Commerce - Loja Oficial</h1>
+        <HeroCarousel />
+        <Container>
+          <div className={styles.highlightsWrapper}>
+            <HighlightCards />
           </div>
-
-          <h1 className={styles.heroTitle}>
-            Bem-vindo ao <span className={styles.heroTitleAccent}>Nexus Commerce</span>
-          </h1>
-
-          <p className={styles.heroDescription}>
-            A experiência de e-commerce modular de última geração. Explore nosso catálogo de alta performance.
-          </p>
-
-          <div className={styles.heroActions}>
-            <a
-              href="#catalog"
-              className={styles.primaryButton}
-            >
-              Explorar Catálogo
-            </a>
-            <a
-              href="#catalog"
-              className={styles.secondaryButton}
-            >
-              Ver Categorias <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Catalog Section */}
-        <section
-          id="catalog"
-          className={styles.catalogSection}
-        >
-          <div className={styles.catalogHeader}>
-            <div className={styles.catalogBadge}>
-              <Sparkles className={styles.catalogBadgeIcon} aria-hidden="true" />
-              Catálogo Curado
-            </div>
-            <h2 className={styles.catalogTitle}>
-              Produtos em Destaque
-            </h2>
-            <p className={styles.catalogSubtitle}>
-              Descubra nossa seleção de equipamentos e acessórios premium, entregues com máxima performance.
-            </p>
-          </div>
-
-          <ProductGrid products={products} isLoading={isLoading} error={errorMessage} />
-        </section>
+          <section id="produtos" className={styles.productsSection}>
+            <ProductCarousel
+              products={products}
+              isLoading={isLoading}
+              error={errorMessage}
+            />
+          </section>
+        </Container>
       </Layout>
     </>
   )

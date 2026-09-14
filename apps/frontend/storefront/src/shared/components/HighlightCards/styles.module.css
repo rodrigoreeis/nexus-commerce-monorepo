@@ -1,0 +1,43 @@
+.highlightGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.card {
+  @apply flex items-center gap-4 rounded-xl border border-slate-200/80 bg-white p-5 shadow-sm;
+}
+
+.iconWrapper {
+  @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl;
+}
+
+.iconWrapperBlue {
+  @apply bg-blue-50 text-blue-600;
+}
+
+.iconWrapperEmerald {
+  @apply bg-emerald-50 text-emerald-600;
+}
+
+.iconWrapperIndigo {
+  @apply bg-indigo-50 text-indigo-600;
+}
+
+.iconWrapperAmber {
+  @apply bg-amber-50 text-amber-600;
+}
+
+.icon {
+  @apply h-6 w-6 stroke-[1.75];
+}
+
+.contentWrapper {
+  @apply min-w-0 flex-1;
+}
+
+.title {
+  @apply text-sm font-bold text-slate-900 leading-snug;
+}
+
+.description {
+  @apply mt-0.5 text-xs text-slate-500 leading-relaxed;
+}

@@ -42,7 +42,7 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
   })
 
   describe('HomePage Component', () => {
-    it('renders the storefront page with products passed via initialData and Portuguese UI', () => {
+    it('renders the storefront page with products passed via initialData, HeroCarousel, and HighlightCards', () => {
       const mockProducts = [
         {
           id: 'prod-1',
@@ -62,10 +62,21 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
       render(<HomePage products={mockProducts} />)
 
       expect(catalogHook.useStoreProducts).toHaveBeenCalledWith(mockProducts)
+
+      // Page Heading & Hero Carousel Image Banner
       expect(
-        screen.getByRole('heading', { level: 1, name: /Bem-vindo ao Nexus Commerce/i })
+        screen.getByRole('heading', { level: 1, name: /Nexus Commerce - Loja Oficial/i })
       ).toBeInTheDocument()
-      expect(screen.getByRole('heading', { level: 2, name: /Produtos em Destaque/i })).toBeInTheDocument()
+      expect(
+        screen.getByAltText(/Banner Promocional: Tecnologia e Equipamentos/i)
+      ).toBeInTheDocument()
+
+      // Highlight Cards
+      expect(screen.getByText('Frete Grátis Brasil')).toBeInTheDocument()
+      expect(screen.getByText('5% OFF no Pix')).toBeInTheDocument()
+
+      // Product Carousel
+      expect(screen.getByRole('heading', { level: 2, name: /Ofertas em Destaque/i })).toBeInTheDocument()
       expect(screen.getByText('Gaming Headset Pro')).toBeInTheDocument()
       expect(screen.getByText(/R\$\s*199,99/)).toBeInTheDocument()
     })

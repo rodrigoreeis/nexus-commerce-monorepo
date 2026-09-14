@@ -12,9 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <div className={styles.layoutRoot}>
       <Header />
       <main className={styles.mainContent}>
-        <Container>
-          {children}
-        </Container>
+        {children}
       </main>
       <footer className={styles.footer}>
         <Container>

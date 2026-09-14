@@ -1,3 +1,31 @@
+.section {
+  @apply w-full;
+}
+
+.headerContainer {
+  @apply mb-6 flex items-center justify-between gap-4;
+}
+
+.headerTextWrapper {
+  @apply min-w-0;
+}
+
+.title {
+  @apply text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-pretty;
+}
+
+.controlsWrapper {
+  @apply flex items-center gap-3 shrink-0;
+}
+
+.pageIndicator {
+  @apply text-xs font-semibold text-slate-500 tabular-nums px-2 py-1 bg-slate-100 rounded-lg;
+}
+
+.navButton {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600;
+}
+
 .gridContainer {
   @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
 }
@@ -58,10 +86,6 @@
   @apply mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-600 mb-3;
 }
 
-.errorIcon {
-  @apply h-6 w-6;
-}
-
 .errorTitle {
   @apply text-base font-semibold text-slate-900;
 }
@@ -76,10 +100,6 @@
 
 .emptyIconWrapper {
   @apply mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-500 mb-4;
-}
-
-.emptyIcon {
-  @apply h-7 w-7;
 }
 
 .emptyTitle {

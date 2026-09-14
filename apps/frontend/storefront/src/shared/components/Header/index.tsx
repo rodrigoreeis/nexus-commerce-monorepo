@@ -22,27 +22,6 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                 Nexus Commerce
               </span>
             </a>
-
-            <nav className={styles.navigation} aria-label="Navegação principal">
-              <a
-                href="#catalog"
-                className={styles.navLink}
-              >
-                Catálogo
-              </a>
-              <a
-                href="#categories"
-                className={styles.navLink}
-              >
-                Categorias
-              </a>
-              <a
-                href="#about"
-                className={styles.navLink}
-              >
-                Sobre
-              </a>
-            </nav>
           </div>
 
           <div className={styles.actionsWrapper}>
@@ -52,7 +31,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
               aria-label={`Carrinho de compras com ${cartItemCount} itens`}
             >
               <ShoppingBag className={styles.cartIcon} aria-hidden="true" />
-              <span>Carrinho</span>
+              <span className={styles.cartLabel}>Carrinho</span>
               <span
                 className={styles.cartBadge}
                 aria-hidden="true"
