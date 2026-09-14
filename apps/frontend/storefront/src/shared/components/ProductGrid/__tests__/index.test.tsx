@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { ProductGrid } from '../ProductGrid'
+import { ProductGrid } from '../index'
 import { Product } from '@/shared/services/catalog'
 
 describe('ProductGrid component', () => {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { AppProvider } from '@/shared/theme/provider'
-import { Header } from '../Header'
+import { Header } from '../index'
 
 describe('Header component', () => {
   it('renders institutional title and online status indicator', () => {

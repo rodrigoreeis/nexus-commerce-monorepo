@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import styles from './styles.module.css'
 
 export interface ContainerProps {
   children?: ReactNode
@@ -6,7 +7,7 @@ export interface ContainerProps {
 }
 
 export const Container = ({ children, className = '' }: ContainerProps) => {
-  const containerClasses = `mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`.trim()
+  const containerClasses = `${styles.containerRoot} ${className}`.trim()
 
   return (
     <div className={containerClasses} data-testid="storefront-container">

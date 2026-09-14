@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { AppProvider } from '@/shared/theme/provider'
-import { Layout } from '../Layout'
+import { Layout } from '../index'
 
 describe('Layout component', () => {
   it('renders header and main children correctly', () => {

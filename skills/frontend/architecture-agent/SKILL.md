@@ -37,7 +37,7 @@ O Storefront e o Backoffice adotam uma estrutura modular direta sob `src/`. A re
 src/
 ├── pages/        # Rotas da aplicação em kebab-case (_app.tsx, _document.tsx, index.tsx, pagina-inicial.tsx)
 ├── shared/       # Recursos compartilhados e reutilizáveis
-│   ├── components/ # Componentes em PascalCase (Container/Container.tsx, ProductCard/ProductCard.tsx)
+│   ├── components/ # Pastas em PascalCase contendo index.tsx e styles.module.css
 │   ├── hooks/      # Hooks em camelCase com use (useStoreProducts.ts, useAdminProducts.ts)
 │   ├── services/   # EXCLUSIVO para chamadas puras de API/Axios (PROIBIDO CONTER HOOKS)
 │   ├── theme/      # Tokens de design system e provedores de tema
@@ -53,8 +53,13 @@ src/
 > - **`src/shared/services/`**: Funções TypeScript puras que executam requisições HTTP (Axios), tipagens de requisição/resposta (`ApiResponse<T>`) e mapeadores (`mapApiProductToProduct`). Não importam React nem `@tanstack/react-query`.
 > - **`src/shared/hooks/`**: Todos os custom hooks e hooks de chamadas do TanStack Query (`useQuery`, `useMutation`, etc.), sempre em **camelCase** com prefixo `use` (ex: `useStoreProducts.ts` e `useAdminProducts.ts`).
 
-### 2.2. Convenção de Nomenclatura de Arquivos
-- **Componentes (`components/`)**: Pastas e arquivos em **PascalCase** (ex: `components/Container/Container.tsx`, `components/ProductCard/ProductCard.tsx`).
+### 2.2. Convenção de Nomenclatura de Arquivos e CSS Modules
+- **Componentes (`components/`)**:
+  - Pasta em **PascalCase** (ex: `components/Container/`, `components/ProductCard/`).
+  - Arquivo do componente deve ser **SEMPRE `index.tsx`** (ou `index.ts`).
+  - **NUNCA replicar o nome do arquivo com o mesmo nome da pasta!** (Proibido: `Container/Container.tsx`; Correto: `Container/index.tsx`).
+  - Estilos em **CSS Modules com `@apply` do Tailwind**: Arquivo chamado obrigatoriamente **`styles.module.css`**. É proibido poluir o JSX com listas longas de classes inline.
+  - Testes do componente: `__tests__/index.test.tsx`.
 - **Hooks (`hooks/`)**: Arquivos em **camelCase** iniciando com `use` (ex: `hooks/useStoreProducts.ts`, `hooks/useGetProducts.ts`).
 - **Páginas e Rotas (`pages/`)**: **kebab-case** é **exclusivo** para nomes de páginas e rotas (ex: `pages/index.tsx`, `pages/pagina-inicial.tsx`).
 - **Serviços e Utilitários (`services/`, `utils/`)**: Arquivos em **camelCase** (ex: `services/catalog.ts`, `utils/format.ts`).
@@ -64,7 +69,7 @@ src/
 | Pasta | Natureza | Responsabilidade | O que contém |
 | :--- | :--- | :--- | :--- |
 | `src/pages/` | **Páginas & SSR (kebab-case)** | Rotas e ciclo de vida da tela. No Storefront, executa `getServerSideProps` para SSR inicial e repassa dados como `initialData`. | `_app.tsx`, `_document.tsx`, `index.tsx`, `pagina-inicial.tsx`. |
-| `src/shared/components/` | **UI Reutilizável (PascalCase)** | Componentes visuais desacoplados de regras de transporte HTTP. | `Layout/Layout.tsx`, `Header/Header.tsx`, `ProductCard/ProductCard.tsx`, `ProductGrid/ProductGrid.tsx`, `Container/Container.tsx`. |
+| `src/shared/components/` | **UI Reutilizável (PascalCase)** | Componentes visuais desacoplados de transporte HTTP, estruturados com `index.tsx` e `styles.module.css`. | `Layout/index.tsx`, `Header/index.tsx`, `ProductCard/index.tsx`, `ProductGrid/index.tsx`, `Container/index.tsx`. |
 | `src/shared/hooks/` | **Hooks & React Query (camelCase)** | Hooks de dados e estados de UI. Encapsulam `useQuery`, `useMutation`, `useCallback`, etc. | `useStoreProducts.ts`, `useAdminProducts.ts`. |
 | `src/shared/services/` | **APIs & HTTP Puro (camelCase)** | Funções assíncronas puras usando cliente Axios. Zero dependência de React ou hooks. | `catalog.ts`, `products.ts`, `api.ts`. |
 | `src/shared/utils/` | **Utilitários Puros (camelCase)** | Funções auxiliares puras com tipagem forte e JSDoc obrigatório. | `format.ts` (`formatStorePrice`, `truncateDescription`). |

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Box } from '@chakra-ui/react'
-import { BackofficeRoute, Header } from '@/shared/components/Header/Header'
-import { Container } from '@/shared/components/Container/Container'
+import { BackofficeRoute, Header } from '@/shared/components/Header'
+import { Container } from '@/shared/components/Container'
 
 export interface LayoutProps {
   children?: ReactNode

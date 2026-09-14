@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Container } from '../Container'
+import { Container } from '../index'
 
 describe('Storefront Container component', () => {
   it('renders children with responsive container styles', () => {

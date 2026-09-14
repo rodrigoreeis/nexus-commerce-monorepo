@@ -1,5 +1,5 @@
 import { Box, SimpleGrid, Text } from '@chakra-ui/react'
-import { Layout } from '@/shared/components/Layout/Layout'
+import { Layout } from '@/shared/components/Layout'
 
 interface MetricCardProps {
   label: string

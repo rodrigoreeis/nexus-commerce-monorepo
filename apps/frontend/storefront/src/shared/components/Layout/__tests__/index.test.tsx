@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Layout } from '../Layout'
+import { Layout } from '../index'
 
 describe('Storefront Layout component', () => {
   it('renders header, main content, and footer', () => {

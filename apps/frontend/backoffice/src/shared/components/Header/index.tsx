@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Flex, Text } from '@chakra-ui/react'
-import { Container } from '@/shared/components/Container/Container'
+import { Container } from '@/shared/components/Container'
 
 export type BackofficeRoute = 'home' | 'products'
 

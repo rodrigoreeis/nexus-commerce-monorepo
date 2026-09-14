@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { AppProvider } from '@/shared/theme/provider'
-import { Container } from '../Container'
+import { Container } from '../index'
 
 describe('Container component', () => {
   it('renders children within the container', () => {

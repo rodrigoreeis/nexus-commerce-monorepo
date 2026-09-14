@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { AppProvider } from '@/shared/theme/provider'
 import { Product } from '@/shared/services/products'
-import { ProductTable } from '../ProductTable'
+import { ProductTable } from '../index'
 
 describe('ProductTable component', () => {
   const mockProducts: Product[] = [

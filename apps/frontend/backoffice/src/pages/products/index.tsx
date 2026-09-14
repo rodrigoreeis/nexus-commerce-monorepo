@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Box, Button, Dialog, Flex, Text } from '@chakra-ui/react'
 import { Plus, X } from 'lucide-react'
-import { Layout } from '@/shared/components/Layout/Layout'
+import { Layout } from '@/shared/components/Layout'
 import { useAdminProducts } from '@/shared/hooks/useAdminProducts'
-import { ProductForm } from './components/ProductForm/ProductForm'
-import { ProductTable } from './components/ProductTable/ProductTable'
+import { ProductForm } from './components/ProductForm'
+import { ProductTable } from './components/ProductTable'
 
 export const ProductsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)

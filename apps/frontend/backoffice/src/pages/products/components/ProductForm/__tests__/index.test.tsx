@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AppProvider } from '@/shared/theme/provider'
 import * as productsService from '@/shared/services/products'
-import { ProductForm } from '../ProductForm'
+import { ProductForm } from '../index'
 
 describe('ProductForm component', () => {
   afterEach(() => {

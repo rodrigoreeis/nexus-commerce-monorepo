@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
-import { Header } from '@/shared/components/Header/Header'
-import { Container } from '@/shared/components/Container/Container'
+import { Header } from '@/shared/components/Header'
+import { Container } from '@/shared/components/Container'
+import styles from './styles.module.css'
 
 export interface LayoutProps {
   children?: ReactNode
@@ -8,14 +9,14 @@ export interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-gray-100 flex flex-col">
+    <div className={styles.layoutRoot}>
       <Header />
-      <main className="flex-1 py-12">
+      <main className={styles.mainContent}>
         <Container>
           {children}
         </Container>
       </main>
-      <footer className="border-t border-gray-800 py-6 text-center text-sm text-gray-500">
+      <footer className={styles.footer}>
         <Container>
           <p>© 2026 Nexus Commerce. All rights reserved.</p>
         </Container>

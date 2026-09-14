@@ -1,0 +1,91 @@
+.gridContainer {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
+}
+
+.skeletonCard {
+  @apply flex flex-col overflow-hidden rounded-xl border border-gray-800/80 bg-[#111827] shadow-sm animate-pulse;
+}
+
+.skeletonImage {
+  @apply aspect-square w-full bg-gray-800/60;
+}
+
+.skeletonContent {
+  @apply flex flex-1 flex-col justify-between p-5 space-y-4;
+}
+
+.skeletonLines {
+  @apply space-y-2;
+}
+
+.skeletonLineHeader {
+  @apply h-4 w-3/4 rounded bg-gray-800;
+}
+
+.skeletonLineBodyFull {
+  @apply h-3 w-full rounded bg-gray-800/60;
+}
+
+.skeletonLineBodyPart {
+  @apply h-3 w-2/3 rounded bg-gray-800/60;
+}
+
+.skeletonFooter {
+  @apply flex items-center justify-between pt-3 border-t border-gray-800/60;
+}
+
+.skeletonPriceArea {
+  @apply space-y-1;
+}
+
+.skeletonPriceLabel {
+  @apply h-2.5 w-8 rounded bg-gray-800/60;
+}
+
+.skeletonPriceValue {
+  @apply h-5 w-16 rounded bg-gray-800;
+}
+
+.skeletonButton {
+  @apply h-8 w-24 rounded-lg bg-gray-800;
+}
+
+.errorContainer {
+  @apply rounded-xl border border-rose-900/40 bg-rose-950/20 p-10 text-center;
+}
+
+.errorIconWrapper {
+  @apply mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-900/40 text-rose-400 mb-3;
+}
+
+.errorIcon {
+  @apply h-6 w-6;
+}
+
+.errorTitle {
+  @apply text-base font-semibold text-white;
+}
+
+.errorMessage {
+  @apply mt-1.5 text-sm text-gray-400 max-w-md mx-auto;
+}
+
+.emptyContainer {
+  @apply rounded-xl border border-dashed border-gray-800 bg-[#111827]/40 py-16 px-6 text-center;
+}
+
+.emptyIconWrapper {
+  @apply mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gray-800/70 text-gray-400 mb-4;
+}
+
+.emptyIcon {
+  @apply h-7 w-7;
+}
+
+.emptyTitle {
+  @apply text-base font-semibold text-white;
+}
+
+.emptyDescription {
+  @apply mt-2 text-sm text-gray-400 max-w-md mx-auto;
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { HomePage } from '@/pages/home'
 import { ProductsPage } from '@/pages/products'
-import { BackofficeRoute } from '@/shared/components/Header/Header'
+import { BackofficeRoute } from '@/shared/components/Header'
 
 const resolveInitialRoute = (): BackofficeRoute => {
   if (typeof window !== 'undefined') {

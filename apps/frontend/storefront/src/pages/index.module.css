@@ -1,0 +1,59 @@
+.heroWrapper {
+  @apply mx-auto max-w-3xl text-center py-12 sm:py-20;
+}
+
+.badge {
+  @apply inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 mb-6;
+}
+
+.badgeDot {
+  @apply h-1.5 w-1.5 rounded-full bg-emerald-400;
+}
+
+.heroTitle {
+  @apply text-4xl font-extrabold tracking-tight text-white sm:text-6xl text-pretty;
+}
+
+.heroTitleAccent {
+  @apply text-emerald-400;
+}
+
+.heroDescription {
+  @apply mt-6 text-lg leading-8 text-gray-400 max-w-xl mx-auto;
+}
+
+.heroActions {
+  @apply mt-10 flex items-center justify-center gap-x-6;
+}
+
+.primaryButton {
+  @apply rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-gray-950 shadow-lg shadow-emerald-500/20 hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 transition-colors;
+}
+
+.secondaryButton {
+  @apply text-sm font-semibold leading-6 text-gray-300 hover:text-white transition-colors;
+}
+
+.catalogSection {
+  @apply mt-12 sm:mt-16 scroll-mt-12 border-t border-gray-800/80 pt-16;
+}
+
+.catalogHeader {
+  @apply mb-10 text-center;
+}
+
+.catalogBadge {
+  @apply inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 mb-3;
+}
+
+.catalogBadgeIcon {
+  @apply h-3.5 w-3.5;
+}
+
+.catalogTitle {
+  @apply text-3xl font-bold tracking-tight text-white sm:text-4xl text-pretty;
+}
+
+.catalogSubtitle {
+  @apply mt-3 text-base text-gray-400 max-w-xl mx-auto;
+}

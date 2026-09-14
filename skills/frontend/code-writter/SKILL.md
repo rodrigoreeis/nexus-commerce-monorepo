@@ -1,7 +1,7 @@
 ---
 name: code-writter
 description: >-
-  Define regras de escrita de código, convenções de nomenclatura de arquivos (PascalCase para componentes, camelCase para hooks, kebab-case exclusivo para rotas/páginas), idioma inglês e ausência de comentários desnecessários em produção.
+  Define regras de escrita de código, convenções de nomenclatura de arquivos (pastas de componentes em PascalCase com index.tsx, nunca replicar nome da pasta no arquivo, styles.module.css com @apply do Tailwind, camelCase para hooks, kebab-case exclusivo para rotas/páginas), idioma inglês e ausência de comentários desnecessários em produção.
 ---
 
 # Skill: Code Writing Skill
@@ -44,32 +44,53 @@ const repositorioUsuario = new RepositorioUsuario()
 
 # File & Component Naming Rules
 
-Para manter consistência arquitetural e facilidade de importação:
+Para manter consistência arquitetural e organização limpa:
 
 1. **Componentes (`components/`)**:
-   - Pastas e arquivos de componentes devem utilizar **PascalCase**.
-   - Exemplos:
-     - `components/Container/Container.tsx`
-     - `components/ProductCard/ProductCard.tsx`
-     - `components/ProductGrid/ProductGrid.tsx`
-     - `components/Header/Header.tsx`
-     - `components/Layout/Layout.tsx`
+   - Pastas de componentes utilizam **PascalCase** (ex: `components/Container/`, `components/ProductCard/`).
+   - O arquivo principal do componente **DEVE SEMPRE ser chamado `index.tsx`** (ou `index.ts`).
+   - **NUNCA replicar o nome do arquivo com o mesmo nome da pasta!**
+     - ❌ **Errado:** `components/Container/Container.tsx`, `components/ProductCard/ProductCard.tsx`
+     - ✅ **Correto:** `components/Container/index.tsx`, `components/ProductCard/index.tsx`
+   - O arquivo de testes correspondente dentro da pasta do componente deve ser `__tests__/index.test.tsx`.
 
-2. **Hooks (`hooks/`)**:
+2. **Estilização com CSS Modules e Tailwind `@apply` (`styles.module.css`)**:
+   - É proibido poluir o JSX/HTML diretamente com longas listas de classes utilitárias do Tailwind.
+   - Todo componente estilizado com Tailwind deve utilizar **CSS Modules** concentrando as classes utilitárias via `@apply`.
+   - O arquivo de estilos deve **obrigatoriamente ser chamado `styles.module.css`** e residir junto ao componente.
+   - Exemplo:
+
+   ```css
+   /* components/Button/styles.module.css */
+   .btnPrimary {
+     @apply bg-blue-600 px-4 py-2 text-white rounded-lg hover:bg-blue-700 transition;
+   }
+   ```
+
+   ```tsx
+   /* components/Button/index.tsx */
+   import styles from './styles.module.css'
+
+   export const Button = () => {
+     return <button className={styles.btnPrimary}>Click Me</button>
+   }
+   ```
+
+3. **Hooks (`hooks/`)**:
    - Arquivos de hooks devem utilizar **camelCase** sempre com o prefixo `use`.
    - Exemplos:
      - `hooks/useGetProducts.ts`
      - `hooks/useStoreProducts.ts`
      - `hooks/useAdminProducts.ts`
 
-3. **Rotas e Páginas (`pages/`)**:
+4. **Rotas e Páginas (`pages/`)**:
    - O uso de **kebab-case** é **exclusivo para rotas e páginas**.
    - Exemplos:
      - `pages/index.tsx`
      - `pages/products/index.tsx`
      - `pages/pagina-inicial.tsx`
 
-4. **Serviços e Utilitários (`services/`, `utils/`)**:
+5. **Serviços e Utilitários (`services/`, `utils/`)**:
    - Arquivos utilizam **camelCase**.
    - Exemplos:
      - `services/catalog.ts`
@@ -132,9 +153,11 @@ Regras obrigatórias:
 
 1. Todo código deve ser escrito **em inglês**.
 2. Nunca utilizar português dentro do código.
-3. Componentes usam **PascalCase** (`components/Container/Container.tsx`, `components/ProductCard/ProductCard.tsx`).
-4. Hooks usam **camelCase** com prefixo `use` (`hooks/useGetProducts.ts`).
-5. Kebab-case é **exclusivo para rotas e páginas** (`pages/pagina-inicial`).
-6. Não adicionar comentários no código de produção ou testes.
-7. Utilizar **JSDoc em funções utilitárias** (`utils/`).
-8. Utilizar nomes claros e autoexplicativos para garantir legibilidade sem necessidade de comentários.
+3. Componentes usam pasta **PascalCase** com arquivo **`index.tsx`** e **`styles.module.css`**.
+4. **Nunca replicar o nome do arquivo com o mesmo nome da pasta** (proibido `Container/Container.tsx`).
+5. Usar **CSS Modules com `@apply` do Tailwind** em vez de classes diretas no JSX/HTML.
+6. Hooks usam **camelCase** com prefixo `use` (`hooks/useGetProducts.ts`).
+7. Kebab-case é **exclusivo para rotas e páginas** (`pages/pagina-inicial.tsx`).
+8. Não adicionar comentários no código de produção ou testes.
+9. Utilizar **JSDoc em funções utilitárias** (`utils/`).
+10. Utilizar nomes claros e autoexplicativos para garantir legibilidade sem necessidade de comentários.

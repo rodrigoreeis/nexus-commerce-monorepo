@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { ProductCard } from '../ProductCard'
+import { ProductCard } from '../index'
 import { Product } from '@/shared/services/catalog'
 
 describe('ProductCard component', () => {
