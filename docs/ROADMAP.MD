@@ -27,6 +27,7 @@ Este documento descreve as etapas de desenvolvimento do Nexus Commerce, estrutur
 - [ ] **Backend:** Criar `service/service.go` (struct `Service`, helpers de resposta JSON, slog).
 - [ ] **Backend:** Criar `utils/crypto.go` (placeholder para hash e JWT).
 - [ ] **Backend:** Criar `migrations/` com script SQL de setup inicial do banco.
+- [x] **Backend:** Inicializar coleção oficial do Bruno em `apps/backend/bruno/` com o endpoint de health check (seguir `skills/backend/bruno-collection-generator`).
 
 ### Backoffice (React + Vite + TypeScript + Chakra UI)
 > Seguir as skills `skills/frontend/architecture-agent` e `skills/frontend/simplicity-and-structural-conventions`.

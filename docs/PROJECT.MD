@@ -16,6 +16,7 @@ A arquitetura adota uma abordagem **API-First (Monólito Modular no Backend)** c
 nexus-commerce-monorepo/
 ├── apps/
 │   ├── backend/                  # Código-fonte da API central em Golang e migrações SQL
+│   │   ├── bruno/                # Coleção oficial de API do Bruno (Postman/Insomnia versionado em Git)
 │   │   ├── cmd/                  # Servidor HTTP e injeção de dependências
 │   │   ├── config/               # Carregamento de configurações e variáveis de ambiente
 │   │   ├── migrations/           # Scripts SQL versionados para o PostgreSQL
@@ -27,7 +28,7 @@ nexus-commerce-monorepo/
 │       ├── storefront/           # Vitrine pública do consumidor (Next.js 16 + React 19 + TailwindCSS)
 │       └── backoffice/           # Painel administrativo do lojista (React 19 + Vite 8 + Chakra UI v3)
 ├── skills/                   # Manuais técnicos e convenções em formato Antigravity (SKILL.md)
-│   ├── backend/              # Skills de Golang, PostgreSQL e Clean Code
+│   ├── backend/              # Skills de Golang, PostgreSQL, Clean Code e Bruno (Collections, Testes e CI)
 │   ├── frontend/             # Skills de Next.js, React, Design System e Acessibilidade
 │   ├── best-practices/       # Skills de segurança e código limpo
 │   └── conventions/          # Convenções de commits e estrutura
@@ -47,6 +48,8 @@ O sistema separa claramente o ecossistema entre apps/backend/ e apps/frontend/:
 
 • /api/admin/... para consumo da aplicação Backoffice.
 
+• apps/backend/bruno/: Coleção oficial de API no Bruno, versionada via Git junto com o código (substitui Postman/Insomnia com arquivos de texto puro e versionamento nativo). Todo endpoint criado na API deve ter sua respectiva requisição no Bruno.
+
 • apps/frontend/storefront/: Vitrine pública focada na experiência do consumidor final (SSR/SEO) — Next.js 16 + React 19 + TypeScript + TailwindCSS.
 
 • apps/frontend/backoffice/: Painel administrativo para gestão de catálogo, produtos, usuários e pedidos — React 19 + Vite 8 + TypeScript + Chakra UI v3.
@@ -56,6 +59,8 @@ O sistema separa claramente o ecossistema entre apps/backend/ e apps/frontend/:
 • PostgreSQL: sobe via Podman usando compose.yml (podman-compose up -d).
 
 • API Go: roda localmente via make run.
+
+• Bruno: cliente de API oficial. Abra a pasta `apps/backend/bruno/` no aplicativo desktop do Bruno ou execute as requisições via Bruno CLI (`bru run`).
 
 • Convenção global: todos os nomes de tabelas e endpoints estão em inglês.
 

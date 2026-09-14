@@ -41,6 +41,7 @@ Todos os agentes devem considerar o repositório local como a única fonte de tr
 - **Isolamento de Escopos de API:** Nunca utilize endpoints de `/api/store` para resolver problemas administrativos do painel e vice-versa.
 - **Sem Autenticação Precoce:** É estritamente proibido implementar fluxos de Login/Logout, sessões ou JWT durante a Release 1.
 - **Isolamento de Dependências Frontend:** O `storefront/` usa apenas Next.js e TailwindCSS. O `backoffice/` usa React, Vite e Chakra UI. É proibido cruzar ou misturar essas dependências.
+- **Obrigatoriedade de API Collection no Bruno:** É proibido dar como concluído qualquer endpoint sem adicionar ou atualizar o respectivo request na coleção oficial do **Bruno** (`apps/backend/bruno/`). O Bruno é a ferramenta oficial de collection API do projeto (equivalente a Postman e Insomnia, mas versionada via Git). Toda rota criada ou alterada deve ter sua requisição correspondente criada/atualizada utilizando as skills de `skills/backend/bruno-collection-generator` e `skills/backend/bruno-test-writer`.
 
 ## 📝 4. Código e Nomenclatura
 

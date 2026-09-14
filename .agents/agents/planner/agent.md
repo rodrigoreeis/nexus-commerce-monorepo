@@ -56,9 +56,9 @@ Para cada contexto separado, forneça um **prompt em bloco de código Markdown**
 
 - **Agente Alvo**: (ex: `backend-specialist`, `frontend-specialist`, etc.)
 - **Contexto & Dependências**: O que já foi feito na etapa anterior.
-- **Instrução Técnica Clara**: Arquivos a criar/modificar, assinaturas de métodos, queries SQL e rotas.
-- **Skills Obrigatórias**: Quais skills do repositório a IA deve consultar (`skills/backend/...`, `skills/frontend/...`, `skills/conventions/...`).
-- **Validação / Critério de Sucesso**: Como verificar se o prompt foi executado com sucesso (testes, endpoints, telas).
+- **Instrução Técnica Clara**: Arquivos a criar/modificar, assinaturas de métodos, queries SQL, rotas e, **obrigatoriamente para todo novo endpoint criado/alterado**, a criação do arquivo de requisição correspondente no **Bruno** (`apps/backend/bruno/`). O Bruno é nossa ferramenta oficial de API Collection (Postman/Insomnia versionado em Git).
+- **Skills Obrigatórias**: Quais skills do repositório a IA deve consultar (`skills/backend/...`, incluindo `skills/backend/bruno-collection-generator` e `skills/backend/bruno-test-writer` para endpoints, `skills/frontend/...`, `skills/conventions/...`).
+- **Validação / Critério de Sucesso**: Como verificar se o prompt foi executado com sucesso (testes, endpoints validados no Bruno, telas).
 
 ---
 
@@ -76,8 +76,8 @@ Sempre que você finalizar o planejamento de uma Release ou funcionalidade técn
 
 Sempre direcione os prompts para utilizar as skills e convenções existentes em `nexus-commerce-monorepo`:
 
-- **Estrutura de Pastas**: Aplicações devem morar estritamente dentro de `apps/backend/` e `apps/frontend/<app>/` (`storefront` com Next.js 16/React 19 e `backoffice` com React 19/Vite 8/Chakra UI v3).
-- **Backend & DB**: `skills/backend/golang-api-architecture`, `skills/backend/golang-database-repository`, `skills/backend/golang-clean-code-patterns`, `skills/backend/golang-error-handling`, `skills/backend/golang-code-style`.
+- **Estrutura de Pastas**: Aplicações devem morar estritamente dentro de `apps/backend/` (com coleções de API em `apps/backend/bruno/`) e `apps/frontend/<app>/` (`storefront` com Next.js 16/React 19 e `backoffice` com React 19/Vite 8/Chakra UI v3).
+- **Backend & DB**: `skills/backend/golang-api-architecture`, `skills/backend/golang-database-repository`, `skills/backend/golang-clean-code-patterns`, `skills/backend/golang-error-handling`, `skills/backend/golang-code-style`, `skills/backend/bruno-collection-generator`, `skills/backend/bruno-test-writer`, `skills/backend/bruno-ci-setup`.
 - **Frontend**: `skills/frontend/architecture-agent`, `skills/frontend/react`, `skills/frontend/design`, `skills/frontend/web-interface-guidelines`.
 - **Convenções Gerais**: `skills/best-practices/cleancode`, `skills/conventions/commit`, `skills/conventions/code-writter`.
 
