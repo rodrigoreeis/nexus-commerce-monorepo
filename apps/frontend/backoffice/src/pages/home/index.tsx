@@ -7,7 +7,6 @@ import {
   RotateCw,
   X,
   CheckCircle2,
-  AlertTriangle,
 } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { formatCurrency, formatDate } from '@/shared/utils/format'
@@ -123,14 +122,6 @@ export const HomePage = () => {
   return (
     <Layout activeRoute="dashboard" title="Dashboard">
       <div className={styles.dashboardRoot}>
-        {/* Construction Notice Banner */}
-        <div className={styles.constructionBanner} role="status">
-          <div className={styles.constructionBadge}>
-            <AlertTriangle className="h-4 w-4" aria-hidden="true" />
-            <span>Em Construção</span>
-          </div>
-        </div>
-
         <div className={styles.blurredArea}>
           {/* Page Header */}
         <div className={styles.pageHeader}>

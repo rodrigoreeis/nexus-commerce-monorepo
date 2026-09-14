@@ -11,14 +11,6 @@
   @apply filter blur-[6px] opacity-40 select-none transition-all duration-300;
 }
 
-.constructionBanner {
-  @apply flex justify-center w-full;
-}
-
-.constructionBadge {
-  @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 font-medium text-sm shadow-sm backdrop-blur-sm;
-}
-
 .pageHeader {
   @apply mb-6;
 }

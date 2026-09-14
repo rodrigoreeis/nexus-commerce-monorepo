@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { AlertTriangle } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { formatDate } from '@/shared/utils/format'
 import styles from './styles.module.css'
@@ -62,14 +61,6 @@ export const UsersPage = () => {
   return (
     <Layout activeRoute="users" title="Usuários">
       <div className={styles.usersRoot}>
-        {/* Construction Notice Banner */}
-        <div className={styles.constructionBanner} role="status">
-          <div className={styles.constructionBadge}>
-            <AlertTriangle className="h-4 w-4" aria-hidden="true" />
-            <span>Em Construção</span>
-          </div>
-        </div>
-
         <div className={styles.blurredArea}>
           <div className={styles.pageHeader}>
             <h2 className={styles.pageTitle}>Gestão de Usuários</h2>
