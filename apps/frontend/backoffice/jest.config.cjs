@@ -6,11 +6,15 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^lucide-react$': require.resolve('lucide-react'),
+    '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.cjs',
   },
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',
       {
+        diagnostics: {
+          ignoreCodes: [2307],
+        },
         tsconfig: {
           jsx: 'react-jsx',
           target: 'ES2022',

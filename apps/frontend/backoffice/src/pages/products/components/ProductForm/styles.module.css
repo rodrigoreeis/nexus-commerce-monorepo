@@ -1,0 +1,39 @@
+.formRoot {
+  @apply flex flex-col gap-5;
+}
+
+.errorBox {
+  @apply flex items-center gap-2 p-3 bg-red-950/60 border border-red-800 rounded-lg text-red-200 text-sm font-medium;
+}
+
+.successBox {
+  @apply flex items-center gap-2 p-3 bg-emerald-950/60 border border-emerald-800 rounded-lg text-emerald-200 text-sm font-medium;
+}
+
+.fieldLabel {
+  @apply block text-sm font-medium text-[#e2e8f0] mb-1.5;
+}
+
+.textInput {
+  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg px-3 py-2 text-sm text-white placeholder-[#64748b] focus:outline-none focus:border-blue-500 transition-colors;
+}
+
+.textarea {
+  @apply w-full bg-[#1e293b] border border-[#334155] rounded-lg p-3 text-sm text-white placeholder-[#64748b] focus:outline-none focus:border-blue-500 transition-colors;
+}
+
+.uploadBox {
+  @apply border-2 border-dashed border-[#334155] rounded-lg p-4 bg-[#0b1329] text-center relative;
+}
+
+.uploadBoxActive {
+  @apply border-blue-500;
+}
+
+.cancelButton {
+  @apply px-5 py-2 text-sm font-semibold rounded-lg border border-[#334155] text-[#94a3b8] hover:bg-[#1e293b] hover:text-white transition-colors;
+}
+
+.submitButton {
+  @apply px-6 py-2 text-sm font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm;
+}

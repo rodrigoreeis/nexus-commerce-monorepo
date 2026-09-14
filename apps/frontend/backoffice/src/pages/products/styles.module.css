@@ -1,0 +1,19 @@
+.productsRoot {
+  @apply space-y-6;
+}
+
+.pageHeader {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6;
+}
+
+.pageTitle {
+  @apply text-2xl font-bold text-[#f8fafc] tracking-tight;
+}
+
+.pageSubtitle {
+  @apply text-sm text-[#94a3b8] mt-1;
+}
+
+.addButton {
+  @apply inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg shadow-sm transition-colors;
+}

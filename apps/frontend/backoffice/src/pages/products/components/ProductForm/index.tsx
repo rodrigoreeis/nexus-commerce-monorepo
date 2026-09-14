@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Button, Flex, Input, Text, Textarea } from '@chakra-ui/react'
 import { AlertCircle, CheckCircle2, Image as ImageIcon, Upload, X } from 'lucide-react'
 import { Product } from '@/shared/services/products'
 import { useCreateAdminProduct } from '@/shared/hooks/useAdminProducts'
+import styles from './styles.module.css'
 
 export interface ProductFormProps {
   onSuccess?: (product: Product) => void
@@ -110,65 +110,39 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
       onSubmit={handleSubmit}
       noValidate
       aria-label="Formulário de cadastro de produto"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.25rem',
-      }}
+      className={styles.formRoot}
     >
       {errorMessage && (
-        <Flex
+        <div
           role="alert"
           aria-live="polite"
-          align="center"
-          gap="0.5rem"
-          padding="0.75rem 1rem"
-          backgroundColor="#450a0a"
-          border="1px solid #7f1d1d"
-          borderRadius="0.5rem"
-          color="#fecaca"
+          className={styles.errorBox}
         >
           <AlertCircle size={18} aria-hidden="true" />
-          <Text fontSize="0.875rem" fontWeight="500">
-            {errorMessage}
-          </Text>
-        </Flex>
+          <span>{errorMessage}</span>
+        </div>
       )}
 
       {successMessage && (
-        <Flex
+        <div
           role="status"
           aria-live="polite"
-          align="center"
-          gap="0.5rem"
-          padding="0.75rem 1rem"
-          backgroundColor="#064e3b"
-          border="1px solid #065f46"
-          borderRadius="0.5rem"
-          color="#a7f3d0"
+          className={styles.successBox}
         >
           <CheckCircle2 size={18} aria-hidden="true" />
-          <Text fontSize="0.875rem" fontWeight="500">
-            {successMessage}
-          </Text>
-        </Flex>
+          <span>{successMessage}</span>
+        </div>
       )}
 
       {/* Product Name */}
-      <Box>
+      <div>
         <label
           htmlFor="product-name"
-          style={{
-            display: 'block',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: '#e2e8f0',
-            marginBottom: '0.375rem',
-          }}
+          className={styles.fieldLabel}
         >
-          Nome do Produto <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Nome do Produto <span className="text-red-400" aria-hidden="true">*</span>
         </label>
-        <Input
+        <input
           id="product-name"
           name="name"
           type="text"
@@ -177,33 +151,19 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           placeholder="Ex.: Teclado Mecânico Ergonômico…"
           autoComplete="off"
           disabled={isPending}
-          backgroundColor="#1e293b"
-          borderColor="#334155"
-          color="#f8fafc"
-          _placeholder={{ color: '#64748b' }}
-          _focusVisible={{ borderColor: '#3b82f6', outline: 'none' }}
-          paddingX="0.75rem"
-          paddingY="0.5rem"
-          borderRadius="0.5rem"
-          width="100%"
+          className={styles.textInput}
         />
-      </Box>
+      </div>
 
       {/* Price */}
-      <Box>
+      <div>
         <label
           htmlFor="product-price"
-          style={{
-            display: 'block',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: '#e2e8f0',
-            marginBottom: '0.375rem',
-          }}
+          className={styles.fieldLabel}
         >
-          Preço (R$) <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Preço (R$) <span className="text-red-400" aria-hidden="true">*</span>
         </label>
-        <Input
+        <input
           id="product-price"
           name="price"
           type="text"
@@ -213,33 +173,19 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           placeholder="Ex.: 99,99…"
           autoComplete="off"
           disabled={isPending}
-          backgroundColor="#1e293b"
-          borderColor="#334155"
-          color="#f8fafc"
-          _placeholder={{ color: '#64748b' }}
-          _focusVisible={{ borderColor: '#3b82f6', outline: 'none' }}
-          paddingX="0.75rem"
-          paddingY="0.5rem"
-          borderRadius="0.5rem"
-          width="100%"
+          className={styles.textInput}
         />
-      </Box>
+      </div>
 
       {/* Description */}
-      <Box>
+      <div>
         <label
           htmlFor="product-description"
-          style={{
-            display: 'block',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: '#e2e8f0',
-            marginBottom: '0.375rem',
-          }}
+          className={styles.fieldLabel}
         >
           Descrição
         </label>
-        <Textarea
+        <textarea
           id="product-description"
           name="description"
           value={description}
@@ -247,41 +193,20 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           placeholder="Breve descrição das características do produto…"
           rows={3}
           disabled={isPending}
-          backgroundColor="#1e293b"
-          borderColor="#334155"
-          color="#f8fafc"
-          _placeholder={{ color: '#64748b' }}
-          _focusVisible={{ borderColor: '#3b82f6', outline: 'none' }}
-          padding="0.75rem"
-          borderRadius="0.5rem"
-          width="100%"
+          className={styles.textarea}
         />
-      </Box>
+      </div>
 
       {/* Product Image Upload */}
-      <Box>
+      <div>
         <label
           htmlFor="product-image"
-          style={{
-            display: 'block',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: '#e2e8f0',
-            marginBottom: '0.375rem',
-          }}
+          className={styles.fieldLabel}
         >
-          Imagem do Produto <span style={{ color: '#f87171' }} aria-hidden="true">*</span>
+          Imagem do Produto <span className="text-red-400" aria-hidden="true">*</span>
         </label>
 
-        <Box
-          border="2px dashed"
-          borderColor={previewUrl ? '#3b82f6' : '#334155'}
-          borderRadius="0.5rem"
-          padding="1rem"
-          backgroundColor="#0b1329"
-          textAlign="center"
-          position="relative"
-        >
+        <div className={`${styles.uploadBox} ${previewUrl ? styles.uploadBoxActive : ''}`}>
           <input
             ref={fileInputRef}
             id="product-image"
@@ -294,107 +219,75 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           />
 
           {previewUrl ? (
-            <Flex direction="column" align="center" gap="0.75rem">
-              <Box
-                position="relative"
-                width="120px"
-                height="120px"
-                borderRadius="0.375rem"
-                overflow="hidden"
-                border="1px solid #334155"
-              >
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative w-28 h-28 rounded-md overflow-hidden border border-[#334155]">
                 <img
                   src={previewUrl}
                   alt="Pré-visualização do produto"
-                  width={120}
-                  height={120}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  width={112}
+                  height={112}
+                  className="w-full h-full object-cover"
                 />
-              </Box>
-              <Flex align="center" gap="0.5rem">
-                <Text fontSize="0.75rem" color="#94a3b8">
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-[#94a3b8]">
                   {selectedFile?.name}
-                </Text>
-                <Button
+                </span>
+                <button
                   type="button"
                   onClick={handleRemoveImage}
                   disabled={isPending}
-                  size="xs"
                   aria-label="Remover imagem selecionada"
-                  variant="ghost"
-                  color="#f87171"
-                  _hover={{ backgroundColor: '#450a0a' }}
-                  padding="0.25rem 0.5rem"
+                  className="flex items-center gap-1 text-xs text-red-400 hover:text-red-300 px-2 py-0.5 rounded hover:bg-red-950/40 transition-colors"
                 >
                   <X size={14} aria-hidden="true" />
-                  Remover
-                </Button>
-              </Flex>
-            </Flex>
+                  <span>Remover</span>
+                </button>
+              </div>
+            </div>
           ) : (
-            <Flex direction="column" align="center" gap="0.5rem">
-              <Box color="#64748b" marginBottom="0.25rem">
+            <div className="flex flex-col items-center gap-2">
+              <div className="text-[#64748b] mb-1">
                 <ImageIcon size={32} aria-hidden="true" />
-              </Box>
-              <Text fontSize="0.875rem" color="#94a3b8">
+              </div>
+              <p className="text-xs text-[#94a3b8]">
                 Formatos suportados: PNG, JPEG, WebP (máx. 5&nbsp;MB)
-              </Text>
-              <Button
+              </p>
+              <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isPending}
-                size="sm"
-                backgroundColor="#1e293b"
-                color="#f8fafc"
-                border="1px solid #334155"
-                _hover={{ backgroundColor: '#334155' }}
-                gap="0.5rem"
-                paddingX="1rem"
-                paddingY="0.5rem"
-                borderRadius="0.375rem"
+                className="mt-1 inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-md bg-[#1e293b] text-[#f8fafc] border border-[#334155] hover:bg-[#334155] transition-colors"
               >
-                <Upload size={16} aria-hidden="true" />
-                Selecionar Imagem
-              </Button>
-            </Flex>
+                <Upload size={14} aria-hidden="true" />
+                <span>Selecionar Imagem</span>
+              </button>
+            </div>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       {/* Action Buttons */}
-      <Flex justify="flex-end" gap="0.75rem" marginTop="0.5rem">
+      <div className="flex justify-end gap-3 mt-2">
         {onCancel && (
-          <Button
+          <button
             type="button"
             onClick={onCancel}
             disabled={isPending}
-            variant="outline"
-            borderColor="#334155"
-            color="#94a3b8"
-            _hover={{ backgroundColor: '#1e293b', color: '#f8fafc' }}
-            paddingX="1.25rem"
-            paddingY="0.625rem"
-            borderRadius="0.5rem"
+            className={styles.cancelButton}
           >
             Cancelar
-          </Button>
+          </button>
         )}
 
-        <Button
+        <button
           type="submit"
           disabled={isPending}
-          backgroundColor="#2563eb"
-          color="#ffffff"
-          fontWeight="600"
-          _hover={{ backgroundColor: '#1d4ed8' }}
-          _disabled={{ opacity: 0.6, cursor: 'not-allowed' }}
-          paddingX="1.5rem"
-          paddingY="0.625rem"
-          borderRadius="0.5rem"
+          className={styles.submitButton}
         >
           {isPending ? 'Criando Produto…' : 'Criar Produto'}
-        </Button>
-      </Flex>
+        </button>
+      </div>
     </form>
   )
 }

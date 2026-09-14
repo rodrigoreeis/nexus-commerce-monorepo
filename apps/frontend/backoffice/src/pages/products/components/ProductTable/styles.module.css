@@ -1,0 +1,27 @@
+.tableContainer {
+  @apply bg-[#0f172a] border border-[#334155] rounded-xl overflow-hidden;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto;
+}
+
+.loadingContainer {
+  @apply bg-[#0f172a] border border-[#334155] rounded-xl p-12 text-center;
+}
+
+.errorContainer {
+  @apply bg-[#0f172a] border border-rose-900/50 rounded-xl p-10 text-center;
+}
+
+.emptyContainer {
+  @apply bg-[#0f172a] border border-dashed border-[#334155] rounded-xl p-14 text-center;
+}
+
+.imageBox {
+  @apply w-12 h-12 min-w-[3rem] rounded-md overflow-hidden bg-[#1e293b] border border-[#334155] flex items-center justify-center;
+}
+
+.retryButton {
+  @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-[#1e293b] text-white border border-[#334155] hover:bg-[#334155] transition-colors;
+}

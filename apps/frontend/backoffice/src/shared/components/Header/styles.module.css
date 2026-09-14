@@ -1,0 +1,27 @@
+.headerRoot {
+  @apply h-16 bg-[#0f172a] border-b border-[#334155] px-6 flex items-center justify-between;
+}
+
+.headerTitle {
+  @apply text-base font-semibold text-[#f8fafc];
+}
+
+.userProfile {
+  @apply flex items-center gap-3;
+}
+
+.userAvatar {
+  @apply h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white;
+}
+
+.userInfo {
+  @apply hidden sm:flex flex-col text-left;
+}
+
+.userName {
+  @apply text-sm font-medium text-[#f8fafc] leading-none;
+}
+
+.userRole {
+  @apply text-xs text-[#94a3b8] mt-1 leading-none;
+}

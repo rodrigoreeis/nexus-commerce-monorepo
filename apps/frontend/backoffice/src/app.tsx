@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { HomePage } from '@/pages/home'
 import { ProductsPage } from '@/pages/products'
-import { BackofficeRoute } from '@/shared/components/Header'
+import { UsersPage } from '@/pages/users'
+import { BackofficeRoute } from '@/shared/components/Sidebar'
 
 const resolveInitialRoute = (): BackofficeRoute => {
   if (typeof window !== 'undefined') {
@@ -10,8 +11,11 @@ const resolveInitialRoute = (): BackofficeRoute => {
     if (pathname === '/products' || hash === '#products' || hash === '#/products') {
       return 'products'
     }
+    if (pathname === '/users' || hash === '#users' || hash === '#/users') {
+      return 'users'
+    }
   }
-  return 'home'
+  return 'dashboard'
 }
 
 export const App = () => {
@@ -23,8 +27,10 @@ export const App = () => {
       const hash = window.location.hash
       if (pathname === '/products' || hash === '#products' || hash === '#/products') {
         setCurrentRoute('products')
+      } else if (pathname === '/users' || hash === '#users' || hash === '#/users') {
+        setCurrentRoute('users')
       } else {
-        setCurrentRoute('home')
+        setCurrentRoute('dashboard')
       }
     }
 
@@ -46,6 +52,10 @@ export const App = () => {
 
   if (currentRoute === 'products') {
     return <ProductsPage />
+  }
+
+  if (currentRoute === 'users') {
+    return <UsersPage />
   }
 
   return <HomePage />

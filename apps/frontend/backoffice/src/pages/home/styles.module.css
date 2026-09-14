@@ -1,0 +1,99 @@
+.dashboardRoot {
+  @apply space-y-8;
+}
+
+.pageHeader {
+  @apply mb-6;
+}
+
+.pageTitle {
+  @apply text-2xl font-bold text-[#f8fafc] tracking-tight;
+}
+
+.pageSubtitle {
+  @apply text-sm text-[#94a3b8] mt-1;
+}
+
+.metricsGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.metricCard {
+  @apply bg-[#0f172a] border border-[#334155] rounded-xl p-6 relative overflow-hidden transition-all hover:border-[#475569];
+}
+
+.metricHeader {
+  @apply flex items-center justify-between;
+}
+
+.metricLabel {
+  @apply text-sm font-medium text-[#94a3b8];
+}
+
+.metricIconWrapper {
+  @apply h-10 w-10 rounded-lg flex items-center justify-center;
+}
+
+.metricValue {
+  @apply text-3xl font-extrabold text-[#f8fafc] mt-4 tracking-tight;
+}
+
+.metricSubtext {
+  @apply text-xs text-[#64748b] mt-2 flex items-center gap-1.5;
+}
+
+.sectionContainer {
+  @apply bg-[#0f172a] border border-[#334155] rounded-xl overflow-hidden;
+}
+
+.sectionHeader {
+  @apply p-6 border-b border-[#1e293b] flex items-center justify-between;
+}
+
+.sectionTitle {
+  @apply text-lg font-bold text-[#f8fafc];
+}
+
+.sectionSubtitle {
+  @apply text-xs text-[#94a3b8] mt-0.5;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply w-full text-left border-collapse;
+}
+
+.th {
+  @apply bg-[#1e293b] text-[#94a3b8] text-xs font-semibold uppercase tracking-wider py-3.5 px-6;
+}
+
+.td {
+  @apply py-4 px-6 border-b border-[#1e293b] text-sm text-[#f8fafc];
+}
+
+.statusBadgePendente {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20;
+}
+
+.statusBadgeProcessando {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20;
+}
+
+.statusBadgeEnviado {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20;
+}
+
+.statusBadgeEntregue {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+}
+
+.statusBadgeCancelado {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20;
+}
+
+.updateButton {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#1e293b] text-[#38bdf8] border border-[#334155] hover:bg-[#334155] hover:text-white transition-colors;
+}

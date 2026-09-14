@@ -3,17 +3,20 @@ import { AppProvider } from '@/shared/theme/provider'
 import { Layout } from '../index'
 
 describe('Layout component', () => {
-  it('renders header and main children correctly', () => {
+  it('renders vertical sidebar, top header, and main children correctly', () => {
     render(
       <AppProvider>
-        <Layout>
-          <div>Dashboard Overview</div>
+        <Layout activeRoute="dashboard" title="Visão Geral">
+          <div>Conteúdo Principal</div>
         </Layout>
       </AppProvider>
     )
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Nexus Backoffice')
+    expect(screen.getByRole('complementary', { name: 'Navegação Lateral' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Dashboard/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Usuários/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Produtos/i })).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByText('Dashboard Overview')).toBeInTheDocument()
+    expect(screen.getByText('Conteúdo Principal')).toBeInTheDocument()
   })
 })

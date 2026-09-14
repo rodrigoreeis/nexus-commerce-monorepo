@@ -1,138 +1,41 @@
-import React from 'react'
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { Container } from '@/shared/components/Container'
+import { Bell, Shield } from 'lucide-react'
+import styles from './styles.module.css'
 
-export type BackofficeRoute = 'home' | 'products'
+export type BackofficeRoute = 'dashboard' | 'users' | 'products' | 'home'
 
 export interface HeaderProps {
+  title?: string
   systemStatus?: 'online' | 'maintenance' | 'offline'
   activeRoute?: BackofficeRoute
   onNavigate?: (route: BackofficeRoute) => void
 }
 
 export const Header = ({
-  systemStatus = 'online',
-  activeRoute = 'home',
-  onNavigate,
+  title = 'Nexus Backoffice',
 }: HeaderProps) => {
-  const isOnline = systemStatus === 'online'
-
-  const handleNavClick = (route: BackofficeRoute, path: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
-      return
-    }
-
-    event.preventDefault()
-
-    if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', path)
-      window.dispatchEvent(new CustomEvent('app-navigate', { detail: { route, path } }))
-    }
-
-    if (onNavigate) {
-      onNavigate(route)
-    }
-  }
-
   return (
-    <Box
-      as="header"
-      backgroundColor="#0f172a"
-      borderBottom="1px solid"
-      borderColor="#334155"
-      paddingY="1rem"
-    >
-      <Container>
-        <Flex justify="space-between" align="center" wrap="wrap" gap="1rem">
-          {/* Logo & Navigation */}
-          <Flex align="center" gap="1.5rem">
-            <Flex align="center" gap="0.75rem">
-              <Text
-                as="h1"
-                fontSize="1.25rem"
-                fontWeight="700"
-                color="#f8fafc"
-                letterSpacing="-0.025em"
-              >
-                Nexus Backoffice
-              </Text>
-              <Box
-                as="span"
-                fontSize="0.75rem"
-                fontWeight="600"
-                paddingX="0.5rem"
-                paddingY="0.125rem"
-                borderRadius="0.375rem"
-                backgroundColor="#1e293b"
-                color="#94a3b8"
-                border="1px solid"
-                borderColor="#334155"
-                aria-label="Versão da aplicação"
-              >
-                v0.1.0
-              </Box>
-            </Flex>
+    <header className={styles.headerRoot} data-testid="backoffice-header">
+      <div className="flex items-center gap-3">
+        <h1 className={styles.headerTitle}>{title}</h1>
+      </div>
 
-            {/* Navigation links */}
-            <Flex as="nav" aria-label="Navegação Principal" align="center" gap="0.375rem">
-              <a
-                href="/"
-                onClick={handleNavClick('home', '/')}
-                style={{
-                  fontSize: '0.875rem',
-                  fontWeight: activeRoute === 'home' ? 600 : 500,
-                  color: activeRoute === 'home' ? '#f8fafc' : '#94a3b8',
-                  textDecoration: 'none',
-                  padding: '0.375rem 0.75rem',
-                  borderRadius: '0.375rem',
-                  backgroundColor: activeRoute === 'home' ? '#1e293b' : 'transparent',
-                  border: activeRoute === 'home' ? '1px solid #334155' : '1px solid transparent',
-                  transition: 'background-color 0.15s, color 0.15s',
-                }}
-              >
-                Visão Geral
-              </a>
-              <a
-                href="/products"
-                onClick={handleNavClick('products', '/products')}
-                style={{
-                  fontSize: '0.875rem',
-                  fontWeight: activeRoute === 'products' ? 600 : 500,
-                  color: activeRoute === 'products' ? '#f8fafc' : '#94a3b8',
-                  textDecoration: 'none',
-                  padding: '0.375rem 0.75rem',
-                  borderRadius: '0.375rem',
-                  backgroundColor: activeRoute === 'products' ? '#1e293b' : 'transparent',
-                  border: activeRoute === 'products' ? '1px solid #334155' : '1px solid transparent',
-                  transition: 'background-color 0.15s, color 0.15s',
-                }}
-              >
-                Produtos
-              </a>
-            </Flex>
-          </Flex>
+      <div className={styles.userProfile}>
+        <div className="flex items-center gap-2 p-1.5 rounded-lg text-[#94a3b8] hover:text-[#f8fafc] hover:bg-[#1e293b] cursor-pointer">
+          <Bell size={18} aria-label="Notificações" />
+        </div>
 
-          {/* System Operational Status */}
-          <Flex
-            align="center"
-            gap="0.5rem"
-            role="status"
-            aria-label="Status operacional do sistema"
-          >
-            <Box
-              as="span"
-              width="0.5rem"
-              height="0.5rem"
-              borderRadius="9999px"
-              backgroundColor={isOnline ? '#10b981' : '#ef4444'}
-              aria-hidden="true"
-            />
-            <Text fontSize="0.875rem" color="#94a3b8" fontWeight="500">
-              {isOnline ? 'Sistemas Operacionais' : 'Serviço Degradado'}
-            </Text>
-          </Flex>
-        </Flex>
-      </Container>
-    </Box>
+        <div className="h-6 w-px bg-[#334155]" />
+
+        <div className="flex items-center gap-3">
+          <div className={styles.userAvatar} aria-hidden="true">
+            <Shield size={16} />
+          </div>
+          <div className={styles.userInfo}>
+            <span className={styles.userName}>Administrador</span>
+            <span className={styles.userRole}>admin@nexuscommerce.com</span>
+          </div>
+        </div>
+      </div>
+    </header>
   )
 }

@@ -1,28 +1,30 @@
 import { ReactNode } from 'react'
-import { Box } from '@chakra-ui/react'
-import { BackofficeRoute, Header } from '@/shared/components/Header'
-import { Container } from '@/shared/components/Container'
+import { Sidebar, BackofficeRoute } from '@/shared/components/Sidebar'
+import { Header } from '@/shared/components/Header'
+import styles from './styles.module.css'
 
 export interface LayoutProps {
   children?: ReactNode
   activeRoute?: BackofficeRoute
+  title?: string
+  onNavigate?: (route: BackofficeRoute) => void
 }
 
-export const Layout = ({ children, activeRoute }: LayoutProps) => {
+export const Layout = ({
+  children,
+  activeRoute = 'dashboard',
+  title = 'Nexus Backoffice',
+  onNavigate,
+}: LayoutProps) => {
   return (
-    <Box
-      minHeight="100vh"
-      backgroundColor="#090d16"
-      color="#f8fafc"
-      display="flex"
-      flexDirection="column"
-    >
-      <Header activeRoute={activeRoute} />
-      <Box as="main" flex="1" paddingY="2rem">
-        <Container>
+    <div className={styles.layoutRoot}>
+      <Sidebar activeRoute={activeRoute} onNavigate={onNavigate} />
+      <div className={styles.contentWrapper}>
+        <Header title={title} activeRoute={activeRoute} onNavigate={onNavigate} />
+        <main className={styles.mainArea}>
           {children}
-        </Container>
-      </Box>
-    </Box>
+        </main>
+      </div>
+    </div>
   )
 }

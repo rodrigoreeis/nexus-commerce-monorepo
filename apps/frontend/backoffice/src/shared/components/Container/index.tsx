@@ -1,24 +1,21 @@
 import { ReactNode } from 'react'
-import { Box } from '@chakra-ui/react'
+import styles from './styles.module.css'
 
 export interface ContainerProps {
   children?: ReactNode
-  maxWidth?: string
+  className?: string
 }
 
 export const Container = ({
   children,
-  maxWidth = '1280px',
+  className = '',
 }: ContainerProps) => {
   return (
-    <Box
-      width="100%"
-      maxWidth={maxWidth}
-      marginX="auto"
-      paddingX={{ base: '1rem', md: '1.5rem', lg: '2rem' }}
+    <div
+      className={`${styles.containerRoot} ${className}`.trim()}
       data-testid="backoffice-container"
     >
       {children}
-    </Box>
+    </div>
   )
 }

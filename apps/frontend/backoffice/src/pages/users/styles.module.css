@@ -1,0 +1,43 @@
+.usersRoot {
+  @apply space-y-6;
+}
+
+.pageHeader {
+  @apply mb-6;
+}
+
+.pageTitle {
+  @apply text-2xl font-bold text-[#f8fafc] tracking-tight;
+}
+
+.pageSubtitle {
+  @apply text-sm text-[#94a3b8] mt-1;
+}
+
+.tableContainer {
+  @apply bg-[#0f172a] border border-[#334155] rounded-xl overflow-hidden;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto;
+}
+
+.table {
+  @apply w-full text-left border-collapse;
+}
+
+.th {
+  @apply bg-[#1e293b] text-[#94a3b8] text-xs font-semibold uppercase tracking-wider py-3.5 px-6;
+}
+
+.td {
+  @apply py-4 px-6 border-b border-[#1e293b] text-sm text-[#f8fafc];
+}
+
+.statusActive {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+}
+
+.statusInactive {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400 border border-gray-500/20;
+}

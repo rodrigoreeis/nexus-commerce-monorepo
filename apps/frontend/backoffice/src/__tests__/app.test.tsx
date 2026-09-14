@@ -14,24 +14,40 @@ describe('App root component', () => {
     jest.restoreAllMocks()
   })
 
-  it('renders HomePage by default on root path in Portuguese', () => {
+  it('renders Dashboard by default on root path', () => {
     render(
       <AppProvider>
         <App />
       </AppProvider>
     )
 
-    expect(screen.getByText('Visão Geral do Comércio')).toBeInTheDocument()
+    expect(screen.getByText('Pedidos Recentes')).toBeInTheDocument()
+    expect(screen.getByText('Quantidade de Vendas')).toBeInTheDocument()
   })
 
-  it('navigates to ProductsPage when clicking Products in Header', async () => {
+  it('navigates to UsersPage when clicking Usuários in Sidebar', async () => {
     render(
       <AppProvider>
         <App />
       </AppProvider>
     )
 
-    const productsLink = screen.getByRole('link', { name: 'Produtos' })
+    const usersLink = screen.getByRole('link', { name: /Usuários/i })
+    fireEvent.click(usersLink)
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Gestão de Usuários')
+    })
+  })
+
+  it('navigates to ProductsPage when clicking Produtos in Sidebar', async () => {
+    render(
+      <AppProvider>
+        <App />
+      </AppProvider>
+    )
+
+    const productsLink = screen.getByRole('link', { name: /Produtos/i })
     fireEvent.click(productsLink)
 
     await waitFor(() => {
