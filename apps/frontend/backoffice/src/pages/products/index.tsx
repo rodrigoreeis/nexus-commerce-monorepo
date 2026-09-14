@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Dialog } from '@chakra-ui/react'
+import { Dialog, Portal } from '@chakra-ui/react'
 import { Plus, X } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { useAdminProducts } from '@/shared/hooks/useAdminProducts'
@@ -59,42 +59,65 @@ export const ProductsPage = () => {
 
         {/* Creation Modal */}
         <Dialog.Root open={isDialogOpen} onOpenChange={(details) => setIsDialogOpen(details.open)}>
-          <Dialog.Backdrop backgroundColor="rgba(0, 0, 0, 0.75)" backdropFilter="blur(4px)" />
-          <Dialog.Positioner>
-            <Dialog.Content
-              backgroundColor="var(--bg-surface)"
-              border="1px solid var(--border-app)"
-              borderRadius="0.75rem"
+          <Portal>
+            <Dialog.Backdrop
+              position="fixed"
+              inset="0"
+              width="100vw"
+              height="100vh"
+              minHeight="100dvh"
+              backgroundColor="rgba(0, 0, 0, 0.65)"
+              backdropFilter="blur(8px)"
+              zIndex={1400}
+            />
+            <Dialog.Positioner
+              position="fixed"
+              inset="0"
+              width="100vw"
+              height="100vh"
+              minHeight="100dvh"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              overflowY="auto"
               padding="1.5rem"
-              maxWidth="32rem"
-              width="100%"
-              color="var(--text-primary)"
-              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+              zIndex={1400}
             >
-              <Dialog.Header padding="0" marginBottom="1.25rem">
-                <div className={styles.dialogHeaderBar}>
-                  <Dialog.Title className={styles.dialogTitle}>
-                    Cadastrar Novo Produto
-                  </Dialog.Title>
-                  <button
-                    type="button"
-                    onClick={() => setIsDialogOpen(false)}
-                    aria-label="Fechar diálogo de cadastro de produto"
-                    className={styles.dialogCloseButton}
-                  >
-                    <X size={20} aria-hidden="true" />
-                  </button>
-                </div>
-              </Dialog.Header>
+              <Dialog.Content
+                backgroundColor="var(--bg-surface)"
+                border="1px solid var(--border-app)"
+                borderRadius="0.75rem"
+                padding="1.5rem"
+                maxWidth="32rem"
+                width="100%"
+                color="var(--text-primary)"
+                boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.35)"
+              >
+                <Dialog.Header padding="0" marginBottom="1.25rem">
+                  <div className={styles.dialogHeaderBar}>
+                    <Dialog.Title className={styles.dialogTitle}>
+                      Cadastrar Novo Produto
+                    </Dialog.Title>
+                    <button
+                      type="button"
+                      onClick={() => setIsDialogOpen(false)}
+                      aria-label="Fechar diálogo de cadastro de produto"
+                      className={styles.dialogCloseButton}
+                    >
+                      <X size={20} aria-hidden="true" />
+                    </button>
+                  </div>
+                </Dialog.Header>
 
-              <Dialog.Body padding="0">
-                <ProductForm
-                  onSuccess={handleProductCreated}
-                  onCancel={() => setIsDialogOpen(false)}
-                />
-              </Dialog.Body>
-            </Dialog.Content>
-          </Dialog.Positioner>
+                <Dialog.Body padding="0">
+                  <ProductForm
+                    onSuccess={handleProductCreated}
+                    onCancel={() => setIsDialogOpen(false)}
+                  />
+                </Dialog.Body>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
         </Dialog.Root>
       </div>
     </Layout>
