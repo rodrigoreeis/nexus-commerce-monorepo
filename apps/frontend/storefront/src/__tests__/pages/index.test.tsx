@@ -65,7 +65,7 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
 
       // Page Heading & Hero Carousel Image Banner
       expect(
-        screen.getByRole('heading', { level: 1, name: /Nexus Commerce - Loja Oficial/i })
+        screen.getByRole('heading', { level: 1, name: /Nexus Storefront - Loja Oficial/i })
       ).toBeInTheDocument()
       expect(
         screen.getByAltText(/Banner Promocional: Tecnologia e Equipamentos/i)

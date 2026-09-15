@@ -61,10 +61,10 @@ export interface MosaicGridProps {
   items?: MosaicItem[]
 }
 
-const columnCardStyles = [
-  [styles.col1Top, styles.col1Bottom],
-  [styles.col2Top, styles.col2Bottom],
-  [styles.col3Top, styles.col3Bottom],
+const columnLayout = [
+  { topClass: styles.cardCol1Top, bottomClass: styles.cardCol1Bottom },
+  { topClass: styles.cardCol2Top, bottomClass: styles.cardCol2Bottom },
+  { topClass: styles.cardCol3Top, bottomClass: styles.cardCol3Bottom },
 ]
 
 export const MosaicGrid = ({
@@ -72,11 +72,21 @@ export const MosaicGrid = ({
   subtitle = 'Explore coleções exclusivas, tecnologia de ponta e ambientes inspirados para transformar seu dia a dia.',
   items = defaultMosaicItems,
 }: MosaicGridProps) => {
-  // Distribute items across 3 columns
-  const columns: MosaicItem[][] = [[], [], []]
-  items.forEach((item, index) => {
-    columns[index % 3].push(item)
-  })
+  // Organize 6 items into 3 columns of 2 items each
+  const columnsData = [
+    {
+      items: [items[0], items[1]].filter(Boolean),
+      classes: [columnLayout[0].topClass, columnLayout[0].bottomClass],
+    },
+    {
+      items: [items[2], items[3]].filter(Boolean),
+      classes: [columnLayout[1].topClass, columnLayout[1].bottomClass],
+    },
+    {
+      items: [items[4], items[5]].filter(Boolean),
+      classes: [columnLayout[2].topClass, columnLayout[2].bottomClass],
+    },
+  ]
 
   return (
     <section aria-label={title} className={styles.section}>
@@ -86,28 +96,25 @@ export const MosaicGrid = ({
       </div>
 
       <div data-testid="mosaic-grid" className={styles.gridContainer}>
-        {columns.map((columnItems, colIdx) => (
+        {columnsData.map((col, colIdx) => (
           <div key={colIdx} className={styles.column}>
-            {columnItems.map((item, rowIdx) => {
-              const cardClass = columnCardStyles[colIdx]?.[rowIdx] || ''
-              return (
-                <article
-                  key={item.id}
-                  data-testid={`mosaic-card-${item.id}`}
-                  className={`${styles.card} ${cardClass}`}
-                >
-                  <img
-                    src={item.imageUrl}
-                    alt={item.alt}
-                    loading="lazy"
-                    className={styles.image}
-                  />
-                  <div className={styles.overlay}>
-                    <h3 className={styles.cardTitle}>{item.title}</h3>
-                  </div>
-                </article>
-              )
-            })}
+            {col.items.map((item, rowIdx) => (
+              <article
+                key={item.id}
+                data-testid={`mosaic-card-${item.id}`}
+                className={`${styles.card} ${col.classes[rowIdx] || ''}`}
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={item.alt}
+                  loading="lazy"
+                  className={styles.image}
+                />
+                <div className={styles.overlay}>
+                  <h3 className={styles.cardTitle}>{item.title}</h3>
+                </div>
+              </article>
+            ))}
           </div>
         ))}
       </div>

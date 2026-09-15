@@ -40,14 +40,14 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
   return (
     <>
       <Head>
-        <title>Nexus Commerce | Loja Oficial</title>
+        <title>Nexus Storefront | Loja Oficial</title>
         <meta
           name="description"
           content="A experiência definitiva de compras online com catálogo moderno, entrega rápida e garantia."
         />
       </Head>
       <Layout>
-        <h1 className="sr-only">Nexus Commerce - Loja Oficial</h1>
+        <h1 className="sr-only">Nexus Storefront - Loja Oficial</h1>
         <HeroCarousel />
         <Container>
           <div className={styles.highlightsWrapper}>

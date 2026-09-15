@@ -5,7 +5,7 @@ describe('Storefront Header component', () => {
   it('renders store brand logo and cart button', () => {
     render(<Header />)
 
-    expect(screen.getByLabelText('Página Inicial do Nexus Commerce')).toBeInTheDocument()
+    expect(screen.getByLabelText('Página Inicial do Nexus Storefront')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Carrinho de compras com 0 itens' })).toBeInTheDocument()
     expect(screen.getByText('Carrinho')).toBeInTheDocument()
   })

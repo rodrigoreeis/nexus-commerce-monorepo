@@ -7,5 +7,5 @@
 }
 
 .mosaicSection {
-  @apply pb-12 sm:pb-16;
+  @apply pb-16 sm:pb-24;
 }

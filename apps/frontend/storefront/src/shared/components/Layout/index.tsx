@@ -16,7 +16,7 @@ export const Layout = ({ children }: LayoutProps) => {
       </main>
       <footer className={styles.footer}>
         <Container>
-          <p>© 2026 Nexus Commerce. Todos os direitos reservados.</p>
+          <p>© 2026 Nexus Storefront. Todos os direitos reservados.</p>
         </Container>
       </footer>
     </div>

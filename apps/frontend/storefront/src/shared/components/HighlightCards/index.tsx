@@ -53,7 +53,7 @@ const variantStyles: Record<HighlightItem['variant'], string> = {
 
 export const HighlightCards = ({ items = defaultHighlights }: HighlightCardsProps) => {
   return (
-    <section aria-label="Vantagens de comprar no Nexus Commerce">
+    <section aria-label="Vantagens de comprar no Nexus Storefront">
       <div className={styles.highlightGrid}>
         {items.map((item) => {
           const Icon = item.icon

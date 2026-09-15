@@ -9,7 +9,7 @@ describe('Storefront Layout component', () => {
       </Layout>
     )
 
-    expect(screen.getByLabelText('Página Inicial do Nexus Commerce')).toBeInTheDocument()
+    expect(screen.getByLabelText('Página Inicial do Nexus Storefront')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByText('Coleção em Destaque')).toBeInTheDocument()
     expect(screen.getByText(/Todos os direitos reservados/i)).toBeInTheDocument()

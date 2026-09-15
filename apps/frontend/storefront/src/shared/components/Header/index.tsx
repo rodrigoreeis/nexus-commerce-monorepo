@@ -15,11 +15,11 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
             <a
               href="/"
               className={styles.brandLink}
-              aria-label="Página Inicial do Nexus Commerce"
+              aria-label="Página Inicial do Nexus Storefront"
             >
               <span className={styles.brandLogo} aria-hidden="true" />
               <span className={styles.brandTitle}>
-                Nexus Commerce
+                Nexus Storefront
               </span>
             </a>
           </div>

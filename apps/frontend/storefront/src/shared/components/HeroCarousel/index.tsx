@@ -77,7 +77,7 @@ export const HeroCarousel = ({
     <section
       className={styles.carouselWrapper}
       aria-roledescription="carousel"
-      aria-label="Banners promocionais do Nexus Commerce"
+      aria-label="Banners promocionais do Nexus Storefront"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}

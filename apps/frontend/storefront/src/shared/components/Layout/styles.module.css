@@ -3,9 +3,9 @@
 }
 
 .mainContent {
-  @apply flex-1;
+  @apply flex-1 pb-12 sm:pb-16;
 }
 
 .footer {
-  @apply bg-white border-t border-slate-200 py-8 text-center text-sm text-slate-600;
+  @apply bg-white border-t border-slate-200 py-10 text-center text-sm text-slate-600 mt-auto;
 }
