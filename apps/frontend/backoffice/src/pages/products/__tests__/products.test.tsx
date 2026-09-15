@@ -111,7 +111,7 @@ describe('ProductsPage', () => {
     await userEvent.upload(fileInput, file)
 
     // Submit form
-    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
+    const submitBtn = screen.getByRole('button', { name: /Adicionar/i })
     fireEvent.click(submitBtn)
 
     // Verify new product is immediately visible in the table

@@ -21,7 +21,7 @@ describe('ProductForm component', () => {
     expect(screen.getByLabelText(/Preço \(R\$\)/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/Descrição/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/Imagem do Produto/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Criar Produto/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Adicionar/i })).toBeInTheDocument()
   })
 
   it('validates required fields on submit with Portuguese messages', async () => {
@@ -31,7 +31,7 @@ describe('ProductForm component', () => {
       </AppProvider>
     )
 
-    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
+    const submitBtn = screen.getByRole('button', { name: /Adicionar/i })
     fireEvent.click(submitBtn)
 
     expect(screen.getByRole('alert')).toHaveTextContent('O nome do produto é obrigatório.')
@@ -100,7 +100,7 @@ describe('ProductForm component', () => {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(fileInput, file)
 
-    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
+    const submitBtn = screen.getByRole('button', { name: /Adicionar/i })
     fireEvent.click(submitBtn)
 
     await waitFor(() => {
@@ -134,7 +134,7 @@ describe('ProductForm component', () => {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(fileInput, file)
 
-    const submitBtn = screen.getByRole('button', { name: /Criar Produto/i })
+    const submitBtn = screen.getByRole('button', { name: /Adicionar/i })
     fireEvent.click(submitBtn)
 
     await waitFor(() => {

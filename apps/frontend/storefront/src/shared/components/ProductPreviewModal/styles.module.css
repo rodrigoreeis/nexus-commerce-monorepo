@@ -1,0 +1,95 @@
+.overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4;
+}
+
+.modal {
+  @apply relative w-full max-w-3xl rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col;
+}
+
+.closeButton {
+  @apply absolute right-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50;
+}
+
+.closeIcon {
+  @apply h-5 w-5;
+}
+
+.contentGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 p-6 overflow-y-auto;
+}
+
+.imageSection {
+  @apply flex flex-col items-center justify-center;
+}
+
+.imageWrapper {
+  @apply relative aspect-square w-full overflow-hidden rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-center;
+}
+
+.productImage {
+  @apply h-full w-full object-cover;
+}
+
+.fallbackWrapper {
+  @apply flex h-full w-full flex-col items-center justify-center bg-slate-100 text-slate-400 gap-2;
+}
+
+.fallbackIcon {
+  @apply h-14 w-14 stroke-[1.5];
+}
+
+.fallbackText {
+  @apply text-xs uppercase tracking-wider text-slate-400 font-medium;
+}
+
+.detailsSection {
+  @apply flex flex-col justify-between space-y-4;
+}
+
+.headerInfo {
+  @apply space-y-3;
+}
+
+.title {
+  @apply text-2xl font-bold text-slate-900 leading-snug;
+}
+
+.priceContainer {
+  @apply flex flex-col;
+}
+
+.priceLabel {
+  @apply text-xs uppercase tracking-wider text-slate-400 font-medium;
+}
+
+.priceValue {
+  @apply text-3xl font-extrabold text-blue-600 tracking-tight;
+}
+
+.divider {
+  @apply border-t border-slate-200 my-2;
+}
+
+.descriptionSection {
+  @apply space-y-2 flex-1;
+}
+
+.descriptionHeading {
+  @apply text-sm font-semibold text-slate-900;
+}
+
+.descriptionText {
+  @apply text-sm text-slate-600 leading-relaxed whitespace-pre-line max-h-48 overflow-y-auto pr-1;
+}
+
+.actionSection {
+  @apply pt-4 border-t border-slate-100;
+}
+
+.actionButton {
+  @apply w-full inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-500 cursor-not-allowed transition-colors hover:bg-slate-200 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50;
+}
+
+.actionIcon {
+  @apply h-4 w-4;
+}

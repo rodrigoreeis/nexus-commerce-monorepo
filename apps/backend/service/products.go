@@ -95,6 +95,10 @@ func (s *Service) HandleCreateProduct(c *gin.Context) {
 	}
 
 	description := strings.TrimSpace(c.PostForm("description"))
+	if len([]rune(description)) > 500 {
+		s.HandleResponseError(c, "Product description cannot exceed 500 characters", nil)
+		return
+	}
 
 	fileHeader, err := c.FormFile("image")
 	if err != nil {

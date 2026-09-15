@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { Layout } from '@/shared/components/Layout'
@@ -5,6 +6,7 @@ import { Container } from '@/shared/components/Container'
 import { HeroCarousel } from '@/shared/components/HeroCarousel'
 import { HighlightCards } from '@/shared/components/HighlightCards'
 import { ProductCarousel } from '@/shared/components/ProductCarousel'
+import { ProductPreviewModal } from '@/shared/components/ProductPreviewModal'
 import { useStoreProducts } from '@/shared/hooks/useStoreProducts'
 import { getStoreProducts, type Product } from '@/shared/services/catalog'
 import styles from './index.module.css'
@@ -23,6 +25,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
 }
 
 export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const { data: products = initialProducts, isLoading, error } = useStoreProducts(initialProducts)
 
   const isErrorInstance = error instanceof Error
@@ -54,10 +57,16 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
               products={products}
               isLoading={isLoading}
               error={errorMessage}
+              onSelectProduct={setSelectedProduct}
             />
           </section>
         </Container>
       </Layout>
+      <ProductPreviewModal
+        product={selectedProduct}
+        isOpen={Boolean(selectedProduct)}
+        onClose={() => setSelectedProduct(null)}
+      />
     </>
   )
 }

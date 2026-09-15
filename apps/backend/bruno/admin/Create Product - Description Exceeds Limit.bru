@@ -1,0 +1,37 @@
+meta {
+  name: Create Product - Description Exceeds Limit
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/admin/products
+  body: multipart-form
+  auth: none
+}
+
+body:multipart-form {
+  name: Smartphone Exceeding Description
+  price: 1999.90
+  description: This description is deliberately created to exceed the maximum allowed length of five hundred characters in the Nexus Commerce backend. We will continue repeating text until we comfortably pass the limit of five hundred characters so that the validation rule in Go catches this error and returns a four hundred Bad Request status code. Here is some additional filler text to ensure the boundary is crossed: lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  image: @file(../fixtures/sample.png)
+}
+
+assert {
+  res.status: eq 400
+  res.body.error: eq true
+  res.body.message: eq Product description cannot exceed 500 characters
+}
+
+tests {
+  test("should return 400 when description exceeds 500 characters", function() {
+    expect(res.getStatus()).to.equal(400);
+    const body = res.getBody();
+    expect(body.error).to.equal(true);
+    expect(body.message).to.equal("Product description cannot exceed 500 characters");
+  });
+}
+
+docs {
+  Valida que o backend rejeita o cadastro de produto com descrição excedendo 500 caracteres, retornando HTTP 400 Bad Request.
+}

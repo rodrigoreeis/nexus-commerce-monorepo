@@ -15,6 +15,7 @@ export interface ProductCarouselProps {
   subtitle?: string
   emptyTitle?: string
   emptyDescription?: string
+  onSelectProduct?: (product: Product) => void
 }
 
 export const ProductCarousel = ({
@@ -25,6 +26,7 @@ export const ProductCarousel = ({
   title = 'Ofertas em Destaque',
   emptyTitle = 'Nenhum Produto Disponível',
   emptyDescription = 'Nosso catálogo está sendo atualizado no momento. Volte em breve para conferir as novidades!',
+  onSelectProduct,
 }: ProductCarouselProps) => {
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -160,7 +162,11 @@ export const ProductCarousel = ({
         className={styles.gridContainer}
       >
         {visibleProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onSelect={onSelectProduct}
+          />
         ))}
       </div>
     </section>

@@ -293,7 +293,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           disabled={isPending}
           className={styles.submitButton}
         >
-          {isPending ? 'Criando Produto…' : 'Criar Produto'}
+          {isPending ? 'Adicionando…' : 'Adicionar'}
         </button>
 
         {onCancel && (

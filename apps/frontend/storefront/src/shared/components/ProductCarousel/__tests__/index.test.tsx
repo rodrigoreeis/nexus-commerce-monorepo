@@ -83,4 +83,24 @@ describe('ProductCarousel component', () => {
     expect(screen.queryByRole('button', { name: /Página anterior de produtos/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Próxima página de produtos/i })).not.toBeInTheDocument()
   })
+
+  it('forwards onSelectProduct callback to rendered ProductCards', async () => {
+    const user = userEvent.setup()
+    const handleSelect = jest.fn()
+    const mockProducts = generateMockProducts(2)
+
+    render(
+      <ProductCarousel
+        products={mockProducts}
+        itemsPerPage={4}
+        onSelectProduct={handleSelect}
+      />
+    )
+
+    const card = screen.getByTestId('product-card-prod-1')
+    await user.click(card)
+
+    expect(handleSelect).toHaveBeenCalledTimes(1)
+    expect(handleSelect).toHaveBeenCalledWith(mockProducts[0])
+  })
 })
