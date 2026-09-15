@@ -3,7 +3,6 @@
 > **Software Product: Analysis, Specification, Project & Implementation**  
 > **Repositório:** [github.com/rodrigoreeis/nexus-commerce-monorepo](https://github.com/rodrigoreeis/nexus-commerce-monorepo)  
 > **Quadro Ágil (Board):** [github.com/users/rodrigoreeis/projects/2](https://github.com/users/rodrigoreeis/projects/2)  
-> **Apresentação em HTML (Full Screen):** [docs/apresentacao-sharepoint.html](docs/apresentacao-sharepoint.html)
 
 ---
 
