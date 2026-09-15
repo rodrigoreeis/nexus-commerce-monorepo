@@ -127,34 +127,6 @@ export const ProductCarousel = ({
         <div className={styles.headerTextWrapper}>
           <h2 className={styles.title}>{title}</h2>
         </div>
-
-        {totalPages > 1 && (
-          <div className={styles.controlsWrapper}>
-            <span className={styles.pageIndicator} aria-live="polite">
-              Página {safePage + 1} de {totalPages}
-            </span>
-
-            <button
-              type="button"
-              className={styles.navButton}
-              onClick={handlePrev}
-              disabled={!hasPrevious}
-              aria-label="Página anterior de produtos"
-            >
-              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-            </button>
-
-            <button
-              type="button"
-              className={styles.navButton}
-              onClick={handleNext}
-              disabled={!hasNext}
-              aria-label="Próxima página de produtos"
-            >
-              <ChevronRight className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
-        )}
       </div>
 
       <div
@@ -169,6 +141,54 @@ export const ProductCarousel = ({
           />
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <div
+          data-testid="product-carousel-pagination"
+          className={styles.paginationContainer}
+        >
+          <button
+            type="button"
+            className={styles.navButton}
+            onClick={handlePrev}
+            disabled={!hasPrevious}
+            aria-label="Página anterior de produtos"
+          >
+            <ChevronLeft className={styles.navIcon} aria-hidden="true" />
+          </button>
+
+          <div
+            className={styles.bulletsWrapper}
+            role="tablist"
+            aria-label="Navegação do carrossel de ofertas"
+          >
+            {Array.from({ length: totalPages }).map((_, idx) => {
+              const isActive = idx === safePage
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-label={`Ir para a página ${idx + 1}`}
+                  className={`${styles.bullet} ${isActive ? styles.bulletActive : styles.bulletInactive}`}
+                  onClick={() => setCurrentPage(idx)}
+                />
+              )
+            })}
+          </div>
+
+          <button
+            type="button"
+            className={styles.navButton}
+            onClick={handleNext}
+            disabled={!hasNext}
+            aria-label="Próxima página de produtos"
+          >
+            <ChevronRight className={styles.navIcon} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </section>
   )
 }

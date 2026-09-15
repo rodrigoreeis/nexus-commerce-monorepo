@@ -7,6 +7,7 @@ import { HeroCarousel } from '@/shared/components/HeroCarousel'
 import { HighlightCards } from '@/shared/components/HighlightCards'
 import { ProductCarousel } from '@/shared/components/ProductCarousel'
 import { ProductPreviewModal } from '@/shared/components/ProductPreviewModal'
+import { MosaicGrid } from '@/shared/components/MosaicGrid'
 import { useStoreProducts } from '@/shared/hooks/useStoreProducts'
 import { getStoreProducts, type Product } from '@/shared/services/catalog'
 import styles from './index.module.css'
@@ -59,6 +60,9 @@ export const HomePage = ({ products: initialProducts = [] }: HomePageProps) => {
               error={errorMessage}
               onSelectProduct={setSelectedProduct}
             />
+          </section>
+          <section className={styles.mosaicSection}>
+            <MosaicGrid />
           </section>
         </Container>
       </Layout>

@@ -14,20 +14,36 @@
   @apply text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 text-pretty;
 }
 
-.controlsWrapper {
-  @apply flex items-center gap-3 shrink-0;
+.gridContainer {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
 }
 
-.pageIndicator {
-  @apply text-xs font-semibold text-slate-500 tabular-nums px-2 py-1 bg-slate-100 rounded-lg;
+.paginationContainer {
+  @apply mt-8 flex items-center justify-center gap-3;
 }
 
 .navButton {
-  @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600;
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-slate-200 disabled:hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600;
 }
 
-.gridContainer {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
+.navIcon {
+  @apply h-4 w-4;
+}
+
+.bulletsWrapper {
+  @apply inline-flex items-center gap-2 p-1.5 rounded-full bg-slate-100 border border-slate-200/70 shadow-inner;
+}
+
+.bullet {
+  @apply h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 cursor-pointer;
+}
+
+.bulletActive {
+  @apply w-8 bg-blue-600 shadow-sm;
+}
+
+.bulletInactive {
+  @apply w-2.5 bg-slate-300 hover:bg-slate-400;
 }
 
 .skeletonCard {

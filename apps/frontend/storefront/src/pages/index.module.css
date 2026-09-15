@@ -3,5 +3,9 @@
 }
 
 .productsSection {
-  @apply pt-3 sm:pt-4 pb-12 sm:pb-16 scroll-mt-20;
+  @apply pt-3 sm:pt-4 pb-6 sm:pb-8 scroll-mt-20;
+}
+
+.mosaicSection {
+  @apply pb-12 sm:pb-16;
 }

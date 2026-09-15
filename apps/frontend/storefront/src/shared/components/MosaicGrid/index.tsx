@@ -1,14 +1,11 @@
 'use client'
 
-import { ArrowUpRight } from 'lucide-react'
 import styles from './styles.module.css'
 
 export interface MosaicItem {
   id: string
   title: string
-  tag: string
   imageUrl: string
-  aspectRatioClass: string
   alt: string
   href?: string
 }
@@ -16,74 +13,44 @@ export interface MosaicItem {
 export const defaultMosaicItems: MosaicItem[] = [
   {
     id: 'mosaic-1',
-    title: 'Tecnologia & Circuitos de Próxima Geração',
-    tag: 'Inovação',
-    imageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[4/5]',
-    alt: 'Banner de Inovação: Tecnologia e microchips',
+    title: 'Inovação & Tecnologia de Ponta',
+    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
+    alt: 'Banner de Inovação e Tecnologia',
     href: '#produtos',
   },
   {
     id: 'mosaic-2',
-    title: 'Áudio de Alta Fidelidade',
-    tag: 'Acústica Pro',
+    title: 'Áudio Espacial de Alta Fidelidade',
     imageUrl: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-square',
-    alt: 'Banner de Áudio: Fone de ouvido profissional',
+    alt: 'Banner de Áudio Espacial',
     href: '#produtos',
   },
   {
     id: 'mosaic-3',
-    title: 'Estação Gamer & Performance RGB',
-    tag: 'Setup Gamer',
+    title: 'Estação Gamer & Performance',
     imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[3/4]',
-    alt: 'Banner Gamer: Setup iluminado e monitor ultrawide',
+    alt: 'Banner de Estação Gamer',
     href: '#produtos',
   },
   {
     id: 'mosaic-4',
     title: 'Smart Home & Conectividade Sem Fio',
-    tag: 'Dispositivos',
     imageUrl: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[16/10]',
-    alt: 'Banner de Conectividade: Dispositivos inteligentes',
+    alt: 'Banner de Conectividade Inteligente',
     href: '#produtos',
   },
   {
     id: 'mosaic-5',
     title: 'Ergonomia de Alta Performance',
-    tag: 'Design Suíço',
     imageUrl: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[4/5]',
-    alt: 'Banner de Ergonomia: Mouse ergonômico moderno',
+    alt: 'Banner de Ergonomia Moderna',
     href: '#produtos',
   },
   {
     id: 'mosaic-6',
     title: 'Lentes & Captura Cinematográfica',
-    tag: 'Fotografia',
     imageUrl: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[3/4]',
-    alt: 'Banner de Fotografia: Câmera fotográfica profissional',
-    href: '#produtos',
-  },
-  {
-    id: 'mosaic-7',
-    title: 'Minimalismo & Foco no Home Office',
-    tag: 'Produtividade',
-    imageUrl: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-square',
-    alt: 'Banner de Produtividade: Mesa organizada e limpa',
-    href: '#produtos',
-  },
-  {
-    id: 'mosaic-8',
-    title: 'Wearables & Monitoramento Diário',
-    tag: 'Lifestyle',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-    aspectRatioClass: 'aspect-[16/11]',
-    alt: 'Banner de Estilo de Vida: Relógio inteligente minimalista',
+    alt: 'Banner de Fotografia Profissional',
     href: '#produtos',
   },
 ]
@@ -94,11 +61,23 @@ export interface MosaicGridProps {
   items?: MosaicItem[]
 }
 
+const columnCardStyles = [
+  [styles.col1Top, styles.col1Bottom],
+  [styles.col2Top, styles.col2Bottom],
+  [styles.col3Top, styles.col3Bottom],
+]
+
 export const MosaicGrid = ({
   title = 'Inspirações & Tendências',
   subtitle = 'Explore coleções exclusivas, tecnologia de ponta e ambientes inspirados para transformar seu dia a dia.',
   items = defaultMosaicItems,
 }: MosaicGridProps) => {
+  // Distribute items across 3 columns
+  const columns: MosaicItem[][] = [[], [], []]
+  items.forEach((item, index) => {
+    columns[index % 3].push(item)
+  })
+
   return (
     <section aria-label={title} className={styles.section}>
       <div className={styles.headerWrapper}>
@@ -107,31 +86,29 @@ export const MosaicGrid = ({
       </div>
 
       <div data-testid="mosaic-grid" className={styles.gridContainer}>
-        {items.map((item) => (
-          <article
-            key={item.id}
-            data-testid={`mosaic-card-${item.id}`}
-            className={`${styles.card} ${item.aspectRatioClass}`}
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.alt}
-              loading="lazy"
-              className={styles.image}
-            />
-            <div className={styles.overlay}>
-              <div className={styles.tagWrapper}>
-                <span className={styles.tagBadge}>{item.tag}</span>
-              </div>
-              <div className={styles.infoWrapper}>
-                <h3 className={styles.cardTitle}>{item.title}</h3>
-                <span className={styles.cardAction}>
-                  Ver destaques
-                  <ArrowUpRight className={styles.actionIcon} aria-hidden="true" />
-                </span>
-              </div>
-            </div>
-          </article>
+        {columns.map((columnItems, colIdx) => (
+          <div key={colIdx} className={styles.column}>
+            {columnItems.map((item, rowIdx) => {
+              const cardClass = columnCardStyles[colIdx]?.[rowIdx] || ''
+              return (
+                <article
+                  key={item.id}
+                  data-testid={`mosaic-card-${item.id}`}
+                  className={`${styles.card} ${cardClass}`}
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.alt}
+                    loading="lazy"
+                    className={styles.image}
+                  />
+                  <div className={styles.overlay}>
+                    <h3 className={styles.cardTitle}>{item.title}</h3>
+                  </div>
+                </article>
+              )
+            })}
+          </div>
         ))}
       </div>
     </section>

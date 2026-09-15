@@ -37,7 +37,7 @@ describe('ProductCarousel component', () => {
     expect(screen.getByText('Nenhum Produto Disponível')).toBeInTheDocument()
   })
 
-  it('renders exactly up to 4 items on page 1 and allows navigating to page 2', async () => {
+  it('renders centralized bullet points with adjacent navigation arrows', async () => {
     const user = userEvent.setup()
     const mockProducts = generateMockProducts(6)
 
@@ -45,32 +45,52 @@ describe('ProductCarousel component', () => {
 
     expect(screen.getByTestId('product-carousel-grid')).toBeInTheDocument()
     expect(screen.getByText('Produto Teste 1')).toBeInTheDocument()
-    expect(screen.getByText('Produto Teste 2')).toBeInTheDocument()
-    expect(screen.getByText('Produto Teste 3')).toBeInTheDocument()
     expect(screen.getByText('Produto Teste 4')).toBeInTheDocument()
     expect(screen.queryByText('Produto Teste 5')).not.toBeInTheDocument()
 
-    expect(screen.getByText('Página 1 de 2')).toBeInTheDocument()
+    // Centralized pagination with arrows and bullets
+    const pagination = screen.getByTestId('product-carousel-pagination')
+    expect(pagination).toBeInTheDocument()
 
     const prevButton = screen.getByRole('button', { name: 'Página anterior de produtos' })
     const nextButton = screen.getByRole('button', { name: 'Próxima página de produtos' })
+    const bullet1 = screen.getByRole('tab', { name: 'Ir para a página 1' })
+    const bullet2 = screen.getByRole('tab', { name: 'Ir para a página 2' })
 
     expect(prevButton).toBeDisabled()
     expect(nextButton).toBeEnabled()
+    expect(bullet1).toHaveAttribute('aria-selected', 'true')
+    expect(bullet2).toHaveAttribute('aria-selected', 'false')
 
+    // Navigate to page 2 via next arrow
     await user.click(nextButton)
 
-    expect(screen.getByText('Página 2 de 2')).toBeInTheDocument()
+    expect(prevButton).toBeEnabled()
+    expect(nextButton).toBeDisabled()
+    expect(bullet1).toHaveAttribute('aria-selected', 'false')
+    expect(bullet2).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByText('Produto Teste 5')).toBeInTheDocument()
     expect(screen.getByText('Produto Teste 6')).toBeInTheDocument()
     expect(screen.queryByText('Produto Teste 1')).not.toBeInTheDocument()
 
-    expect(prevButton).toBeEnabled()
-    expect(nextButton).toBeDisabled()
+    // Navigate back to page 1 via bullet 1
+    await user.click(bullet1)
 
+    expect(prevButton).toBeDisabled()
+    expect(nextButton).toBeEnabled()
+    expect(bullet1).toHaveAttribute('aria-selected', 'true')
+    expect(bullet2).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByText('Produto Teste 1')).toBeInTheDocument()
+
+    // Navigate to page 2 via bullet 2
+    await user.click(bullet2)
+
+    expect(bullet2).toHaveAttribute('aria-selected', 'true')
+
+    // Navigate back to page 1 via prev arrow
     await user.click(prevButton)
 
-    expect(screen.getByText('Página 1 de 2')).toBeInTheDocument()
+    expect(bullet1).toHaveAttribute('aria-selected', 'true')
     expect(screen.getByText('Produto Teste 1')).toBeInTheDocument()
   })
 
@@ -79,9 +99,7 @@ describe('ProductCarousel component', () => {
 
     render(<ProductCarousel products={mockProducts} itemsPerPage={4} />)
 
-    expect(screen.queryByText(/Página 1 de/i)).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Página anterior de produtos/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Próxima página de produtos/i })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('product-carousel-pagination')).not.toBeInTheDocument()
   })
 
   it('forwards onSelectProduct callback to rendered ProductCards', async () => {

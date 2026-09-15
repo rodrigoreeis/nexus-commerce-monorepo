@@ -79,6 +79,10 @@ describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
       expect(screen.getByRole('heading', { level: 2, name: /Ofertas em Destaque/i })).toBeInTheDocument()
       expect(screen.getByText('Gaming Headset Pro')).toBeInTheDocument()
       expect(screen.getByText(/R\$\s*199,99/)).toBeInTheDocument()
+
+      // Mosaic Grid (Pinterest-style Inspiration Banners)
+      expect(screen.getByRole('heading', { level: 2, name: /Inspirações & Tendências/i })).toBeInTheDocument()
+      expect(screen.getByTestId('mosaic-grid')).toBeInTheDocument()
     })
 
     it('opens ProductPreviewModal when a product is clicked and closes on close button click', async () => {
