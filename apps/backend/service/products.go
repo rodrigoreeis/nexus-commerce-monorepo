@@ -144,6 +144,29 @@ func (s *Service) HandleListProducts(c *gin.Context) {
 	s.HandleResponseAPIOK(c, products, "Products retrieved successfully")
 }
 
+func (s *Service) HandleGetProduct(c *gin.Context) {
+	id := strings.TrimSpace(c.Param("id"))
+	if _, err := uuid.Parse(id); err != nil {
+		s.HandleResponseError(c, "Invalid product ID format", err)
+		return
+	}
+
+	product, err := s.store.GetProductByID(c.Request.Context(), id)
+	if err != nil {
+		if errors.Is(err, postgres.ErrProductNotFound) {
+			c.JSON(http.StatusNotFound, Response{
+				Message: "Product not found",
+				Error:   true,
+			})
+			return
+		}
+		s.HandleResponseError(c, "", err)
+		return
+	}
+
+	s.HandleResponseAPIOK(c, product, "Product retrieved successfully")
+}
+
 func (s *Service) HandleDeleteProduct(c *gin.Context) {
 	id := strings.TrimSpace(c.Param("id"))
 	if _, err := uuid.Parse(id); err != nil {

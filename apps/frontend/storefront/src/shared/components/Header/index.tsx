@@ -1,12 +1,29 @@
 import { ShoppingBag } from 'lucide-react'
 import { Container } from '@/shared/components/Container'
+import { useCart } from '@/shared/hooks/useCart'
+import { useCartUI } from '@/shared/contexts/CartContext'
 import styles from './styles.module.css'
 
 export interface HeaderProps {
   cartItemCount?: number
+  onOpenCart?: () => void
 }
 
-export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
+export const Header = ({ cartItemCount, onOpenCart }: HeaderProps) => {
+  const { data: cart } = useCart()
+  const { openCart } = useCartUI()
+
+  const liveCount = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0
+  const totalCount = cartItemCount !== undefined ? cartItemCount : liveCount
+
+  const handleCartClick = () => {
+    if (onOpenCart) {
+      onOpenCart()
+    } else {
+      openCart()
+    }
+  }
+
   return (
     <header className={styles.header}>
       <Container>
@@ -27,8 +44,9 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
           <div className={styles.actionsWrapper}>
             <button
               type="button"
+              onClick={handleCartClick}
               className={styles.cartButton}
-              aria-label={`Carrinho de compras com ${cartItemCount} itens`}
+              aria-label={`Carrinho de compras com ${totalCount} itens`}
             >
               <ShoppingBag className={styles.cartIcon} aria-hidden="true" />
               <span className={styles.cartLabel}>Carrinho</span>
@@ -36,7 +54,7 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
                 className={styles.cartBadge}
                 aria-hidden="true"
               >
-                {cartItemCount}
+                {totalCount}
               </span>
             </button>
           </div>
@@ -45,3 +63,4 @@ export const Header = ({ cartItemCount = 0 }: HeaderProps) => {
     </header>
   )
 }
+

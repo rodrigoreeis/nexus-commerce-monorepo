@@ -1,0 +1,25 @@
+meta {
+  name: Get Cart
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/store/cart
+  body: none
+  auth: none
+}
+
+headers {
+  X-Session-ID: test-session-123
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.session_id: eq test-session-123
+}
+
+docs {
+  Obtém o carrinho atual da sessão informada no cabeçalho X-Session-ID.
+}

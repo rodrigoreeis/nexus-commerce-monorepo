@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { CartProvider } from '@/shared/contexts/CartContext'
 import '@/styles/globals.css'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -18,7 +19,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <CartProvider>
+        <Component {...pageProps} />
+      </CartProvider>
     </QueryClientProvider>
   )
 }
+

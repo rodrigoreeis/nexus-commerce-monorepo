@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { X, ShoppingCart, Package } from 'lucide-react'
+import { X, ShoppingCart, Package, Minus, Plus } from 'lucide-react'
 import { Product } from '@/shared/services/catalog'
 import { formatStorePrice } from '@/shared/utils/format'
+import { useAddToCart } from '@/shared/hooks/useCart'
+import { useCartUI } from '@/shared/contexts/CartContext'
 import styles from './styles.module.css'
 
 export interface ProductPreviewModalProps {
@@ -18,9 +20,13 @@ export const ProductPreviewModal = ({
   onClose,
 }: ProductPreviewModalProps) => {
   const [imageHasError, setImageHasError] = useState(false)
+  const [quantity, setQuantity] = useState(1)
+  const { mutate: addToCart, isPending: isAdding } = useAddToCart()
+  const { openCart } = useCartUI()
 
   useEffect(() => {
     setImageHasError(false)
+    setQuantity(1)
   }, [product?.id])
 
   useEffect(() => {
@@ -56,6 +62,27 @@ export const ProductPreviewModal = ({
   const productDescription = product.description || 'Nenhuma descrição fornecida.'
   const formattedPrice = formatStorePrice(product.price)
   const hasValidImage = Boolean(product.imageUrl) && !imageHasError
+  const totalPrice = formatStorePrice(product.price * quantity)
+
+  const handleDecreaseQuantity = () => {
+    setQuantity((prev) => Math.max(1, prev - 1))
+  }
+
+  const handleIncreaseQuantity = () => {
+    setQuantity((prev) => Math.min(10, prev + 1))
+  }
+
+  const handleAddToCart = () => {
+    addToCart(
+      { productId: product.id, quantity },
+      {
+        onSuccess: () => {
+          onClose()
+          openCart()
+        },
+      }
+    )
+  }
 
   return (
     <div
@@ -81,7 +108,7 @@ export const ProductPreviewModal = ({
         </button>
 
         <div className={styles.contentGrid}>
-          {/* Left Column: Enlarged Product Image */}
+          {/* Left Column: Product Image */}
           <div className={styles.imageSection}>
             <div className={styles.imageWrapper}>
               {hasValidImage ? (
@@ -105,7 +132,7 @@ export const ProductPreviewModal = ({
             </div>
           </div>
 
-          {/* Right Column: Detailed Information */}
+          {/* Right Column: Information & Actions */}
           <div className={styles.detailsSection}>
             <div className={styles.headerInfo}>
               <h2 id="product-preview-title" className={styles.title}>
@@ -126,16 +153,61 @@ export const ProductPreviewModal = ({
               </p>
             </div>
 
+            {/* Quantity Selector */}
+            <div className={styles.quantityRow}>
+              <span id="preview-quantity-label" className={styles.quantityLabel}>
+                Quantidade
+              </span>
+              <div
+                className={styles.quantityControls}
+                role="group"
+                aria-labelledby="preview-quantity-label"
+              >
+                <button
+                  type="button"
+                  onClick={handleDecreaseQuantity}
+                  disabled={quantity <= 1 || isAdding}
+                  aria-label="Diminuir quantidade"
+                  className={styles.quantityBtn}
+                >
+                  <Minus size={14} aria-hidden="true" />
+                </button>
+                <span
+                  className={styles.quantityValue}
+                  aria-live="polite"
+                  data-testid="preview-quantity-value"
+                >
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleIncreaseQuantity}
+                  disabled={quantity >= 10 || isAdding}
+                  aria-label="Aumentar quantidade"
+                  className={styles.quantityBtn}
+                >
+                  <Plus size={14} aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+
+            {/* Action Button */}
             <div className={styles.actionSection}>
               <button
                 type="button"
-                disabled
-                aria-label={`Adicionar ao Carrinho - ${productName} (Prévia da Release 2)`}
-                title="Disponível na Release 2"
+                onClick={handleAddToCart}
+                disabled={isAdding}
+                aria-label={`Adicionar ${quantity} ${productName} ao carrinho`}
                 className={styles.actionButton}
               >
                 <ShoppingCart className={styles.actionIcon} aria-hidden="true" />
-                <span>Adicionar ao Carrinho</span>
+                <span>
+                  {isAdding
+                    ? 'Adicionando...'
+                    : quantity > 1
+                      ? `Adicionar ao Carrinho • ${totalPrice}`
+                      : 'Adicionar ao Carrinho'}
+                </span>
               </button>
             </div>
           </div>

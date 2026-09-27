@@ -16,7 +16,7 @@ func corsMiddleware() gin.HandlerFunc {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		}
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-Session-ID")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, PATCH, DELETE")
 		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
 
@@ -47,6 +47,12 @@ func Register(svc *service.Service, r *gin.Engine) {
 		store := api.Group("/store")
 		{
 			store.GET("/products", svc.HandleListProducts)
+			store.GET("/products/:id", svc.HandleGetProduct)
+			store.GET("/cart", svc.HandleGetCart)
+			store.DELETE("/cart", svc.HandleClearCart)
+			store.POST("/cart/items", svc.HandleAddCartItem)
+			store.PATCH("/cart/items/:id", svc.HandleUpdateCartItem)
+			store.DELETE("/cart/items/:id", svc.HandleRemoveCartItem)
 		}
 
 		admin := api.Group("/admin")

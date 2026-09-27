@@ -1,0 +1,23 @@
+meta {
+  name: Remove Cart Item
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/store/cart/items/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+headers {
+  X-Session-ID: test-session-123
+}
+
+assert {
+  res.status: in [200, 404]
+}
+
+docs {
+  Remove um item do carrinho da sessão.
+}

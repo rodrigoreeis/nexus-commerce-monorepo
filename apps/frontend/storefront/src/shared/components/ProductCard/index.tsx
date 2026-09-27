@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Package } from 'lucide-react'
+import { Package, ShoppingBag } from 'lucide-react'
 import { Product } from '@/shared/services/catalog'
 import { formatStorePrice } from '@/shared/utils/format'
+import { useAddToCart } from '@/shared/hooks/useCart'
+import { useCartUI } from '@/shared/contexts/CartContext'
 import styles from './styles.module.css'
 
 export interface ProductCardProps {
@@ -18,6 +20,8 @@ export const ProductCard = ({
   onSelect,
 }: ProductCardProps) => {
   const [imageHasError, setImageHasError] = useState(false)
+  const { mutate: addToCart, isPending: isAdding } = useAddToCart()
+  const { openCart } = useCartUI()
 
   const productName = product?.name || 'Produto sem nome'
   const formattedPrice = formatStorePrice(product?.price)
@@ -32,6 +36,19 @@ export const ProductCard = ({
       e.preventDefault()
       onSelect(product)
     }
+  }
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!product || isAdding) return
+    addToCart(
+      { productId: product.id, quantity: 1 },
+      {
+        onSuccess: () => {
+          openCart()
+        },
+      }
+    )
   }
 
   return (
@@ -87,12 +104,13 @@ export const ProductCard = ({
 
         <button
           type="button"
-          disabled
-          aria-label={`${actionLabel} - ${productName} (Prévia da Release 2)`}
-          title="Disponível na Release 2"
+          onClick={handleAddToCart}
+          disabled={isAdding}
+          aria-label={`${actionLabel} - ${productName}`}
           className={styles.actionButton}
         >
-          {actionLabel}
+          <ShoppingBag size={16} aria-hidden="true" />
+          <span>{isAdding ? 'Adicionando...' : actionLabel}</span>
         </button>
       </div>
     </article>

@@ -106,3 +106,39 @@ export const getStoreProducts = async (): Promise<Product[]> => {
     throw isStandardError ? error : new Error('Failed to fetch products')
   }
 }
+
+/**
+ * Fetches a single product by ID from the Go backend catalog.
+ *
+ * @param id - Unique UUID of the product.
+ * @returns Promise resolving to the domain Product model.
+ */
+export const fetchProductById = async (id: string): Promise<Product> => {
+  try {
+    const response = await apiClient.get<ApiResponse<ApiProductResponse>>(`/api/store/products/${id}`)
+    const apiResponse = response?.data
+    const isSuccess = Boolean(apiResponse?.success !== false && apiResponse?.data)
+
+    if (!isSuccess) {
+      const errorMessage = apiResponse?.message || 'Failed to fetch product details'
+      throw new Error(errorMessage)
+    }
+
+    return mapApiProductToProduct(apiResponse!.data!)
+  } catch (error: any) {
+    const hasCustomMessage = Boolean(error?.response?.data?.message)
+    if (hasCustomMessage) {
+      throw new Error(error.response.data.message)
+    }
+
+    const hasHttpStatus = Boolean(error?.response?.status)
+    if (hasHttpStatus) {
+      const statusText = error.response?.statusText ? ` ${error.response.statusText}` : ''
+      throw new Error(`Failed to fetch product: ${error.response.status}${statusText}`.trim())
+    }
+
+    const isStandardError = error instanceof Error
+    throw isStandardError ? error : new Error('Failed to fetch product')
+  }
+}
+

@@ -2,6 +2,19 @@ import { render, screen } from '@testing-library/react'
 import { ProductGrid } from '../index'
 import { Product } from '@/shared/services/catalog'
 
+jest.mock('@/shared/hooks/useCart', () => ({
+  useAddToCart: () => ({ mutate: jest.fn(), isPending: false }),
+}))
+
+jest.mock('@/shared/contexts/CartContext', () => ({
+  useCartUI: () => ({
+    isCartOpen: false,
+    openCart: jest.fn(),
+    closeCart: jest.fn(),
+    toggleCart: jest.fn(),
+  }),
+}))
+
 describe('ProductGrid component', () => {
   const mockProducts: Product[] = [
     {

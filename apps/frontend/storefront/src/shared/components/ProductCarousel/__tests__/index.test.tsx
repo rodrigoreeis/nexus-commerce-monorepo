@@ -3,6 +3,19 @@ import userEvent from '@testing-library/user-event'
 import { ProductCarousel } from '../index'
 import { Product } from '@/shared/services/catalog'
 
+jest.mock('@/shared/hooks/useCart', () => ({
+  useAddToCart: () => ({ mutate: jest.fn(), isPending: false }),
+}))
+
+jest.mock('@/shared/contexts/CartContext', () => ({
+  useCartUI: () => ({
+    isCartOpen: false,
+    openCart: jest.fn(),
+    closeCart: jest.fn(),
+    toggleCart: jest.fn(),
+  }),
+}))
+
 const generateMockProducts = (count: number): Product[] => {
   return Array.from({ length: count }, (_, index) => ({
     id: `prod-${index + 1}`,

@@ -1,0 +1,29 @@
+meta {
+  name: Update Cart Item
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/store/cart/items/00000000-0000-0000-0000-000000000000
+  body: json
+  auth: none
+}
+
+headers {
+  X-Session-ID: test-session-123
+}
+
+body:json {
+  {
+    "quantity": 2
+  }
+}
+
+assert {
+  res.status: in [200, 404]
+}
+
+docs {
+  Atualiza a quantidade de um item do carrinho.
+}

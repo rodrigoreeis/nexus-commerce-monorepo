@@ -1,0 +1,25 @@
+meta {
+  name: Clear Cart
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/store/cart
+  body: none
+  auth: none
+}
+
+headers {
+  X-Session-ID: test-session-123
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.subtotal: eq 0
+}
+
+docs {
+  Remove todos os itens do carrinho associado à sessão no cabeçalho X-Session-ID.
+}

@@ -79,6 +79,33 @@ func (s *Store) ListProducts(ctx context.Context) ([]Product, error) {
 	return products, nil
 }
 
+func (s *Store) GetProductByID(ctx context.Context, id string) (*Product, error) {
+	query := `
+		SELECT id, name, description, price, image_url, created_at, updated_at
+		FROM products
+		WHERE id = $1
+	`
+
+	var p Product
+	err := s.db.QueryRowContext(ctx, query, id).Scan(
+		&p.ID,
+		&p.Name,
+		&p.Description,
+		&p.Price,
+		&p.ImageURL,
+		&p.CreatedAt,
+		&p.UpdatedAt,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrProductNotFound
+		}
+		return nil, fmt.Errorf("failed to query product by id: %w", err)
+	}
+
+	return &p, nil
+}
+
 func (s *Store) DeleteProduct(ctx context.Context, id string) (*Product, error) {
 	query := `
 		DELETE FROM products

@@ -1,4 +1,4 @@
-import { resolveImageUrl, getStoreProducts } from '../catalog'
+import { resolveImageUrl, getStoreProducts, fetchProductById } from '../catalog'
 import { apiClient } from '../api'
 
 jest.mock('../api', () => ({
@@ -138,4 +138,45 @@ describe('catalog service with axios', () => {
       expect(products).toEqual([])
     })
   })
+
+  describe('fetchProductById', () => {
+    it('fetches single product by ID successfully', async () => {
+      const mockApiResponse = {
+        data: {
+          success: true,
+          data: {
+            id: 'prod-single',
+            name: 'Single Product',
+            description: 'Top description',
+            price: 299.99,
+            image_url: '/uploads/single.jpg',
+            created_at: '2026-09-13T10:00:00Z',
+          },
+        },
+      }
+
+      ;(apiClient.get as jest.Mock).mockResolvedValueOnce(mockApiResponse)
+
+      const product = await fetchProductById('prod-single')
+
+      expect(apiClient.get).toHaveBeenCalledWith('/api/store/products/prod-single')
+      expect(product.id).toBe('prod-single')
+      expect(product.name).toBe('Single Product')
+      expect(product.price).toBe(299.99)
+      expect(product.imageUrl).toBe('http://localhost:8080/uploads/single.jpg')
+    })
+
+    it('throws custom error when API returns error message', async () => {
+      ;(apiClient.get as jest.Mock).mockRejectedValueOnce({
+        response: {
+          data: {
+            message: 'Product not found',
+          },
+        },
+      })
+
+      await expect(fetchProductById('not-found-id')).rejects.toThrow('Product not found')
+    })
+  })
 })
+

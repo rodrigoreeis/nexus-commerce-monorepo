@@ -11,6 +11,23 @@ jest.mock('@/shared/hooks/useStoreProducts', () => ({
   useStoreProducts: jest.fn(),
 }))
 
+jest.mock('@/shared/hooks/useCart', () => ({
+  useCart: () => ({ data: { items: [] }, isLoading: false }),
+  useAddToCart: () => ({ mutate: jest.fn(), isPending: false }),
+  useUpdateCartItem: () => ({ mutate: jest.fn(), isPending: false }),
+  useRemoveCartItem: () => ({ mutate: jest.fn(), isPending: false }),
+  useClearCart: () => ({ mutate: jest.fn(), isPending: false }),
+}))
+
+jest.mock('@/shared/contexts/CartContext', () => ({
+  useCartUI: () => ({
+    isCartOpen: false,
+    openCart: jest.fn(),
+    closeCart: jest.fn(),
+    toggleCart: jest.fn(),
+  }),
+}))
+
 describe('Storefront HomePage (Pages Router with initialData SSR)', () => {
   beforeEach(() => {
     jest.clearAllMocks()

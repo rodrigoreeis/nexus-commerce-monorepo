@@ -1,0 +1,19 @@
+meta {
+  name: Get Product
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/store/products/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: in [200, 404]
+}
+
+docs {
+  Busca os detalhes de um produto público por ID para exibição na página de detalhes do produto (PDP).
+}
