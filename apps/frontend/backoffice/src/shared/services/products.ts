@@ -127,3 +127,61 @@ export const fetchAdminProducts = async (): Promise<Product[]> => {
     throw isStandardError ? error : new Error('Failed to fetch products')
   }
 }
+
+/**
+ * Deletes a product from the database via admin API.
+ *
+ * @param id - Unique UUID of the product.
+ */
+export const deleteAdminProduct = async (id: string): Promise<void> => {
+  try {
+    const response = await apiClient.delete<ApiResponse<null>>(`/api/admin/products/${id}`)
+    const apiResponse = response?.data
+    if (apiResponse && apiResponse.error) {
+      throw new Error(apiResponse.message || 'Failed to delete product')
+    }
+  } catch (error: any) {
+    const hasCustomMessage = Boolean(error?.response?.data?.message)
+    if (hasCustomMessage) {
+      throw new Error(error.response.data.message)
+    }
+    const isStandardError = error instanceof Error
+    throw isStandardError ? error : new Error('Failed to delete product')
+  }
+}
+
+export interface UpdateProductParams {
+  id: string
+  formData: FormData
+}
+
+/**
+ * Updates an existing product on the backend API via multipart/form-data.
+ *
+ * @param params - Object containing product ID and FormData.
+ * @returns Updated Product model.
+ */
+export const updateAdminProduct = async ({ id, formData }: UpdateProductParams): Promise<Product> => {
+  try {
+    const response = await apiClient.put<ApiResponse<ApiProductPayload>>(`/api/admin/products/${id}`, formData)
+    const apiResponse = response?.data
+    const isSuccessful = Boolean(apiResponse?.success && apiResponse?.data)
+
+    if (!isSuccessful) {
+      const errorMessage = apiResponse?.message || 'Failed to update product'
+      throw new Error(errorMessage)
+    }
+
+    return mapApiProductToProduct(apiResponse.data!)
+  } catch (error: any) {
+    const hasCustomMessage = Boolean(error?.response?.data?.message)
+    if (hasCustomMessage) {
+      throw new Error(error.response.data.message)
+    }
+
+    const isStandardError = error instanceof Error
+    throw isStandardError ? error : new Error('Failed to update product')
+  }
+}
+
+

@@ -53,6 +53,8 @@ func Register(svc *service.Service, r *gin.Engine) {
 		{
 			admin.POST("/products", svc.HandleCreateProduct)
 			admin.GET("/products", svc.HandleListProducts)
+			admin.DELETE("/products/:id", svc.HandleDeleteProduct)
+			admin.PUT("/products/:id", svc.HandleUpdateProduct)
 		}
 	}
 }

@@ -1,0 +1,25 @@
+meta {
+  name: Update Product
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/api/admin/products/00000000-0000-0000-0000-000000000000
+  body: multipart-form
+  auth: none
+}
+
+body:multipart-form {
+  name: Teclado Mecânico RGB Atualizado
+  price: 189.90
+  description: Descrição atualizada com novos switches táteis silenciosos.
+}
+
+assert {
+  res.status: in [200, 404]
+}
+
+docs {
+  Atualiza os dados de um produto existente no catálogo (nome, preço, descrição e opcionalmente imagem). Retorna 200 em caso de sucesso ou 404 se o produto não for encontrado.
+}

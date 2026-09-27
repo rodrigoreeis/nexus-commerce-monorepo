@@ -1,0 +1,20 @@
+meta {
+  name: Delete Product - Not Found
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/admin/products/a0000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+  res.body.error: eq true
+}
+
+docs {
+  Valida o retorno de erro 404 ao tentar remover um produto com UUID inexistente no banco de dados.
+}

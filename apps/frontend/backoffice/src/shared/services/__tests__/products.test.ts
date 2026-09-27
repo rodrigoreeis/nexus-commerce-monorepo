@@ -2,9 +2,11 @@ import '@testing-library/jest-dom'
 import { apiClient } from '../api'
 import {
   createAdminProduct,
+  deleteAdminProduct,
   fetchAdminProducts,
   getProductImageUrl,
   mapApiProductToProduct,
+  updateAdminProduct,
 } from '../products'
 
 jest.mock('../api', () => ({
@@ -12,6 +14,8 @@ jest.mock('../api', () => ({
   apiClient: {
     get: jest.fn(),
     post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
   },
 }))
 
@@ -159,4 +163,98 @@ describe('products service with axios', () => {
       await expect(createAdminProduct(formData)).rejects.toThrow('Product image is required')
     })
   })
+
+  describe('deleteAdminProduct', () => {
+    it('deletes product successfully via axios DELETE', async () => {
+      ;(apiClient.delete as jest.Mock).mockResolvedValueOnce({
+        data: {
+          success: true,
+          message: 'Product deleted successfully',
+        },
+      })
+
+      await deleteAdminProduct('prod-123')
+
+      expect(apiClient.delete).toHaveBeenCalledWith('/api/admin/products/prod-123')
+    })
+
+    it('throws error when api returns error in payload', async () => {
+      ;(apiClient.delete as jest.Mock).mockResolvedValueOnce({
+        data: {
+          error: true,
+          message: 'Product not found',
+        },
+      })
+
+      await expect(deleteAdminProduct('prod-999')).rejects.toThrow('Product not found')
+    })
+
+    it('throws error with message from error response when request fails', async () => {
+      ;(apiClient.delete as jest.Mock).mockRejectedValueOnce({
+        response: {
+          data: {
+            message: 'Invalid product ID format',
+          },
+        },
+      })
+
+      await expect(deleteAdminProduct('invalid-id')).rejects.toThrow('Invalid product ID format')
+    })
+  })
+
+  describe('updateAdminProduct', () => {
+    it('updates product successfully via axios PUT and returns updated product', async () => {
+      const mockUpdated = {
+        data: {
+          success: true,
+          data: {
+            id: 'prod-456',
+            name: 'Updated Headset',
+            description: 'Wireless 7.1',
+            price: 249.9,
+            image_url: '/uploads/headset.jpg',
+            created_at: '2026-09-13T10:00:00Z',
+          },
+        },
+      }
+
+      ;(apiClient.put as jest.Mock).mockResolvedValueOnce(mockUpdated)
+
+      const formData = new FormData()
+      formData.append('name', 'Updated Headset')
+
+      const result = await updateAdminProduct({ id: 'prod-456', formData })
+
+      expect(apiClient.put).toHaveBeenCalledWith('/api/admin/products/prod-456', formData)
+      expect(result.id).toBe('prod-456')
+      expect(result.name).toBe('Updated Headset')
+      expect(result.price).toBe(249.9)
+    })
+
+    it('throws error when api returns unsuccessful payload on update', async () => {
+      ;(apiClient.put as jest.Mock).mockResolvedValueOnce({
+        data: {
+          success: false,
+          message: 'Product not found',
+        },
+      })
+
+      const formData = new FormData()
+      await expect(updateAdminProduct({ id: 'prod-missing', formData })).rejects.toThrow('Product not found')
+    })
+
+    it('throws error with message from error response when update request fails', async () => {
+      ;(apiClient.put as jest.Mock).mockRejectedValueOnce({
+        response: {
+          data: {
+            message: 'Product name is required',
+          },
+        },
+      })
+
+      const formData = new FormData()
+      await expect(updateAdminProduct({ id: 'prod-1', formData })).rejects.toThrow('Product name is required')
+    })
+  })
 })
+

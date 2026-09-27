@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createAdminProduct, fetchAdminProducts } from '@/shared/services/products'
+import {
+  createAdminProduct,
+  deleteAdminProduct,
+  fetchAdminProducts,
+  updateAdminProduct,
+} from '@/shared/services/products'
 
 /**
  * Hook to fetch the administrative product list.
@@ -29,3 +34,38 @@ export const useCreateAdminProduct = () => {
     },
   })
 }
+
+/**
+ * Hook to delete a product and automatically invalidate the products cache.
+ *
+ * @returns React Query mutation result for product deletion.
+ */
+export const useDeleteAdminProduct = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: string) => deleteAdminProduct(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-products'] })
+    },
+  })
+}
+
+/**
+ * Hook to update an existing product and automatically invalidate the products cache.
+ *
+ * @returns React Query mutation result for product update.
+ */
+export const useUpdateAdminProduct = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
+      updateAdminProduct({ id, formData }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-products'] })
+    },
+  })
+}
+
+

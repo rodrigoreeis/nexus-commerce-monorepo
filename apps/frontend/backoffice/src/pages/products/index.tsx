@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Dialog, Portal } from '@chakra-ui/react'
 import { Plus, X } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
+import { Product } from '@/shared/services/products'
 import { useAdminProducts } from '@/shared/hooks/useAdminProducts'
 import { ProductForm } from './components/ProductForm'
 import { ProductTable } from './components/ProductTable'
@@ -9,6 +10,7 @@ import styles from './styles.module.css'
 
 export const ProductsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const { data: products = [], isLoading, error, refetch } = useAdminProducts()
 
   const isErrorInstance = error instanceof Error
@@ -19,9 +21,24 @@ export const ProductsPage = () => {
       ? 'Não foi possível carregar os produtos do servidor'
       : null
 
-  const handleProductCreated = () => {
-    refetch()
+  const handleOpenCreateModal = () => {
+    setEditingProduct(null)
+    setIsDialogOpen(true)
+  }
+
+  const handleOpenEditModal = (product: Product) => {
+    setEditingProduct(product)
+    setIsDialogOpen(true)
+  }
+
+  const handleCloseDialog = () => {
     setIsDialogOpen(false)
+    setEditingProduct(null)
+  }
+
+  const handleProductSaved = () => {
+    refetch()
+    handleCloseDialog()
   }
 
   return (
@@ -40,7 +57,7 @@ export const ProductsPage = () => {
 
           <button
             type="button"
-            onClick={() => setIsDialogOpen(true)}
+            onClick={handleOpenCreateModal}
             className={styles.addButton}
             aria-label="Adicionar novo produto"
           >
@@ -55,10 +72,20 @@ export const ProductsPage = () => {
           isLoading={isLoading}
           errorMessage={errorMessage}
           onRetry={() => refetch()}
+          onEdit={handleOpenEditModal}
         />
 
-        {/* Creation Modal */}
-        <Dialog.Root open={isDialogOpen} onOpenChange={(details) => setIsDialogOpen(details.open)}>
+        {/* Creation/Edit Modal */}
+        <Dialog.Root
+          open={isDialogOpen}
+          onOpenChange={(details) => {
+            if (!details.open) {
+              handleCloseDialog()
+            } else {
+              setIsDialogOpen(true)
+            }
+          }}
+        >
           <Portal>
             <Dialog.Backdrop
               position="fixed"
@@ -96,11 +123,11 @@ export const ProductsPage = () => {
                 <Dialog.Header padding="0" marginBottom="1.25rem">
                   <div className={styles.dialogHeaderBar}>
                     <Dialog.Title className={styles.dialogTitle}>
-                      Cadastrar Novo Produto
+                      {editingProduct ? 'Editar Produto' : 'Cadastrar Novo Produto'}
                     </Dialog.Title>
                     <button
                       type="button"
-                      onClick={() => setIsDialogOpen(false)}
+                      onClick={handleCloseDialog}
                       aria-label="Fechar diálogo de cadastro de produto"
                       className={styles.dialogCloseButton}
                     >
@@ -111,8 +138,9 @@ export const ProductsPage = () => {
 
                 <Dialog.Body padding="0">
                   <ProductForm
-                    onSuccess={handleProductCreated}
-                    onCancel={() => setIsDialogOpen(false)}
+                    initialProduct={editingProduct}
+                    onSuccess={handleProductSaved}
+                    onCancel={handleCloseDialog}
                   />
                 </Dialog.Body>
               </Dialog.Content>

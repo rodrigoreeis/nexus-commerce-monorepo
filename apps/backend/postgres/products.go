@@ -2,9 +2,13 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 )
+
+var ErrProductNotFound = errors.New("product not found")
 
 type Product struct {
 	ID          string    `json:"id"`
@@ -74,3 +78,64 @@ func (s *Store) ListProducts(ctx context.Context) ([]Product, error) {
 
 	return products, nil
 }
+
+func (s *Store) DeleteProduct(ctx context.Context, id string) (*Product, error) {
+	query := `
+		DELETE FROM products
+		WHERE id = $1
+		RETURNING id, name, image_url
+	`
+	var p Product
+	err := s.db.QueryRowContext(ctx, query, id).Scan(&p.ID, &p.Name, &p.ImageURL)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrProductNotFound
+		}
+		return nil, fmt.Errorf("failed to delete product: %w", err)
+	}
+	return &p, nil
+}
+
+func (s *Store) UpdateProduct(ctx context.Context, p *Product) (*Product, error) {
+	var query string
+	var row *sql.Row
+
+	if p.ImageURL != "" {
+		query = `
+			UPDATE products
+			SET name = $1, description = $2, price = $3, image_url = $4, updated_at = CURRENT_TIMESTAMP
+			WHERE id = $5
+			RETURNING id, name, description, price, image_url, created_at, updated_at
+		`
+		row = s.db.QueryRowContext(ctx, query, p.Name, p.Description, p.Price, p.ImageURL, p.ID)
+	} else {
+		query = `
+			UPDATE products
+			SET name = $1, description = $2, price = $3, updated_at = CURRENT_TIMESTAMP
+			WHERE id = $4
+			RETURNING id, name, description, price, image_url, created_at, updated_at
+		`
+		row = s.db.QueryRowContext(ctx, query, p.Name, p.Description, p.Price, p.ID)
+	}
+
+	var updated Product
+	err := row.Scan(
+		&updated.ID,
+		&updated.Name,
+		&updated.Description,
+		&updated.Price,
+		&updated.ImageURL,
+		&updated.CreatedAt,
+		&updated.UpdatedAt,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrProductNotFound
+		}
+		return nil, fmt.Errorf("failed to update product: %w", err)
+	}
+
+	return &updated, nil
+}
+
+

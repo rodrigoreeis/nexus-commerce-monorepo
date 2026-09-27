@@ -11,6 +11,8 @@ type Storage interface {
 	Ping(ctx context.Context) error
 	CreateProduct(ctx context.Context, p *Product) (*Product, error)
 	ListProducts(ctx context.Context) ([]Product, error)
+	DeleteProduct(ctx context.Context, id string) (*Product, error)
+	UpdateProduct(ctx context.Context, p *Product) (*Product, error)
 }
 
 type Store struct {

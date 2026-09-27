@@ -1,0 +1,19 @@
+meta {
+  name: Delete Product
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/admin/products/00000000-0000-0000-0000-000000000000
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: in [200, 404]
+}
+
+docs {
+  Remove um produto existente do catálogo pelo ID (UUID). Retorna 200 em caso de sucesso ou 404 se não for encontrado.
+}

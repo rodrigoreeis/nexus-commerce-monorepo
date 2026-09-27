@@ -1,6 +1,8 @@
-import { Table } from '@chakra-ui/react'
-import { AlertCircle, Image as ImageIcon, Package, RotateCcw } from 'lucide-react'
+import { useState } from 'react'
+import { Dialog, Portal, Table } from '@chakra-ui/react'
+import { AlertCircle, Image as ImageIcon, Package, Pencil, RotateCcw, Trash2 } from 'lucide-react'
 import { Product, getProductImageUrl } from '@/shared/services/products'
+import { useDeleteAdminProduct } from '@/shared/hooks/useAdminProducts'
 import { formatCurrency, formatDate } from '@/shared/utils/format'
 import styles from './styles.module.css'
 
@@ -9,6 +11,8 @@ export interface ProductTableProps {
   isLoading: boolean
   errorMessage?: string | null
   onRetry?: () => void
+  onDeleteSuccess?: () => void
+  onEdit?: (product: Product) => void
 }
 
 export const ProductTable = ({
@@ -16,7 +20,35 @@ export const ProductTable = ({
   isLoading,
   errorMessage,
   onRetry,
+  onDeleteSuccess,
+  onEdit,
 }: ProductTableProps) => {
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const deleteMutation = useDeleteAdminProduct()
+
+  const handleOpenDeleteDialog = (product: Product) => {
+    setDeleteError(null)
+    setProductToDelete(product)
+  }
+
+  const handleCloseDeleteDialog = () => {
+    if (deleteMutation.isPending) return
+    setProductToDelete(null)
+    setDeleteError(null)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!productToDelete) return
+    try {
+      setDeleteError(null)
+      await deleteMutation.mutateAsync(productToDelete.id)
+      setProductToDelete(null)
+      onDeleteSuccess?.()
+    } catch (err: any) {
+      setDeleteError(err?.message || 'Falha ao excluir produto')
+    }
+  }
   if (isLoading) {
     return (
       <div
@@ -112,6 +144,9 @@ export const ProductTable = ({
               <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem" textAlign="right">
                 Data de Cadastro
               </Table.ColumnHeader>
+              <Table.ColumnHeader color="#94a3b8" fontWeight="600" fontSize="0.8125rem" padding="0.875rem 1rem" textAlign="right">
+                Ações
+              </Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
 
@@ -183,12 +218,121 @@ export const ProductTable = ({
                       {formatDate(product.createdAt)}
                     </span>
                   </Table.Cell>
+
+                  {/* Actions */}
+                  <Table.Cell padding="0.875rem 1rem" textAlign="right">
+                    <div className={styles.actionsCell}>
+                      {onEdit && (
+                        <button
+                          type="button"
+                          onClick={() => onEdit(product)}
+                          className={styles.editButton}
+                          aria-label={`Editar produto ${product.name}`}
+                          title={`Editar produto ${product.name}`}
+                        >
+                          <Pencil size={16} aria-hidden="true" />
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenDeleteDialog(product)}
+                        className={styles.deleteButton}
+                        aria-label={`Excluir produto ${product.name}`}
+                        title={`Excluir produto ${product.name}`}
+                      >
+                        <Trash2 size={16} aria-hidden="true" />
+                      </button>
+                    </div>
+                  </Table.Cell>
                 </Table.Row>
               )
             })}
           </Table.Body>
         </Table.Root>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog.Root
+        open={Boolean(productToDelete)}
+        onOpenChange={(details) => {
+          if (!details.open && !deleteMutation.isPending) {
+            handleCloseDeleteDialog()
+          }
+        }}
+      >
+        <Portal>
+          <Dialog.Backdrop
+            position="fixed"
+            inset="0"
+            width="100vw"
+            height="100vh"
+            minHeight="100dvh"
+            backgroundColor="rgba(0, 0, 0, 0.65)"
+            backdropFilter="blur(8px)"
+            zIndex={1400}
+          />
+          <Dialog.Positioner
+            position="fixed"
+            inset="0"
+            width="100vw"
+            height="100vh"
+            minHeight="100dvh"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            overflowY="auto"
+            padding="1.5rem"
+            zIndex={1400}
+          >
+            <Dialog.Content
+              backgroundColor="var(--bg-surface)"
+              border="1px solid var(--border-app)"
+              borderRadius="0.75rem"
+              padding="1.5rem"
+              maxWidth="28rem"
+              width="100%"
+              color="var(--text-primary)"
+              boxShadow="0 25px 50px -12px rgba(0, 0, 0, 0.35)"
+            >
+              <Dialog.Header padding="0" marginBottom="1rem">
+                <Dialog.Title className={styles.dialogTitle}>
+                  Confirmar Exclusão
+                </Dialog.Title>
+              </Dialog.Header>
+
+              <Dialog.Body padding="0">
+                <p className={styles.confirmText}>
+                  Tem certeza que deseja remover o produto <strong>{productToDelete?.name}</strong>? Esta ação não poderá ser desfeita.
+                </p>
+                {deleteError && (
+                  <div role="alert" className={styles.dialogErrorAlert}>
+                    {deleteError}
+                  </div>
+                )}
+              </Dialog.Body>
+
+              <Dialog.Footer padding="0" marginTop="1.5rem" display="flex" justifyContent="flex-end" gap="0.75rem">
+                <button
+                  type="button"
+                  disabled={deleteMutation.isPending}
+                  onClick={handleCloseDeleteDialog}
+                  className={styles.dialogCancelButton}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  disabled={deleteMutation.isPending}
+                  onClick={handleConfirmDelete}
+                  className={styles.dialogDeleteButton}
+                >
+                  {deleteMutation.isPending ? 'Excluindo…' : 'Excluir Produto'}
+                </button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </div>
   )
 }

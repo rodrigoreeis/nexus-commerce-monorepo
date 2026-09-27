@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AlertCircle, CheckCircle2, Image as ImageIcon, Upload, X } from 'lucide-react'
-import { Product } from '@/shared/services/products'
-import { useCreateAdminProduct } from '@/shared/hooks/useAdminProducts'
+import { Product, getProductImageUrl } from '@/shared/services/products'
+import { useCreateAdminProduct, useUpdateAdminProduct } from '@/shared/hooks/useAdminProducts'
 import { formatCurrencyInput, parseCurrencyToRaw } from '@/shared/utils/format'
 import styles from './styles.module.css'
 
@@ -10,19 +10,44 @@ const MAX_DESCRIPTION_LENGTH = 500
 export interface ProductFormProps {
   onSuccess?: (product: Product) => void
   onCancel?: () => void
+  initialProduct?: Product | null
 }
 
-export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
+export const ProductForm = ({ onSuccess, onCancel, initialProduct }: ProductFormProps) => {
+  const [name, setName] = useState(initialProduct ? initialProduct.name : '')
+  const [price, setPrice] = useState(
+    initialProduct ? formatCurrencyInput((initialProduct.price * 100).toFixed(0)) : ''
+  )
+  const [description, setDescription] = useState(initialProduct ? initialProduct.description : '')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    initialProduct?.imageUrl ? getProductImageUrl(initialProduct.imageUrl) : null
+  )
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
-  const { mutateAsync: createProduct, isPending } = useCreateAdminProduct()
+  const { mutateAsync: createProduct, isPending: isCreating } = useCreateAdminProduct()
+  const { mutateAsync: updateProduct, isPending: isUpdating } = useUpdateAdminProduct()
+  const isPending = isCreating || isUpdating
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    if (initialProduct) {
+      setName(initialProduct.name)
+      setPrice(formatCurrencyInput((initialProduct.price * 100).toFixed(0)))
+      setDescription(initialProduct.description || '')
+      setPreviewUrl(initialProduct.imageUrl ? getProductImageUrl(initialProduct.imageUrl) : null)
+      setSelectedFile(null)
+    } else {
+      setName('')
+      setPrice('')
+      setDescription('')
+      setPreviewUrl(null)
+      setSelectedFile(null)
+    }
+    setErrorMessage(null)
+    setSuccessMessage(null)
+  }, [initialProduct])
 
   useEffect(() => {
     return () => {
@@ -89,7 +114,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
     }
 
     const hasSelectedFile = Boolean(selectedFile)
-    if (!hasSelectedFile) {
+    if (!initialProduct && !hasSelectedFile) {
       setErrorMessage('A imagem do produto é obrigatória.')
       return
     }
@@ -99,18 +124,25 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
       formData.append('name', trimmedName)
       formData.append('price', numericPrice.toFixed(2))
       formData.append('description', description.trim())
-      formData.append('image', selectedFile!)
+      if (selectedFile) {
+        formData.append('image', selectedFile)
+      }
 
-      const createdProduct = await createProduct(formData)
-
-      setSuccessMessage('Produto criado com sucesso!')
-      setName('')
-      setPrice('')
-      setDescription('')
-      handleRemoveImage()
+      let savedProduct: Product
+      if (initialProduct) {
+        savedProduct = await updateProduct({ id: initialProduct.id, formData })
+        setSuccessMessage('Produto atualizado com sucesso!')
+      } else {
+        savedProduct = await createProduct(formData)
+        setSuccessMessage('Produto criado com sucesso!')
+        setName('')
+        setPrice('')
+        setDescription('')
+        handleRemoveImage()
+      }
 
       if (onSuccess) {
-        onSuccess(createdProduct)
+        onSuccess(savedProduct)
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Ocorreu um erro inesperado'
@@ -222,7 +254,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           htmlFor="product-image"
           className={styles.fieldLabel}
         >
-          Imagem do Produto <span className={styles.requiredIndicator} aria-hidden="true">*</span>
+          Imagem do Produto {!initialProduct && <span className={styles.requiredIndicator} aria-hidden="true">*</span>}
         </label>
 
         <div className={`${styles.uploadBox} ${previewUrl ? styles.uploadBoxActive : ''}`}>
@@ -250,7 +282,7 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
               </div>
               <div className={styles.previewMeta}>
                 <span className={styles.previewFileName}>
-                  {selectedFile?.name}
+                  {selectedFile?.name || (initialProduct?.imageUrl ? 'Imagem atual cadastrada' : '')}
                 </span>
                 <button
                   type="button"
@@ -293,7 +325,9 @@ export const ProductForm = ({ onSuccess, onCancel }: ProductFormProps) => {
           disabled={isPending}
           className={styles.submitButton}
         >
-          {isPending ? 'Adicionando…' : 'Adicionar'}
+          {isPending
+            ? (initialProduct ? 'Salvando…' : 'Adicionando…')
+            : (initialProduct ? 'Salvar Alterações' : 'Adicionar')}
         </button>
 
         {onCancel && (

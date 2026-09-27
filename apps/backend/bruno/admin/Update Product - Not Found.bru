@@ -1,0 +1,26 @@
+meta {
+  name: Update Product - Not Found
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/api/admin/products/a0000000-0000-0000-0000-000000000000
+  body: multipart-form
+  auth: none
+}
+
+body:multipart-form {
+  name: Smartphone
+  price: 1999.90
+  description: Updated description
+}
+
+assert {
+  res.status: eq 404
+  res.body.error: eq true
+}
+
+docs {
+  Valida o retorno de erro 404 ao tentar atualizar um produto com UUID inexistente no banco de dados.
+}

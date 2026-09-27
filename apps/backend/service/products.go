@@ -3,7 +3,9 @@ package service
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"mime/multipart"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -141,3 +143,105 @@ func (s *Service) HandleListProducts(c *gin.Context) {
 
 	s.HandleResponseAPIOK(c, products, "Products retrieved successfully")
 }
+
+func (s *Service) HandleDeleteProduct(c *gin.Context) {
+	id := strings.TrimSpace(c.Param("id"))
+	if _, err := uuid.Parse(id); err != nil {
+		s.HandleResponseError(c, "Invalid product ID format", err)
+		return
+	}
+
+	deletedProduct, err := s.store.DeleteProduct(c.Request.Context(), id)
+	if err != nil {
+		if errors.Is(err, postgres.ErrProductNotFound) {
+			c.JSON(http.StatusNotFound, Response{
+				Message: "Product not found",
+				Error:   true,
+			})
+			return
+		}
+		s.HandleResponseError(c, "", err)
+		return
+	}
+
+	if deletedProduct.ImageURL != "" && strings.HasPrefix(deletedProduct.ImageURL, "/uploads/") {
+		imagePath := filepath.Join(".", deletedProduct.ImageURL)
+		if err := os.Remove(imagePath); err != nil && !errors.Is(err, os.ErrNotExist) {
+			slog.Warn("Failed to delete product image file", "image_path", imagePath, "error", err)
+		}
+	}
+
+	s.HandleResponseAPIOK(c, nil, "Product deleted successfully")
+}
+
+func (s *Service) HandleUpdateProduct(c *gin.Context) {
+	id := strings.TrimSpace(c.Param("id"))
+	if _, err := uuid.Parse(id); err != nil {
+		s.HandleResponseError(c, "Invalid product ID format", err)
+		return
+	}
+
+	name := strings.TrimSpace(c.PostForm("name"))
+	if name == "" {
+		s.HandleResponseError(c, "Product name is required", nil)
+		return
+	}
+
+	priceStr := strings.TrimSpace(c.PostForm("price"))
+	if priceStr == "" {
+		s.HandleResponseError(c, "Product price is required", nil)
+		return
+	}
+
+	price, err := strconv.ParseFloat(priceStr, 64)
+	if err != nil || price < 0 {
+		s.HandleResponseError(c, "Product price must be a valid positive number", nil)
+		return
+	}
+
+	description := strings.TrimSpace(c.PostForm("description"))
+	if len([]rune(description)) > 500 {
+		s.HandleResponseError(c, "Product description cannot exceed 500 characters", nil)
+		return
+	}
+
+	var imageURL string
+	fileHeader, err := c.FormFile("image")
+	if err == nil {
+		savedURL, err := saveUploadedImage(c, fileHeader)
+		if err != nil {
+			if errors.Is(err, os.ErrPermission) {
+				s.HandleResponseError(c, "", err)
+			} else {
+				s.HandleResponseError(c, err.Error(), err)
+			}
+			return
+		}
+		imageURL = savedURL
+	}
+
+	product := &postgres.Product{
+		ID:          id,
+		Name:        name,
+		Description: description,
+		Price:       price,
+		ImageURL:    imageURL,
+	}
+
+	updated, err := s.store.UpdateProduct(c.Request.Context(), product)
+	if err != nil {
+		if errors.Is(err, postgres.ErrProductNotFound) {
+			c.JSON(http.StatusNotFound, Response{
+				Message: "Product not found",
+				Error:   true,
+			})
+			return
+		}
+		s.HandleResponseError(c, "", err)
+		return
+	}
+
+	s.HandleResponseAPIOK(c, updated, "Product updated successfully")
+}
+
+
