@@ -18,18 +18,18 @@ Este plano técnico foi simplificado para focar exclusivamente na criação da S
 
 ## 2. Checklist Técnico Global (`[ ]`)
 
-- [ ] **Server Action (`apps/frontend/storefront/src/shared/actions/`)**:
-  - [ ] Criar `src/shared/actions/cart.ts` com `'use server'`.
-  - [ ] Implementar `addToCartAction(payload: { sessionId: string; productId: string; quantity?: number }): Promise<Cart>`.
-  - [ ] Validar `sessionId` e `productId` obrigatórios.
-  - [ ] Disparar requisição para a rota `/api/store/cart/items` com cabeçalho `X-Session-ID`.
-- [ ] **Hook `useAddToCart` (`apps/frontend/storefront/src/shared/hooks/`)**:
-  - [ ] Atualizar `src/shared/hooks/useCart.ts` para conectar `addToCartAction` com `getOrCreateSessionId()`.
-- [ ] **Testes Automatizados Jest (`apps/frontend/storefront/`)**:
-  - [ ] Criar testes unitários em `src/shared/actions/__tests__/cart.test.ts`.
-  - [ ] Atualizar testes em `src/shared/hooks/__tests__/useCart.test.tsx`.
-  - [ ] Validar testes com `npm test`.
-  - [ ] Validar build com `npm run build`.
+- [x] **Server Action (`apps/frontend/storefront/src/shared/actions/`)**:
+  - [x] Criar `src/shared/actions/cart.ts` com `'use server'`.
+  - [x] Implementar `addToCartAction(payload: { sessionId: string; productId: string; quantity?: number }): Promise<Cart>`.
+  - [x] Validar `sessionId` e `productId` obrigatórios.
+  - [x] Disparar requisição para a rota `/api/store/cart/items` com cabeçalho `X-Session-ID`.
+- [x] **Hook `useAddToCart` (`apps/frontend/storefront/src/shared/hooks/`)**:
+  - [x] Atualizar `src/shared/hooks/useCart.ts` para conectar `addToCartAction` com `getOrCreateSessionId()`.
+- [x] **Testes Automatizados Jest (`apps/frontend/storefront/`)**:
+  - [x] Criar testes unitários em `src/shared/actions/__tests__/cart.test.ts`.
+  - [x] Atualizar testes em `src/shared/hooks/__tests__/useCart.test.tsx`.
+  - [x] Validar testes com `npm test`.
+  - [x] Validar build com `npm run build`.
 
 ---
 

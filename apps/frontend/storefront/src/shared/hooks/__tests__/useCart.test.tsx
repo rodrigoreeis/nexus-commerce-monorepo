@@ -2,7 +2,17 @@ import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 import { useAddToCart, useCart, useClearCart, useRemoveCartItem, useUpdateCartItem } from '../useCart'
+import * as cartActions from '@/shared/actions/cart'
 import * as cartService from '@/shared/services/cart'
+import * as sessionUtils from '@/shared/utils/session'
+
+jest.mock('@/shared/actions/cart', () => ({
+  addToCartAction: jest.fn(),
+}))
+
+jest.mock('@/shared/utils/session', () => ({
+  getOrCreateSessionId: jest.fn(() => 'mock-session-1'),
+}))
 
 jest.mock('@/shared/services/cart', () => ({
   fetchCart: jest.fn(),
@@ -72,7 +82,7 @@ describe('useCart hooks', () => {
   })
 
   it('adds item to cart using useAddToCart', async () => {
-    ;(cartService.addToCart as jest.Mock).mockResolvedValue(mockCart)
+    ;(cartActions.addToCartAction as jest.Mock).mockResolvedValue(mockCart)
 
     const { result } = renderHook(() => useAddToCart(), {
       wrapper: createWrapper(),
@@ -80,7 +90,11 @@ describe('useCart hooks', () => {
 
     await result.current.mutateAsync({ productId: 'prod-1', quantity: 1 })
 
-    expect(cartService.addToCart).toHaveBeenCalledWith({ productId: 'prod-1', quantity: 1 })
+    expect(cartActions.addToCartAction).toHaveBeenCalledWith({
+      sessionId: 'mock-session-1',
+      productId: 'prod-1',
+      quantity: 1,
+    })
   })
 
   it('updates cart item quantity using useUpdateCartItem', async () => {

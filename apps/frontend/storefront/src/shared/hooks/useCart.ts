@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { addToCartAction } from '@/shared/actions/cart'
 import {
-  addToCart,
   clearCart,
   fetchCart,
   removeCartItem,
   updateCartItemQuantity,
   type AddToCartPayload,
 } from '@/shared/services/cart'
+import { getOrCreateSessionId } from '@/shared/utils/session'
 
 export const CART_QUERY_KEY = ['store-cart']
 
@@ -29,7 +30,12 @@ export const useAddToCart = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (payload: AddToCartPayload) => addToCart(payload),
+    mutationFn: (payload: AddToCartPayload) =>
+      addToCartAction({
+        sessionId: getOrCreateSessionId(),
+        productId: payload.productId,
+        quantity: payload.quantity,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY })
     },
