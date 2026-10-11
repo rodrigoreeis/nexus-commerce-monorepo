@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { addToCartAction } from '@/shared/actions/cart'
 import {
-  clearCart,
-  fetchCart,
-  removeCartItem,
-  updateCartItemQuantity,
-  type AddToCartPayload,
-} from '@/shared/services/cart'
+  addToCartAction,
+  clearCartAction,
+  removeCartItemAction,
+  updateCartItemQuantityAction,
+} from '@/shared/actions/cart'
+import { fetchCart, type AddToCartPayload } from '@/shared/services/cart'
 import { getOrCreateSessionId } from '@/shared/utils/session'
 
 export const CART_QUERY_KEY = ['store-cart']
@@ -50,7 +49,11 @@ export const useUpdateCartItem = () => {
 
   return useMutation({
     mutationFn: ({ itemId, quantity }: { itemId: string; quantity: number }) =>
-      updateCartItemQuantity(itemId, quantity),
+      updateCartItemQuantityAction({
+        sessionId: getOrCreateSessionId(),
+        itemId,
+        quantity,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY })
     },
@@ -64,7 +67,11 @@ export const useRemoveCartItem = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (itemId: string) => removeCartItem(itemId),
+    mutationFn: (itemId: string) =>
+      removeCartItemAction({
+        sessionId: getOrCreateSessionId(),
+        itemId,
+      }),
     onSuccess: (updatedCart) => {
       queryClient.setQueryData(CART_QUERY_KEY, updatedCart)
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY })
@@ -79,7 +86,10 @@ export const useClearCart = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: clearCart,
+    mutationFn: () =>
+      clearCartAction({
+        sessionId: getOrCreateSessionId(),
+      }),
     onSuccess: (clearedCart) => {
       queryClient.setQueryData(CART_QUERY_KEY, clearedCart)
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY })

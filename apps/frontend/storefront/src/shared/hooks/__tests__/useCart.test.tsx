@@ -4,10 +4,12 @@ import { ReactNode } from 'react'
 import { useAddToCart, useCart, useClearCart, useRemoveCartItem, useUpdateCartItem } from '../useCart'
 import * as cartActions from '@/shared/actions/cart'
 import * as cartService from '@/shared/services/cart'
-import * as sessionUtils from '@/shared/utils/session'
 
 jest.mock('@/shared/actions/cart', () => ({
   addToCartAction: jest.fn(),
+  updateCartItemQuantityAction: jest.fn(),
+  removeCartItemAction: jest.fn(),
+  clearCartAction: jest.fn(),
 }))
 
 jest.mock('@/shared/utils/session', () => ({
@@ -16,10 +18,6 @@ jest.mock('@/shared/utils/session', () => ({
 
 jest.mock('@/shared/services/cart', () => ({
   fetchCart: jest.fn(),
-  addToCart: jest.fn(),
-  updateCartItemQuantity: jest.fn(),
-  removeCartItem: jest.fn(),
-  clearCart: jest.fn(),
 }))
 
 const createWrapper = () => {
@@ -98,7 +96,7 @@ describe('useCart hooks', () => {
   })
 
   it('updates cart item quantity using useUpdateCartItem', async () => {
-    ;(cartService.updateCartItemQuantity as jest.Mock).mockResolvedValue(mockCart)
+    ;(cartActions.updateCartItemQuantityAction as jest.Mock).mockResolvedValue(mockCart)
 
     const { result } = renderHook(() => useUpdateCartItem(), {
       wrapper: createWrapper(),
@@ -106,11 +104,15 @@ describe('useCart hooks', () => {
 
     await result.current.mutateAsync({ itemId: 'item-1', quantity: 3 })
 
-    expect(cartService.updateCartItemQuantity).toHaveBeenCalledWith('item-1', 3)
+    expect(cartActions.updateCartItemQuantityAction).toHaveBeenCalledWith({
+      sessionId: 'mock-session-1',
+      itemId: 'item-1',
+      quantity: 3,
+    })
   })
 
   it('removes cart item using useRemoveCartItem', async () => {
-    ;(cartService.removeCartItem as jest.Mock).mockResolvedValue(mockCart)
+    ;(cartActions.removeCartItemAction as jest.Mock).mockResolvedValue(mockCart)
 
     const { result } = renderHook(() => useRemoveCartItem(), {
       wrapper: createWrapper(),
@@ -118,11 +120,14 @@ describe('useCart hooks', () => {
 
     await result.current.mutateAsync('item-1')
 
-    expect(cartService.removeCartItem).toHaveBeenCalledWith('item-1')
+    expect(cartActions.removeCartItemAction).toHaveBeenCalledWith({
+      sessionId: 'mock-session-1',
+      itemId: 'item-1',
+    })
   })
 
   it('clears cart using useClearCart', async () => {
-    ;(cartService.clearCart as jest.Mock).mockResolvedValue({
+    ;(cartActions.clearCartAction as jest.Mock).mockResolvedValue({
       ...mockCart,
       items: [],
       subtotal: 0,
@@ -134,6 +139,8 @@ describe('useCart hooks', () => {
 
     await result.current.mutateAsync()
 
-    expect(cartService.clearCart).toHaveBeenCalledTimes(1)
+    expect(cartActions.clearCartAction).toHaveBeenCalledWith({
+      sessionId: 'mock-session-1',
+    })
   })
 })

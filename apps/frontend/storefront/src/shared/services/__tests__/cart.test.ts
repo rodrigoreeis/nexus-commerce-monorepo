@@ -1,13 +1,10 @@
-import { addToCart, clearCart, fetchCart, removeCartItem, updateCartItemQuantity } from '../cart'
+import { fetchCart } from '../cart'
 import { apiClient } from '../api'
 
 jest.mock('../api', () => ({
   ...jest.requireActual('../api'),
   apiClient: {
     get: jest.fn(),
-    post: jest.fn(),
-    patch: jest.fn(),
-    delete: jest.fn(),
   },
 }))
 
@@ -55,74 +52,26 @@ describe('cart service with axios', () => {
     expect(cart.subtotal).toBe(199.98)
   })
 
-  it('adds item to cart successfully via POST /api/store/cart/items', async () => {
-    ;(apiClient.post as jest.Mock).mockResolvedValueOnce({
+  it('throws error when API returns success false or missing data', async () => {
+    ;(apiClient.get as jest.Mock).mockResolvedValueOnce({
       data: {
-        success: true,
-        data: mockCartData,
+        success: false,
+        message: 'Cart not found',
       },
     })
 
-    const cart = await addToCart({ productId: 'prod-1', quantity: 2 })
-
-    expect(apiClient.post).toHaveBeenCalledWith('/api/store/cart/items', {
-      product_id: 'prod-1',
-      quantity: 2,
-    })
-    expect(cart.items).toHaveLength(1)
+    await expect(fetchCart()).rejects.toThrow('Cart not found')
   })
 
-  it('updates cart item quantity via PATCH /api/store/cart/items/:id', async () => {
-    ;(apiClient.patch as jest.Mock).mockResolvedValueOnce({
-      data: {
-        success: true,
-        data: mockCartData,
-      },
-    })
-
-    const cart = await updateCartItemQuantity('item-1', 3)
-
-    expect(apiClient.patch).toHaveBeenCalledWith('/api/store/cart/items/item-1', {
-      quantity: 3,
-    })
-    expect(cart.id).toBe('cart-1')
-  })
-
-  it('removes cart item via DELETE /api/store/cart/items/:id', async () => {
-    ;(apiClient.delete as jest.Mock).mockResolvedValueOnce({
-      data: {
-        success: true,
+  it('handles axios error with response message', async () => {
+    ;(apiClient.get as jest.Mock).mockRejectedValueOnce({
+      response: {
         data: {
-          ...mockCartData,
-          items: [],
-          subtotal: 0,
+          message: 'Server error',
         },
       },
     })
 
-    const cart = await removeCartItem('item-1')
-
-    expect(apiClient.delete).toHaveBeenCalledWith('/api/store/cart/items/item-1')
-    expect(cart.items).toHaveLength(0)
-    expect(cart.subtotal).toBe(0)
-  })
-
-  it('clears active cart via DELETE /api/store/cart', async () => {
-    ;(apiClient.delete as jest.Mock).mockResolvedValueOnce({
-      data: {
-        success: true,
-        data: {
-          ...mockCartData,
-          items: [],
-          subtotal: 0,
-        },
-      },
-    })
-
-    const cart = await clearCart()
-
-    expect(apiClient.delete).toHaveBeenCalledWith('/api/store/cart')
-    expect(cart.items).toHaveLength(0)
-    expect(cart.subtotal).toBe(0)
+    await expect(fetchCart()).rejects.toThrow('Server error')
   })
 })
