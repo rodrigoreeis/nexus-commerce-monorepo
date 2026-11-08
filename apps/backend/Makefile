@@ -1,4 +1,5 @@
 export PATH := /usr/local/go/bin:$(HOME)/go/bin:$(PATH)
+export XDG_DATA_HOME := $(HOME)/.local/share
 
 COMPOSE_CMD ?= $(shell command -v podman-compose 2>/dev/null || echo "docker compose")
 CONTAINER_CLI ?= $(shell command -v podman 2>/dev/null || echo docker)

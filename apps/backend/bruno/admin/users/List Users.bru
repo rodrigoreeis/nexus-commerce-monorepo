@@ -1,0 +1,26 @@
+meta {
+  name: List Users
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/admin/users
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data: isArray
+}
+
+docs {
+  Lista todos os usuários do Backoffice cadastrados no sistema.
+  Acesso restrito para roles 'admin' e 'manager'.
+}

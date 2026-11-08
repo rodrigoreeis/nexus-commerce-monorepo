@@ -1,5 +1,6 @@
 import React from 'react'
 import { LayoutDashboard, Users, Package } from 'lucide-react'
+import { useAuth } from '@/shared/context/AuthContext'
 import styles from './styles.module.css'
 
 export type BackofficeRoute = 'dashboard' | 'users' | 'products' | 'home'
@@ -16,6 +17,14 @@ export const Sidebar = ({
   systemStatus = 'online',
 }: SidebarProps) => {
   const isOnline = systemStatus === 'online'
+
+  let isUserRole = false
+  try {
+    const auth = useAuth()
+    isUserRole = auth.isUser
+  } catch {
+    // Outside of AuthProvider in isolated tests
+  }
 
   const normalizedRoute = activeRoute === 'home' ? 'dashboard' : activeRoute
 
@@ -63,15 +72,17 @@ export const Sidebar = ({
             <span>Dashboard</span>
           </a>
 
-          <a
-            href="/users"
-            onClick={handleNavClick('users', '/users')}
-            className={`${styles.navItem} ${normalizedRoute === 'users' ? styles.navItemActive : ''}`}
-            aria-current={normalizedRoute === 'users' ? 'page' : undefined}
-          >
-            <Users className={styles.navIcon} aria-hidden="true" />
-            <span>Usuários</span>
-          </a>
+          {!isUserRole && (
+            <a
+              href="/users"
+              onClick={handleNavClick('users', '/users')}
+              className={`${styles.navItem} ${normalizedRoute === 'users' ? styles.navItemActive : ''}`}
+              aria-current={normalizedRoute === 'users' ? 'page' : undefined}
+            >
+              <Users className={styles.navIcon} aria-hidden="true" />
+              <span>Usuários</span>
+            </a>
+          )}
 
           <a
             href="/products"

@@ -1,5 +1,6 @@
-import { Shield, Sun, Moon } from 'lucide-react'
+import { Shield, Sun, Moon, LogOut } from 'lucide-react'
 import { useTheme } from '@/shared/theme/provider'
+import { useAuth } from '@/shared/context/AuthContext'
 import styles from './styles.module.css'
 
 export type BackofficeRoute = 'dashboard' | 'users' | 'products' | 'home'
@@ -15,6 +16,36 @@ export const Header = ({
   title = 'Nexus Backoffice',
 }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme()
+
+  let user = null
+  let logout: (() => void) | null = null
+
+  try {
+    const auth = useAuth()
+    user = auth.user
+    logout = auth.logout
+  } catch {
+    // Outside of AuthProvider in isolated tests
+  }
+
+  const displayName = user?.name || 'Administrador'
+  const displayEmail = user?.email || 'admin@nexuscommerce.com'
+  const userRole = user?.role || 'admin'
+
+  const getRoleBadgeClass = () => {
+    switch (userRole) {
+      case 'root':
+        return `${styles.roleBadge} ${styles.roleRoot}`
+      case 'admin':
+        return `${styles.roleBadge} ${styles.roleAdmin}`
+      case 'manager':
+        return `${styles.roleBadge} ${styles.roleManager}`
+      case 'user':
+        return `${styles.roleBadge} ${styles.roleUser}`
+      default:
+        return styles.roleBadge
+    }
+  }
 
   return (
     <header className={styles.headerRoot} data-testid="backoffice-header">
@@ -40,9 +71,24 @@ export const Header = ({
             <Shield size={16} />
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.userName}>Administrador</span>
-            <span className={styles.userRole}>admin@nexuscommerce.com</span>
+            <div className="flex items-center gap-2">
+              <span className={styles.userName}>{displayName}</span>
+              <span className={getRoleBadgeClass()}>{userRole}</span>
+            </div>
+            <span className={styles.userRole}>{displayEmail}</span>
           </div>
+
+          {logout && (
+            <button
+              type="button"
+              onClick={logout}
+              className={styles.logoutButton}
+              title="Sair do sistema"
+              aria-label="Sair do sistema"
+            >
+              <LogOut size={18} />
+            </button>
+          )}
         </div>
       </div>
     </header>

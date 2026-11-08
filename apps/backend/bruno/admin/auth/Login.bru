@@ -1,0 +1,40 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/admin/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "admin@nexuscommerce.com",
+    "password": "admin123"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.token: isDefined
+  res.body.data.user.role: in [root, admin]
+}
+
+script:post-response {
+  if (res.status === 200 && res.body && res.body.data && res.body.data.token) {
+    bru.setEnvVar("adminToken", res.body.data.token);
+  }
+}
+
+docs {
+  Autenticação do usuário administrativo com geração de token JWT.
+  Salva a variável `adminToken` no ambiente para ser utilizada nas requisições subsequentes.
+}

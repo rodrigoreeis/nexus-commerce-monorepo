@@ -20,9 +20,15 @@ type DatabaseConfig struct {
 	SSLMode  string `toml:"sslmode"`
 }
 
+type JWTConfig struct {
+	Secret          string `toml:"secret"`
+	ExpirationHours int    `toml:"expiration_hours"`
+}
+
 type AppConfig struct {
 	Server   ServerConfig   `toml:"server"`
 	Database DatabaseConfig `toml:"database"`
+	JWT      JWTConfig      `toml:"jwt"`
 }
 
 func LoadConfigEnv() (AppConfig, error) {
@@ -73,6 +79,15 @@ func LoadConfigEnv() (AppConfig, error) {
 	}
 	if dbname := os.Getenv("DB_NAME"); dbname != "" {
 		cfg.Database.DBName = dbname
+	}
+	if secret := os.Getenv("JWT_SECRET"); secret != "" {
+		cfg.JWT.Secret = secret
+	}
+	if cfg.JWT.Secret == "" {
+		cfg.JWT.Secret = "nexus-commerce-jwt-secret-key-2026"
+	}
+	if cfg.JWT.ExpirationHours <= 0 {
+		cfg.JWT.ExpirationHours = 24
 	}
 
 	return cfg, nil

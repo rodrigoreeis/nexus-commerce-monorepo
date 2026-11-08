@@ -10,6 +10,10 @@ put {
   auth: none
 }
 
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
 body:multipart-form {
   name: Smartphone
   price: 1999.90

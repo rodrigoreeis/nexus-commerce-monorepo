@@ -1,0 +1,33 @@
+meta {
+  name: Update User Role
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/admin/users/{{createdUserId}}/role
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+}
+
+body:json {
+  {
+    "role": "admin"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.role: eq admin
+}
+
+docs {
+  Atualiza a função (role) de um usuário do Backoffice.
+  Operação restrita exclusivamente para usuários com a role 'admin'.
+}

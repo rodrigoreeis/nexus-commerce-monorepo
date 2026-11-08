@@ -41,3 +41,27 @@
 .userRole {
   @apply text-xs text-[var(--text-secondary)] mt-1 leading-none;
 }
+
+.roleBadge {
+  @apply text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider inline-block;
+}
+
+.roleRoot {
+  @apply bg-amber-500/20 text-amber-300 border border-amber-500/30;
+}
+
+.roleAdmin {
+  @apply bg-purple-500/20 text-purple-300 border border-purple-500/30;
+}
+
+.roleManager {
+  @apply bg-teal-500/20 text-teal-300 border border-teal-500/30;
+}
+
+.roleUser {
+  @apply bg-slate-500/20 text-slate-300 border border-slate-500/30;
+}
+
+.logoutButton {
+  @apply flex items-center justify-center p-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors cursor-pointer ml-1;
+}

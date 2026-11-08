@@ -10,6 +10,10 @@ put {
   auth: none
 }
 
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
 body:multipart-form {
   name: Teclado Mecânico RGB Atualizado
   price: 189.90

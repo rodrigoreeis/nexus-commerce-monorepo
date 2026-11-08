@@ -1,0 +1,91 @@
+.dialogHeaderBar {
+  @apply flex items-center justify-between w-full pb-3 border-b border-[var(--border-app)];
+}
+
+.headerIconWrapper {
+  @apply h-10 w-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0;
+}
+
+.headerIconWrapperPurple {
+  @apply h-10 w-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0;
+}
+
+.dialogTitle {
+  @apply text-lg font-bold text-[var(--text-primary)] leading-tight;
+}
+
+.dialogSubtitle {
+  @apply text-xs text-[var(--text-secondary)] mt-0.5;
+}
+
+.dialogCloseButton {
+  @apply p-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors cursor-pointer;
+}
+
+.formRoot {
+  @apply flex flex-col gap-4 mt-4;
+}
+
+.fieldGroup {
+  @apply flex flex-col gap-1.5;
+}
+
+.fieldLabel {
+  @apply block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider;
+}
+
+.textInput {
+  @apply w-full bg-[var(--bg-elevated)] border border-[var(--border-app)] rounded-xl px-3.5 py-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all;
+}
+
+.selectInput {
+  @apply w-full bg-[var(--bg-elevated)] border border-[var(--border-app)] rounded-xl px-3.5 py-2.5 text-sm text-[var(--text-primary)] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all;
+}
+
+.selectDisabled {
+  @apply opacity-60 cursor-not-allowed bg-[var(--bg-surface)];
+}
+
+.helperText {
+  @apply text-[11px] text-amber-500 mt-1;
+}
+
+.userCard {
+  @apply p-3.5 bg-[var(--bg-elevated)] border border-[var(--border-app)] rounded-xl;
+}
+
+.userCardLabel {
+  @apply text-xs text-[var(--text-secondary)];
+}
+
+.userCardName {
+  @apply text-sm font-semibold text-[var(--text-primary)] mt-0.5;
+}
+
+.userCardEmail {
+  @apply text-xs text-[var(--text-secondary)] font-mono;
+}
+
+.errorBox {
+  @apply flex items-center gap-2.5 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-500 text-xs font-medium;
+}
+
+.successBox {
+  @apply flex items-center gap-2.5 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-500 text-xs font-medium;
+}
+
+.actionButtons {
+  @apply flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-app)] mt-2;
+}
+
+.cancelButton {
+  @apply px-4 py-2.5 rounded-xl border border-[var(--border-app)] text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] transition-colors cursor-pointer;
+}
+
+.submitButton {
+  @apply px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.submitButtonPurple {
+  @apply px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-xl transition-all shadow-md shadow-purple-600/20 flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+}

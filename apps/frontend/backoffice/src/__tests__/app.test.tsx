@@ -2,19 +2,51 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { AppProvider } from '@/shared/theme/provider'
 import * as productsService from '@/shared/services/products'
+import * as usersService from '@/shared/services/users'
+import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '@/shared/services/auth'
 import { App } from '../app'
 
 describe('App root component', () => {
   beforeEach(() => {
+    localStorage.clear()
+    localStorage.setItem(TOKEN_STORAGE_KEY, 'mock-admin-token')
+    localStorage.setItem(
+      USER_STORAGE_KEY,
+      JSON.stringify({
+        id: 'admin-1',
+        name: 'Nexus Admin',
+        email: 'admin@nexuscommerce.com',
+        role: 'admin',
+      })
+    )
+
     jest.spyOn(productsService, 'fetchAdminProducts').mockResolvedValue([])
+    jest.spyOn(usersService, 'fetchBackofficeUsers').mockResolvedValue([])
     window.history.pushState({}, '', '/')
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
+    localStorage.clear()
   })
 
-  it('renders Dashboard by default on root path', () => {
+  it('renders LoginPage when user is unauthenticated', () => {
+    localStorage.clear()
+
+    render(
+      <AppProvider>
+        <App />
+      </AppProvider>
+    )
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Nexus Commerce')
+    expect(screen.getByText('Painel Administrativo & Controle de Acesso')).toBeInTheDocument()
+    expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('••••••••')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Entrar no Backoffice/i })).toBeInTheDocument()
+  })
+
+  it('renders Dashboard by default on root path when authenticated', () => {
     render(
       <AppProvider>
         <App />

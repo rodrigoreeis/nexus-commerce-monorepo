@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { clearStoredAuth, getStoredToken } from './auth'
 
 const getMetaEnv = (): Record<string, string> | undefined => {
   try {
@@ -27,3 +28,32 @@ export const apiClient = axios.create({
     Accept: 'application/json',
   },
 })
+
+// Request interceptor to inject Authorization Bearer token
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = getStoredToken()
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => Promise.reject(error),
+)
+
+// Response interceptor to handle 401 Unauthorized
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const url = error.config?.url || ''
+      if (!url.includes('/auth/login')) {
+        clearStoredAuth()
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('auth-unauthorized'))
+        }
+      }
+    }
+    return Promise.reject(error)
+  },
+)

@@ -96,18 +96,18 @@ Este documento descreve as etapas de desenvolvimento do Nexus Commerce, estrutur
 - Usuários do Backoffice são **completamente separados** dos consumidores do Storefront.
 
 ### Itens da Release
-- [ ] **DB:** Criação da tabela `backoffice_users` (`id`, `name`, `email`, `password_hash`, `role`, `created_at`).
-- [ ] **DB:** Migration SQL versionada: `03-create-backoffice-users.sql`.
-- [ ] **API:** `POST /api/admin/auth/login` — autenticação e geração de JWT.
-- [ ] **API:** `POST /api/admin/users` — criar usuário (admin/manager com regras de role).
-- [ ] **API:** `GET /api/admin/users` — listar usuários do Backoffice.
-- [ ] **API:** `PATCH /api/admin/users/:id/role` — alterar role (somente `admin`).
-- [ ] **API:** Middleware JWT protegendo todas as rotas `/api/admin/*` (exceto `/api/admin/auth/login`).
-- [ ] **Backend:** `utils/crypto.go` — implementação de hash de senha (bcrypt) e geração/validação de JWT.
-- [ ] **Backoffice:** Tela de Login.
-- [ ] **Backoffice:** Proteção de rotas privadas no client-side (redirect para login se não autenticado).
-- [ ] **Backoffice:** Tela de listagem de usuários (visível para `admin` e `manager`).
-- [ ] **Backoffice:** Tela de criação de usuário com controle de role por permissão.
+- [x] **DB:** Criação da tabela `backoffice_users` (`id`, `name`, `email`, `password_hash`, `role`, `created_at`).
+- [x] **DB:** Migration SQL versionada: `04-create-backoffice-users.sql`.
+- [x] **API:** `POST /api/admin/auth/login` — autenticação e geração de JWT.
+- [x] **API:** `POST /api/admin/users` — criar usuário (admin/manager com regras de role).
+- [x] **API:** `GET /api/admin/users` — listar usuários do Backoffice.
+- [x] **API:** `PATCH /api/admin/users/:id/role` — alterar role (somente `admin`).
+- [x] **API:** Middleware JWT protegendo todas as rotas `/api/admin/*` (exceto `/api/admin/auth/login`).
+- [x] **Backend:** `utils/crypto.go` — implementação de hash de senha (bcrypt) e geração/validação de JWT.
+- [x] **Backoffice:** Tela de Login.
+- [x] **Backoffice:** Proteção de rotas privadas no client-side (redirect para login se não autenticado).
+- [x] **Backoffice:** Tela de listagem de usuários (visível para `admin` e `manager`).
+- [x] **Backoffice:** Tela de criação de usuário com controle de role por permissão.
 
 ---
 

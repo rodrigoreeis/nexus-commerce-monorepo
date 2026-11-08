@@ -8,3 +8,7 @@ user = "nexus_user"
 password = "nexus_pass"
 dbname = "nexus_commerce"
 sslmode = "disable"
+
+[jwt]
+secret = "nexus-commerce-super-secret-jwt-key-2026"
+expiration_hours = 24

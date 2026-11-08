@@ -64,6 +64,26 @@ func (s *Service) HandleResponseError(c *gin.Context, message string, err error)
 	}
 }
 
+func (s *Service) HandleResponseUnauthorized(c *gin.Context, message string) {
+	slog.Warn("HandleResponseUnauthorized", "message", message)
+	c.JSON(http.StatusUnauthorized, Response{
+		Message: message,
+		Error:   true,
+	})
+}
+
+func (s *Service) HandleResponseForbidden(c *gin.Context, message string) {
+	slog.Warn("HandleResponseForbidden", "message", message)
+	c.JSON(http.StatusForbidden, Response{
+		Message: message,
+		Error:   true,
+	})
+}
+
+func (s *Service) RequireAuth() gin.HandlerFunc {
+	return RequireAuth(s.cfg.JWT.Secret)
+}
+
 func (s *Service) HandleHealthCheck(c *gin.Context) {
 	if err := s.store.Ping(c.Request.Context()); err != nil {
 		slog.Error("Database health check failed", "error", err)

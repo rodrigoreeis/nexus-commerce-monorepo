@@ -57,10 +57,24 @@ func Register(svc *service.Service, r *gin.Engine) {
 
 		admin := api.Group("/admin")
 		{
-			admin.POST("/products", svc.HandleCreateProduct)
-			admin.GET("/products", svc.HandleListProducts)
-			admin.DELETE("/products/:id", svc.HandleDeleteProduct)
-			admin.PUT("/products/:id", svc.HandleUpdateProduct)
+			// Public admin auth routes
+			admin.POST("/auth/login", svc.HandleAdminLogin)
+
+			// Protected admin routes
+			protected := admin.Group("")
+			protected.Use(svc.RequireAuth())
+			{
+				// Products management
+				protected.POST("/products", svc.HandleCreateProduct)
+				protected.GET("/products", svc.HandleListProducts)
+				protected.DELETE("/products/:id", svc.HandleDeleteProduct)
+				protected.PUT("/products/:id", svc.HandleUpdateProduct)
+
+				// Backoffice user management
+				protected.GET("/users", service.RequireRoles("root", "admin", "manager"), svc.HandleListBackofficeUsers)
+				protected.POST("/users", service.RequireRoles("root", "admin", "manager"), svc.HandleCreateBackofficeUser)
+				protected.PATCH("/users/:id/role", service.RequireRoles("root", "admin"), svc.HandleUpdateBackofficeUserRole)
+			}
 		}
 	}
 }

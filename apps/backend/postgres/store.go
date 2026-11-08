@@ -21,6 +21,12 @@ type Storage interface {
 	UpdateCartItemQuantity(ctx context.Context, sessionID string, itemID string, quantity int) (*Cart, error)
 	RemoveCartItem(ctx context.Context, sessionID string, itemID string) (*Cart, error)
 	ClearCart(ctx context.Context, sessionID string) (*Cart, error)
+
+	CreateBackofficeUser(ctx context.Context, u *BackofficeUser) (*BackofficeUser, error)
+	GetBackofficeUserByEmail(ctx context.Context, email string) (*BackofficeUser, error)
+	GetBackofficeUserByID(ctx context.Context, id string) (*BackofficeUser, error)
+	ListBackofficeUsers(ctx context.Context) ([]BackofficeUser, error)
+	UpdateBackofficeUserRole(ctx context.Context, id string, newRole string) (*BackofficeUser, error)
 }
 
 type Store struct {

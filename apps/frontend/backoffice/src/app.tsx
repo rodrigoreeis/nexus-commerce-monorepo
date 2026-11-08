@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { HomePage } from '@/pages/home'
 import { ProductsPage } from '@/pages/products'
 import { UsersPage } from '@/pages/users'
+import { LoginPage } from '@/pages/login'
 import { BackofficeRoute } from '@/shared/components/Sidebar'
+import { AuthProvider, useAuth } from '@/shared/context/AuthContext'
 
 const resolveInitialRoute = (): BackofficeRoute => {
   if (typeof window !== 'undefined') {
@@ -18,7 +20,8 @@ const resolveInitialRoute = (): BackofficeRoute => {
   return 'dashboard'
 }
 
-export const App = () => {
+export const AppContent = () => {
+  const { isAuthenticated } = useAuth()
   const [currentRoute, setCurrentRoute] = useState<BackofficeRoute>(resolveInitialRoute)
 
   useEffect(() => {
@@ -50,6 +53,10 @@ export const App = () => {
     }
   }, [])
 
+  if (!isAuthenticated) {
+    return <LoginPage />
+  }
+
   if (currentRoute === 'products') {
     return <ProductsPage />
   }
@@ -59,6 +66,14 @@ export const App = () => {
   }
 
   return <HomePage />
+}
+
+export const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
 }
 
 export default App
