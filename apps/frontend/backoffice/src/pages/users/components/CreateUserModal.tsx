@@ -1,20 +1,36 @@
 import React, { useState } from 'react'
-import { Dialog, Portal } from '@chakra-ui/react'
+import { Dialog, Portal, Select, createListCollection } from '@chakra-ui/react'
 import { AlertCircle, CheckCircle2, Loader2, UserPlus, X } from 'lucide-react'
 import { UserRole } from '@/shared/services/auth'
 import { useCreateAdminUser } from '@/shared/hooks/useAdminUsers'
 import styles from './modal.module.css'
 
+const createRoleCollection = createListCollection({
+  items: [
+    { value: 'user', label: 'Operador (user) - Acesso ao catálogo' },
+    { value: 'manager', label: 'Gerente (manager) - Gestão de catálogo e operadores' },
+    { value: 'admin', label: 'Administrador (admin) - Acesso irrestrito' },
+  ],
+})
+
+const managerRoleCollection = createListCollection({
+  items: [
+    { value: 'user', label: 'Operador (user)' },
+  ],
+})
+
 export interface CreateUserModalProps {
   isOpen: boolean
   onClose: () => void
   currentUserRole: UserRole
+  onSuccess?: (message: string) => void
 }
 
 export const CreateUserModal: React.FC<CreateUserModalProps> = ({
   isOpen,
   onClose,
   currentUserRole,
+  onSuccess,
 }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -60,10 +76,8 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
         password,
         role: assignedRole,
       })
-      setSuccessMessage('Usuário criado com sucesso!')
-      setTimeout(() => {
-        handleClose()
-      }, 1000)
+      onSuccess?.('Usuário criado com sucesso!')
+      handleClose()
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } }; message?: string }
       setErrorMessage(error.response?.data?.message || 'Falha ao criar usuário.')
@@ -117,7 +131,7 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
           >
             <Dialog.Header padding="0" marginBottom="1rem">
               <div className={styles.dialogHeaderBar}>
-                <div className="flex items-center gap-3">
+                <div className={styles.dialogHeaderTitleWrapper}>
                   <div className={styles.headerIconWrapper}>
                     <UserPlus size={20} />
                   </div>
@@ -206,35 +220,69 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
                 </div>
 
                 <div className={styles.fieldGroup}>
-                  <label className={styles.fieldLabel} htmlFor="create-role">
-                    Função (Role)
-                  </label>
                   {isManager ? (
                     <div>
-                      <select
-                        id="create-role"
+                      <Select.Root
+                        collection={managerRoleCollection}
+                        value={['user']}
                         disabled
-                        value="user"
-                        className={`${styles.selectInput} ${styles.selectDisabled}`}
+                        size="md"
+                        width="100%"
                       >
-                        <option value="user">Operador (user)</option>
-                      </select>
+                        <Select.HiddenSelect id="create-role" aria-label="Função (Role)" />
+                        <Select.Label className={styles.fieldLabel}>
+                          Função (Role)
+                        </Select.Label>
+                        <Select.Control>
+                          <Select.Trigger className={`${styles.chakraSelectTrigger} ${styles.selectDisabled}`}>
+                            <Select.ValueText placeholder="Operador (user)" />
+                          </Select.Trigger>
+                        </Select.Control>
+                      </Select.Root>
                       <p className={styles.helperText}>
                         Gerentes só têm permissão para criar usuários de perfil operador (user).
                       </p>
                     </div>
                   ) : (
-                    <select
-                      id="create-role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value as UserRole)}
-                      className={styles.selectInput}
+                    <Select.Root
+                      collection={createRoleCollection}
+                      value={[role]}
+                      onValueChange={(details) => {
+                        if (details.value[0]) {
+                          setRole(details.value[0] as UserRole)
+                        }
+                      }}
                       disabled={isPending}
+                      size="md"
+                      width="100%"
                     >
-                      <option value="user">Operador (user) - Acesso ao catálogo</option>
-                      <option value="manager">Gerente (manager) - Gestão de catálogo e operadores</option>
-                      <option value="admin">Administrador (admin) - Acesso irrestrito</option>
-                    </select>
+                      <Select.HiddenSelect id="create-role" aria-label="Função (Role)" />
+                      <Select.Label className={styles.fieldLabel}>
+                        Função (Role)
+                      </Select.Label>
+                      <Select.Control>
+                        <Select.Trigger className={styles.chakraSelectTrigger}>
+                          <Select.ValueText placeholder="Selecione a função" />
+                        </Select.Trigger>
+                        <Select.IndicatorGroup>
+                          <Select.Indicator />
+                        </Select.IndicatorGroup>
+                      </Select.Control>
+                      <Select.Positioner zIndex={2000}>
+                        <Select.Content className={styles.chakraSelectContent}>
+                          {createRoleCollection.items.map((r) => (
+                            <Select.Item
+                              key={r.value}
+                              item={r}
+                              className={styles.chakraSelectItem}
+                            >
+                              {r.label}
+                              <Select.ItemIndicator />
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select.Positioner>
+                    </Select.Root>
                   )}
                 </div>
 
@@ -242,14 +290,14 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
                   <button
                     type="button"
                     onClick={handleClose}
-                    className={styles.cancelButton}
+                    className={styles.btnSecondary}
                     disabled={isPending}
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
-                    className={styles.submitButton}
+                    className={styles.btnPrimary}
                     disabled={isPending}
                   >
                     {isPending ? (
@@ -258,7 +306,10 @@ export const CreateUserModal: React.FC<CreateUserModalProps> = ({
                         <span>Cadastrando...</span>
                       </>
                     ) : (
-                      <span>Criar Usuário</span>
+                      <>
+                        <UserPlus size={16} />
+                        <span>Criar Usuário</span>
+                      </>
                     )}
                   </button>
                 </div>

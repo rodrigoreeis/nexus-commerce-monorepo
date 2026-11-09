@@ -86,4 +86,32 @@ describe('App root component', () => {
       expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Gestão de Produtos')
     })
   })
+
+  it('redirects operator user directly to dashboard without showing restricted access message', async () => {
+    localStorage.setItem(
+      USER_STORAGE_KEY,
+      JSON.stringify({
+        id: 'op-1',
+        name: 'Carlos Operador',
+        email: 'carlos@nexuscommerce.com',
+        role: 'user',
+      })
+    )
+    window.history.pushState({}, '', '/users')
+
+    render(
+      <AppProvider>
+        <App />
+      </AppProvider>
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('Pedidos Recentes')).toBeInTheDocument()
+      expect(screen.getByText('Quantidade de Vendas')).toBeInTheDocument()
+    })
+
+    expect(screen.queryByText('Acesso Restrito')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Seu perfil de operador \(user\) não possui permissão/i)).not.toBeInTheDocument()
+    expect(screen.queryByText('Gestão de Usuários')).not.toBeInTheDocument()
+  })
 })

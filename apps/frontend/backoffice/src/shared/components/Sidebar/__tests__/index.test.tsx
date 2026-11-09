@@ -48,6 +48,7 @@ describe('Sidebar component', () => {
       token: 'mock-token',
       login: jest.fn(),
       logout: jest.fn(),
+      updateCurrentUser: jest.fn(),
     })
 
     render(<Sidebar activeRoute="dashboard" />)

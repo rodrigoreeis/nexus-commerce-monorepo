@@ -28,11 +28,6 @@ export const LoginPage: React.FC = () => {
     }
   }
 
-  const fillDevCredentials = () => {
-    setEmail('admin@nexuscommerce.com')
-    setPassword('admin123')
-  }
-
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
@@ -111,21 +106,6 @@ export const LoginPage: React.FC = () => {
             )}
           </button>
         </form>
-
-        <div className={styles.devHintCard}>
-          <div className={styles.devHintTitle}>
-            <span>Acesso Rápido (Desenvolvimento):</span>
-          </div>
-          <button
-            type="button"
-            className={styles.devHintCode}
-            onClick={fillDevCredentials}
-            title="Clique para preencher as credenciais"
-          >
-            <span>admin@nexuscommerce.com / admin123</span>
-            <span className="text-[10px] text-blue-300 ml-2">Preencher</span>
-          </button>
-        </div>
       </div>
     </div>
   )

@@ -1,7 +1,11 @@
-import { Shield, Sun, Moon, LogOut } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Alert, Portal } from '@chakra-ui/react'
+import { LogOut, Moon, Settings, Shield, Sun } from 'lucide-react'
 import { useTheme } from '@/shared/theme/provider'
 import { useAuth } from '@/shared/context/AuthContext'
+import { AccountSettingsModal } from './AccountSettingsModal'
 import styles from './styles.module.css'
+import modalStyles from '@/pages/users/components/modal.module.css'
 
 export type BackofficeRoute = 'dashboard' | 'users' | 'products' | 'home'
 
@@ -16,6 +20,17 @@ export const Header = ({
   title = 'Nexus Backoffice',
 }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme()
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+  const [feedbackAlert, setFeedbackAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+
+  useEffect(() => {
+    if (feedbackAlert) {
+      const timer = setTimeout(() => {
+        setFeedbackAlert(null)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [feedbackAlert])
 
   let user = null
   let logout: (() => void) | null = null
@@ -78,6 +93,18 @@ export const Header = ({
             <span className={styles.userRole}>{displayEmail}</span>
           </div>
 
+          {user && (
+            <button
+              type="button"
+              onClick={() => setIsSettingsModalOpen(true)}
+              className={styles.passwordButton}
+              title="Configurações da minha conta"
+              aria-label="Configurações da minha conta"
+            >
+              <Settings size={18} />
+            </button>
+          )}
+
           {logout && (
             <button
               type="button"
@@ -91,6 +118,31 @@ export const Header = ({
           )}
         </div>
       </div>
+
+      {user && (
+        <AccountSettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+          onSuccess={(msg) => setFeedbackAlert({ type: 'success', message: msg })}
+        />
+      )}
+
+      {feedbackAlert && (
+        <Portal>
+          <div className={modalStyles.topAlertContainer}>
+            <Alert.Root
+              status={feedbackAlert.type}
+              variant="subtle"
+              className={modalStyles.topAlertBox}
+            >
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title fontWeight="600">{feedbackAlert.message}</Alert.Title>
+              </Alert.Content>
+            </Alert.Root>
+          </div>
+        </Portal>
+      )}
     </header>
   )
 }

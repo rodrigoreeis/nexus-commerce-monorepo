@@ -1,0 +1,28 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/admin/users/{{createdUserId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}
+
+docs {
+  Exclui um usuário do Backoffice respeitando as regras de RBAC:
+  - Gerente só pode excluir operador (user)
+  - Admin pode excluir admin, gerente e operador
+  - Root pode excluir qualquer perfil
+  - Auto-exclusão é proibida para todos
+}

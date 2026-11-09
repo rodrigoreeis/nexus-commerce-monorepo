@@ -4,9 +4,9 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.cjs',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^lucide-react$': require.resolve('lucide-react'),
-    '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.cjs',
   },
   transform: {
     '^.+\\.tsx?$': [

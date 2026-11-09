@@ -86,6 +86,22 @@
   @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-[#334155] text-[#94a3b8] hover:text-white hover:bg-[#1e293b] hover:border-[#475569] transition-all cursor-pointer;
 }
 
+.iconActionButton {
+  @apply inline-flex items-center justify-center p-2 rounded-lg border border-[#334155] text-[#94a3b8] hover:text-white hover:bg-[#1e293b] hover:border-[#475569] transition-all cursor-pointer;
+}
+
+.actionsCell {
+  @apply flex items-center gap-1.5 flex-wrap;
+}
+
+.actionButtonPassword {
+  @apply inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-[var(--border-app)] text-[var(--text-secondary)] hover:text-amber-400 hover:bg-amber-500/10 hover:border-amber-500/30 transition-all cursor-pointer;
+}
+
+.actionButtonDelete {
+  @apply inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium rounded-lg border border-[var(--border-app)] text-[var(--text-secondary)] hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all cursor-pointer;
+}
+
 .loadingContainer {
   @apply flex flex-col items-center justify-center py-20 text-[var(--text-secondary)] gap-3;
 }
@@ -94,27 +110,26 @@
   @apply flex flex-col items-center justify-center py-16 text-center text-[var(--text-secondary)] gap-2;
 }
 
-/* 403 Forbidden Screen */
-.forbiddenContainer {
-  @apply flex items-center justify-center py-20 px-4;
+.errorContainer {
+  @apply bg-[var(--bg-surface)] border border-rose-300 dark:border-rose-900/50 rounded-xl p-10 text-center transition-colors duration-200;
 }
 
-.forbiddenCard {
-  @apply max-w-md w-full bg-[#0f172a] border border-[#334155] rounded-2xl p-8 text-center shadow-xl;
+.errorWrapper {
+  @apply flex flex-col items-center gap-4;
 }
 
-.forbiddenIcon {
-  @apply h-14 w-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-4;
+.errorIcon {
+  @apply text-rose-500;
 }
 
-.forbiddenTitle {
-  @apply text-xl font-bold text-white mb-2;
+.errorTitle {
+  @apply text-lg font-semibold text-rose-500 dark:text-rose-200;
 }
 
-.forbiddenText {
-  @apply text-sm text-[#94a3b8] mb-6 leading-relaxed;
+.errorSubtitle {
+  @apply text-sm text-[var(--text-secondary)] mt-1;
 }
 
-.backButton {
-  @apply inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-xl transition-all cursor-pointer shadow-lg shadow-blue-600/20;
+.retryButton {
+  @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-app)] hover:bg-[var(--border-app)] transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
 }

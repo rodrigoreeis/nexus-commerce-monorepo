@@ -1,13 +1,29 @@
-import React, { useState } from 'react'
-import { AlertCircle, ArrowLeft, Loader2, ShieldAlert, UserPlus, Users as UsersIcon } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Alert, Portal } from '@chakra-ui/react'
+import { AlertCircle, Loader2, Pencil, RotateCcw, UserPlus, Users as UsersIcon } from 'lucide-react'
 import { Layout } from '@/shared/components/Layout'
 import { formatDate } from '@/shared/utils/format'
 import { useAuth } from '@/shared/context/AuthContext'
 import { AuthUser, UserRole } from '@/shared/services/auth'
 import { useAdminUsers } from '@/shared/hooks/useAdminUsers'
 import { CreateUserModal } from './components/CreateUserModal'
-import { ChangeRoleModal } from './components/ChangeRoleModal'
+import { ManageUserModal } from './components/ManageUserModal'
 import styles from './styles.module.css'
+import modalStyles from './components/modal.module.css'
+
+const getErrorMessage = (err: unknown): string => {
+  const axiosError = err as any
+  if (axiosError?.response?.data?.message) {
+    return axiosError.response.data.message
+  }
+  if (axiosError?.response?.data?.error) {
+    return axiosError.response.data.error
+  }
+  if (axiosError?.message) {
+    return axiosError.message
+  }
+  return 'Falha ao carregar a lista de usuários.'
+}
 
 export const UsersPage: React.FC = () => {
   let currentUser: AuthUser | null = null
@@ -27,46 +43,63 @@ export const UsersPage: React.FC = () => {
     // Outside of AuthProvider in isolated test environments, default to admin
   }
 
-  const { data: users = [], isLoading, isError, error, refetch } = useAdminUsers(!isUser)
+  // Redirect unauthorized users (role 'user') directly to dashboard
+  useEffect(() => {
+    if (isUser) {
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', '/')
+        window.dispatchEvent(new CustomEvent('app-navigate', { detail: { route: 'dashboard', path: '/' } }))
+      }
+    }
+  }, [isUser])
+
+  const { data: users = [], isLoading, isFetching, isError, error, refetch } = useAdminUsers(!isUser)
 
   // Root user is only visible if current user is root
   const visibleUsers = isRoot ? users : users.filter((u) => u.role !== 'root')
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [userToEditRole, setUserToEditRole] = useState<AuthUser | null>(null)
+  const [managedUser, setManagedUser] = useState<AuthUser | null>(null)
+  const [feedbackAlert, setFeedbackAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
-  const navigateToProducts = () => {
-    if (typeof window !== 'undefined') {
-      window.history.pushState({}, '', '/products')
-      window.dispatchEvent(new CustomEvent('app-navigate', { detail: { route: 'products', path: '/products' } }))
+  useEffect(() => {
+    if (feedbackAlert) {
+      const timer = setTimeout(() => {
+        setFeedbackAlert(null)
+      }, 4000)
+      return () => clearTimeout(timer)
     }
+  }, [feedbackAlert])
+
+  if (isUser) {
+    return null
   }
 
-  // RBAC Guard: If user has 'user' role, display 403 Forbidden screen
-  if (isUser) {
-    return (
-      <Layout activeRoute="users" title="Acesso Restrito">
-        <div className={styles.forbiddenContainer}>
-          <div className={styles.forbiddenCard}>
-            <div className={styles.forbiddenIcon}>
-              <ShieldAlert className="h-7 w-7" />
-            </div>
-            <h2 className={styles.forbiddenTitle}>Acesso Restrito</h2>
-            <p className={styles.forbiddenText}>
-              Seu perfil de operador (user) não possui permissão para visualizar ou gerenciar a lista de usuários do Backoffice.
-            </p>
-            <button
-              type="button"
-              onClick={navigateToProducts}
-              className={styles.backButton}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2 inline" />
-              <span>Voltar ao Catálogo de Produtos</span>
-            </button>
-          </div>
-        </div>
-      </Layout>
-    )
+  const canDeleteUser = (targetUser: AuthUser): boolean => {
+    if (currentUser?.id === targetUser.id) return false
+    if (isRoot) return true
+    if (isAdmin) return targetUser.role !== 'root'
+    if (isManager) return targetUser.role === 'user'
+    return false
+  }
+
+  const canResetPassword = (targetUser: AuthUser): boolean => {
+    if (currentUser?.id === targetUser.id) return false
+    if (isRoot) return true
+    if (isAdmin) return targetUser.role !== 'root'
+    if (isManager) return targetUser.role === 'user'
+    return false
+  }
+
+  const canChangeRole = (targetUser: AuthUser): boolean => {
+    if (currentUser?.id === targetUser.id) return false
+    if (targetUser.role === 'root') return false
+    if (isRoot || isAdmin) return true
+    return false
+  }
+
+  const hasAnyRowAction = (targetUser: AuthUser): boolean => {
+    return canChangeRole(targetUser) || canResetPassword(targetUser) || canDeleteUser(targetUser)
   }
 
   const getRoleBadge = (role: UserRole) => {
@@ -129,18 +162,37 @@ export const UsersPage: React.FC = () => {
             <span>Carregando usuários do sistema...</span>
           </div>
         ) : isError ? (
-          <div className="p-6 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-center space-y-3">
-            <AlertCircle className="h-8 w-8 text-rose-400 mx-auto" />
-            <p className="text-sm text-rose-300">
-              {(error as Error)?.message || 'Falha ao carregar a lista de usuários.'}
-            </p>
-            <button
-              type="button"
-              onClick={() => refetch()}
-              className="px-4 py-2 bg-[#1e293b] hover:bg-[#334155] text-xs font-semibold rounded-xl text-white transition-colors"
-            >
-              Tentar novamente
-            </button>
+          <div
+            role="alert"
+            aria-live="polite"
+            className={styles.errorContainer}
+          >
+            <div className={styles.errorWrapper}>
+              <div className={styles.errorIcon} aria-hidden="true">
+                <AlertCircle className="h-9 w-9" />
+              </div>
+              <div>
+                <h3 className={styles.errorTitle}>
+                  Falha ao carregar a lista de usuários
+                </h3>
+                <p className={styles.errorSubtitle}>
+                  {getErrorMessage(error)}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => refetch()}
+                disabled={isFetching}
+                className={styles.retryButton}
+                aria-label="Tentar novamente"
+              >
+                <RotateCcw
+                  className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
+                  aria-hidden="true"
+                />
+                <span>{isFetching ? 'Tentando novamente...' : 'Tentar novamente'}</span>
+              </button>
+            </div>
           </div>
         ) : visibleUsers.length === 0 ? (
           <div className={styles.emptyContainer}>
@@ -158,7 +210,7 @@ export const UsersPage: React.FC = () => {
                     <th className={styles.th}>E-mail</th>
                     <th className={styles.th}>Função (Role)</th>
                     <th className={styles.th}>Cadastrado Em</th>
-                    {isAdmin && <th className={styles.th}>Ações</th>}
+                    {(isRoot || isAdmin || isManager) && <th className={styles.th}>Ações</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -172,21 +224,24 @@ export const UsersPage: React.FC = () => {
                         <td className={`${styles.td} ${styles.dateCell}`}>
                           {formatDate(u.created_at || (u as unknown as { createdAt?: string }).createdAt || '')}
                         </td>
-                        {isAdmin && (
+                        {(isRoot || isAdmin || isManager) && (
                           <td className={styles.td}>
                             {u.role === 'root' ? (
                               <span className={styles.immutableBadge}>Root (Imutável)</span>
                             ) : isSelf ? (
-                              <span className={styles.immutableBadge}>Sua conta (Imutável)</span>
-                            ) : (
+                              <span className={styles.immutableBadge}>Sua conta</span>
+                            ) : hasAnyRowAction(u) ? (
                               <button
                                 type="button"
-                                onClick={() => setUserToEditRole(u)}
-                                className={styles.actionButton}
-                                title="Alterar permissão de acesso"
+                                onClick={() => setManagedUser(u)}
+                                className={styles.iconActionButton}
+                                title={`Editar colaborador ${u.name}`}
+                                aria-label={`Editar colaborador ${u.name}`}
                               >
-                                Alterar Função
+                                <Pencil className="h-4 w-4" />
                               </button>
+                            ) : (
+                              <span className={styles.immutableBadge}>Sem ações permitidas</span>
                             )}
                           </td>
                         )}
@@ -203,14 +258,47 @@ export const UsersPage: React.FC = () => {
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
           currentUserRole={effectiveRole}
+          onSuccess={(msg) => setFeedbackAlert({ type: 'success', message: msg })}
         />
 
-        <ChangeRoleModal
-          isOpen={!!userToEditRole}
-          onClose={() => setUserToEditRole(null)}
-          user={userToEditRole}
-          currentUserId={currentUser?.id}
+        <ManageUserModal
+          isOpen={!!managedUser}
+          onClose={() => setManagedUser(null)}
+          user={managedUser}
+          canChangeRole={managedUser ? canChangeRole(managedUser) : false}
+          canResetPassword={managedUser ? canResetPassword(managedUser) : false}
+          canDeleteUser={managedUser ? canDeleteUser(managedUser) : false}
+          onSuccess={(msg) => setFeedbackAlert({ type: 'success', message: msg })}
+          availableRoles={
+            isRoot
+              ? [
+                  { value: 'admin', label: 'Admin (Administrador)' },
+                  { value: 'manager', label: 'Manager (Gerente)' },
+                  { value: 'user', label: 'Operador (Usuário padrão)' },
+                ]
+              : [
+                  { value: 'manager', label: 'Manager (Gerente)' },
+                  { value: 'user', label: 'Operador (Usuário padrão)' },
+                ]
+          }
         />
+
+        {feedbackAlert && (
+          <Portal>
+            <div className={modalStyles.topAlertContainer}>
+              <Alert.Root
+                status={feedbackAlert.type}
+                variant="subtle"
+                className={modalStyles.topAlertBox}
+              >
+                <Alert.Indicator />
+                <Alert.Content>
+                  <Alert.Title fontWeight="600">{feedbackAlert.message}</Alert.Title>
+                </Alert.Content>
+              </Alert.Root>
+            </div>
+          </Portal>
+        )}
       </div>
     </Layout>
   )

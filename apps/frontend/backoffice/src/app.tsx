@@ -21,8 +21,20 @@ const resolveInitialRoute = (): BackofficeRoute => {
 }
 
 export const AppContent = () => {
-  const { isAuthenticated } = useAuth()
-  const [currentRoute, setCurrentRoute] = useState<BackofficeRoute>(resolveInitialRoute)
+  const { isAuthenticated, isUser } = useAuth()
+  const [currentRoute, setCurrentRoute] = useState<BackofficeRoute>(() => {
+    const initial = resolveInitialRoute()
+    return initial
+  })
+
+  useEffect(() => {
+    if (isUser && currentRoute === 'users') {
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', '/')
+      }
+      setCurrentRoute('dashboard')
+    }
+  }, [isUser, currentRoute])
 
   useEffect(() => {
     const handlePopState = () => {
@@ -31,7 +43,14 @@ export const AppContent = () => {
       if (pathname === '/products' || hash === '#products' || hash === '#/products') {
         setCurrentRoute('products')
       } else if (pathname === '/users' || hash === '#users' || hash === '#/users') {
-        setCurrentRoute('users')
+        if (isUser) {
+          if (typeof window !== 'undefined') {
+            window.history.replaceState({}, '', '/')
+          }
+          setCurrentRoute('dashboard')
+        } else {
+          setCurrentRoute('users')
+        }
       } else {
         setCurrentRoute('dashboard')
       }
@@ -40,7 +59,14 @@ export const AppContent = () => {
     const handleCustomNavigate = (event: Event) => {
       const customEvent = event as CustomEvent<{ route: BackofficeRoute }>
       if (customEvent.detail?.route) {
-        setCurrentRoute(customEvent.detail.route)
+        if (isUser && customEvent.detail.route === 'users') {
+          if (typeof window !== 'undefined') {
+            window.history.replaceState({}, '', '/')
+          }
+          setCurrentRoute('dashboard')
+        } else {
+          setCurrentRoute(customEvent.detail.route)
+        }
       }
     }
 
@@ -51,7 +77,7 @@ export const AppContent = () => {
       window.removeEventListener('popstate', handlePopState)
       window.removeEventListener('app-navigate', handleCustomNavigate)
     }
-  }, [])
+  }, [isUser])
 
   if (!isAuthenticated) {
     return <LoginPage />
@@ -62,6 +88,9 @@ export const AppContent = () => {
   }
 
   if (currentRoute === 'users') {
+    if (isUser) {
+      return <HomePage />
+    }
     return <UsersPage />
   }
 

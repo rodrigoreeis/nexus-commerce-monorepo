@@ -27,6 +27,9 @@ type Storage interface {
 	GetBackofficeUserByID(ctx context.Context, id string) (*BackofficeUser, error)
 	ListBackofficeUsers(ctx context.Context) ([]BackofficeUser, error)
 	UpdateBackofficeUserRole(ctx context.Context, id string, newRole string) (*BackofficeUser, error)
+	DeleteBackofficeUser(ctx context.Context, id string) error
+	UpdateBackofficeUserPassword(ctx context.Context, id string, passwordHash string) error
+	UpdateBackofficeUserProfile(ctx context.Context, id string, name string, email string) (*BackofficeUser, error)
 }
 
 type Store struct {

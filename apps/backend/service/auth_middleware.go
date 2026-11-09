@@ -68,6 +68,13 @@ func RequireRoles(allowedRoles ...string) gin.HandlerFunc {
 		}
 
 		userRole, _ := roleVal.(string)
+
+		// Root is the superuser: root has superior access to everything
+		if userRole == "root" {
+			c.Next()
+			return
+		}
+
 		if !roleMap[userRole] {
 			slog.Warn("Forbidden role access", "userRole", userRole, "allowedRoles", allowedRoles)
 			c.AbortWithStatusJSON(http.StatusForbidden, Response{

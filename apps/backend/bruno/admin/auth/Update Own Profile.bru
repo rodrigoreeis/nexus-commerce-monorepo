@@ -1,0 +1,32 @@
+meta {
+  name: Update Own Profile
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/admin/auth/profile
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Root Administrator",
+    "email": "root@nexuscommerce.com"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}
+
+docs {
+  Atualiza nome, e-mail e opcionalmente senha do usuário logado.
+}

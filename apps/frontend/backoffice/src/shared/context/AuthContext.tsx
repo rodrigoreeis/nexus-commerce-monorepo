@@ -21,6 +21,7 @@ export interface AuthContextType {
   isUser: boolean
   login: (credentials: LoginRequest) => Promise<void>
   logout: () => void
+  updateCurrentUser: (user: AuthUser, token?: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -62,6 +63,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
+  const updateCurrentUser = (updatedUser: AuthUser, newToken?: string) => {
+    setUser(updatedUser)
+    setStoredUser(updatedUser)
+    if (newToken) {
+      setToken(newToken)
+      setStoredToken(newToken)
+    }
+  }
+
   const isAuthenticated = !!token && !!user
   const isRoot = user?.role === 'root'
   const isAdmin = isRoot || user?.role === 'admin'
@@ -81,6 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isUser,
         login,
         logout,
+        updateCurrentUser,
       }}
     >
       {children}

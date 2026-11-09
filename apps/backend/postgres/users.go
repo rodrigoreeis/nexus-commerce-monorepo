@@ -160,3 +160,81 @@ func (s *Store) UpdateBackofficeUserRole(ctx context.Context, id string, newRole
 
 	return &u, nil
 }
+
+func (s *Store) DeleteBackofficeUser(ctx context.Context, id string) error {
+	query := `
+		DELETE FROM backoffice_users
+		WHERE id = $1
+	`
+
+	res, err := s.db.ExecContext(ctx, query, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete backoffice user: %w", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return ErrUserNotFound
+	}
+
+	return nil
+}
+
+func (s *Store) UpdateBackofficeUserPassword(ctx context.Context, id string, passwordHash string) error {
+	query := `
+		UPDATE backoffice_users
+		SET password_hash = $1
+		WHERE id = $2
+	`
+
+	res, err := s.db.ExecContext(ctx, query, passwordHash, id)
+	if err != nil {
+		return fmt.Errorf("failed to update backoffice user password: %w", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return ErrUserNotFound
+	}
+
+	return nil
+}
+
+func (s *Store) UpdateBackofficeUserProfile(ctx context.Context, id string, name string, email string) (*BackofficeUser, error) {
+	query := `
+		UPDATE backoffice_users
+		SET name = $1, email = $2
+		WHERE id = $3
+		RETURNING id, name, email, role, created_at
+	`
+
+	var u BackofficeUser
+	err := s.db.QueryRowContext(ctx, query, name, email, id).Scan(
+		&u.ID,
+		&u.Name,
+		&u.Email,
+		&u.Role,
+		&u.CreatedAt,
+	)
+
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, ErrUserNotFound
+	}
+	if err != nil {
+		var pqErr *pq.Error
+		if errors.As(err, &pqErr) && pqErr.Code == "23505" {
+			return nil, ErrUserEmailAlreadyExists
+		}
+		return nil, fmt.Errorf("failed to update backoffice user profile: %w", err)
+	}
+
+	return &u, nil
+}

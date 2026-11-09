@@ -70,10 +70,16 @@ func Register(svc *service.Service, r *gin.Engine) {
 				protected.DELETE("/products/:id", svc.HandleDeleteProduct)
 				protected.PUT("/products/:id", svc.HandleUpdateProduct)
 
+				// Auth management
+				protected.PATCH("/auth/password", svc.HandleChangeOwnPassword)
+				protected.PATCH("/auth/profile", svc.HandleUpdateOwnProfile)
+
 				// Backoffice user management
 				protected.GET("/users", service.RequireRoles("root", "admin", "manager"), svc.HandleListBackofficeUsers)
 				protected.POST("/users", service.RequireRoles("root", "admin", "manager"), svc.HandleCreateBackofficeUser)
 				protected.PATCH("/users/:id/role", service.RequireRoles("root", "admin"), svc.HandleUpdateBackofficeUserRole)
+				protected.DELETE("/users/:id", service.RequireRoles("root", "admin", "manager"), svc.HandleDeleteBackofficeUser)
+				protected.PATCH("/users/:id/password", service.RequireRoles("root", "admin", "manager"), svc.HandleResetBackofficeUserPassword)
 			}
 		}
 	}

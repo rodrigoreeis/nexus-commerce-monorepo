@@ -62,6 +62,10 @@
   @apply bg-slate-500/20 text-slate-300 border border-slate-500/30;
 }
 
+.passwordButton {
+  @apply flex items-center justify-center p-2 rounded-lg text-[var(--text-secondary)] hover:text-amber-400 hover:bg-amber-500/10 transition-colors cursor-pointer ml-1;
+}
+
 .logoutButton {
   @apply flex items-center justify-center p-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors cursor-pointer ml-1;
 }
