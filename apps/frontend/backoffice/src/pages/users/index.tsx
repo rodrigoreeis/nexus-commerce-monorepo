@@ -269,18 +269,11 @@ export const UsersPage: React.FC = () => {
           canResetPassword={managedUser ? canResetPassword(managedUser) : false}
           canDeleteUser={managedUser ? canDeleteUser(managedUser) : false}
           onSuccess={(msg) => setFeedbackAlert({ type: 'success', message: msg })}
-          availableRoles={
-            isRoot
-              ? [
-                  { value: 'admin', label: 'Admin (Administrador)' },
-                  { value: 'manager', label: 'Manager (Gerente)' },
-                  { value: 'user', label: 'Operador (Usuário padrão)' },
-                ]
-              : [
-                  { value: 'manager', label: 'Manager (Gerente)' },
-                  { value: 'user', label: 'Operador (Usuário padrão)' },
-                ]
-          }
+          availableRoles={[
+            { value: 'admin', label: 'Admin (Administrador)' },
+            { value: 'manager', label: 'Manager (Gerente)' },
+            { value: 'user', label: 'Operador (Usuário padrão)' },
+          ]}
         />
 
         {feedbackAlert && (

@@ -395,4 +395,59 @@ describe('UsersPage', () => {
       expect(screen.getByText('Função atualizada com sucesso!')).toBeInTheDocument()
     })
   })
+
+  it('allows an admin user to promote a manager to admin', async () => {
+    const updateRoleSpy = jest.spyOn(usersService, 'updateBackofficeUserRole').mockResolvedValue({
+      id: 'user-manager',
+      name: 'Maria Gerente',
+      email: 'maria@nexuscommerce.com',
+      role: 'admin',
+    })
+
+    jest.spyOn(authContext, 'useAuth').mockReturnValue({
+      user: mockUsers[1], // Paula Admin (isRoot = false, isAdmin = true)
+      token: 'mock-token',
+      isAuthenticated: true,
+      isLoading: false,
+      isRoot: false,
+      isAdmin: true,
+      isManager: false,
+      isUser: false,
+      login: jest.fn(),
+      logout: jest.fn(),
+      updateCurrentUser: jest.fn(),
+    })
+
+    renderWithProviders(<UsersPage />)
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Editar colaborador Maria Gerente/i })).toBeInTheDocument()
+    })
+
+    const manageButton = screen.getByRole('button', { name: /Editar colaborador Maria Gerente/i })
+    fireEvent.click(manageButton)
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 2, name: 'Gerenciar Usuário' })).toBeInTheDocument()
+    })
+
+    const roleSelect = screen.getByLabelText('Selecionar nova função') as HTMLSelectElement
+    act(() => {
+      roleSelect.value = 'admin'
+      roleSelect.dispatchEvent(new window.Event('change', { bubbles: true }))
+    })
+
+    await waitFor(() => {
+      const btn = screen.getByTestId('update-role-submit-btn')
+      expect(btn).not.toBeDisabled()
+    })
+
+    const submitBtn = screen.getByTestId('update-role-submit-btn')
+    fireEvent.submit(submitBtn.closest('form')!)
+
+    await waitFor(() => {
+      expect(updateRoleSpy).toHaveBeenCalledWith({ id: 'user-manager', role: 'admin' })
+      expect(screen.getByText('Função atualizada com sucesso!')).toBeInTheDocument()
+    })
+  })
 })

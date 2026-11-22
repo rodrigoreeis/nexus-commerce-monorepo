@@ -14,17 +14,37 @@ export const LoginPage: React.FC = () => {
     e.preventDefault()
     setErrorMessage(null)
 
-    if (!email || !password) {
+    if (!email.trim() || !password) {
       setErrorMessage('Por favor, preencha todos os campos.')
       return
     }
 
     try {
-      await login({ email, password })
+      await login({ email: email.trim(), password })
     } catch (err: unknown) {
-      const error = err as { response?: { data?: { message?: string } }; message?: string }
-      const message = error.response?.data?.message || 'E-mail ou senha incorretos. Tente novamente.'
-      setErrorMessage(message)
+      const error = err as {
+        response?: {
+          status?: number
+          data?: { message?: string }
+        }
+        message?: string
+      }
+
+      const status = error.response?.status
+      const rawMessage = (error.response?.data?.message || error.message || '').trim()
+
+      if (
+        status === 401 ||
+        rawMessage.toLowerCase().includes('invalid email or password') ||
+        rawMessage.toLowerCase().includes('user not found') ||
+        rawMessage.toLowerCase().includes('unauthorized') ||
+        rawMessage === '.' ||
+        !rawMessage
+      ) {
+        setErrorMessage('E-mail ou senha inválidos.')
+      } else {
+        setErrorMessage(rawMessage)
+      }
     }
   }
 
